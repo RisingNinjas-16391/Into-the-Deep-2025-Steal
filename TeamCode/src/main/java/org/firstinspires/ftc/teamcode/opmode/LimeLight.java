@@ -62,7 +62,7 @@ public class LimeLight extends LinearOpMode {
                 }
             }
 
-            if(gamepad1.a){
+            if (gamepad1.a){
                 imu.resetYaw();
             }
             telemetry.update();
