@@ -61,7 +61,7 @@ import java.util.List;
 @Config
 public class MecanumDrive {
     public static class Params {
-        // IMU orientation
+        // IMU orientation (for tuning)
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
