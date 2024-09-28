@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.tuning.example.ExampleRobot;
 @Photon
 @Config
 @TeleOp
-public class clawTester extends OpMode {
+public class depositClawTester extends OpMode {
     public static boolean USE_DASHBOARD = false;
     private final ExampleRobot robot = ExampleRobot.getInstance();
     Gamepad currentGamepad1 = new Gamepad();

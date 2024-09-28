@@ -6,6 +6,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
@@ -17,7 +18,7 @@ public class LimeLight extends LinearOpMode {
     private Limelight3A limelight;
 
     IMU imu;
-
+    ElapsedTime timer = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
         imu = hardwareMap.get(IMU.class, "imu");
@@ -28,14 +29,13 @@ public class LimeLight extends LinearOpMode {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-
         telemetry.setMsTransmissionInterval(11);
-
         limelight.pipelineSwitch(1);
-
         limelight.start();
 
         imu.resetYaw();
+
+        timer.reset();
         waitForStart();
 
         while (opModeIsActive()) {
@@ -62,7 +62,7 @@ public class LimeLight extends LinearOpMode {
                 }
             }
 
-            if (gamepad1.a){
+            if (gamepad1.a) {
                 imu.resetYaw();
             }
             telemetry.update();

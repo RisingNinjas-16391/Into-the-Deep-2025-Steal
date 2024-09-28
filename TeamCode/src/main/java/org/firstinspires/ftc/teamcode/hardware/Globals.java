@@ -49,10 +49,10 @@ public class Globals {
     public static double WRIST_TRANSFER_POS = 0;
     // 4th item or 3rd with 0-index is always the default (middle horizontal)
     public static double[] WRIST_BACKDROP_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08};
-    public static double LEFT_CLAW_OPEN_POS = 0.07;
-    public static double LEFT_CLAW_CLOSE_POS = 0.18;
-    public static double RIGHT_CLAW_OPEN_POS = 0.59;
-    public static double RIGHT_CLAW_CLOSE_POS = 0.74;
+    public static double INTAKE_CLAW_OPEN_POS = 0.07; // Needs to be tuned
+    public static double INTAKE_CLAW_CLOSE_POS = 0.18; // Needs to be tuned
+    public static double DEPOSIT_CLAW_OPEN_POS = 0.41;
+    public static double DEPOSIT_CLAW_CLOSE_POS = 0.66;
 
     // Slides
     // Encoder ticks for max extension for extendo
