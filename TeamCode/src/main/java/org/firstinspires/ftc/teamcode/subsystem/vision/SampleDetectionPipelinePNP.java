@@ -18,8 +18,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 
-public class SampleDetectionPipelinePNP extends OpenCvPipeline
-{
+public class SampleDetectionPipelinePNP extends OpenCvPipeline {
     /*
      * Our working image buffers
      */
