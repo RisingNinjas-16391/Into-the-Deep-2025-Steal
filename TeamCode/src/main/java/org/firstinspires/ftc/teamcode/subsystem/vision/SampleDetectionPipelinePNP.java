@@ -237,8 +237,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
         }
     }
 
-    void morphMask(Mat input, Mat output)
-    {
+    void morphMask(Mat input, Mat output) {
         /*
          * Apply some erosion and dilation for noise reduction
          */
@@ -250,8 +249,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
         Imgproc.dilate(output, output, dilateElement);
     }
 
-    void analyzeContour(MatOfPoint contour, Mat input, String color)
-    {
+    void analyzeContour(MatOfPoint contour, Mat input, String color) {
         // Transform the contour to a different format
         Point[] points = contour.toArray();
         MatOfPoint2f contour2f = new MatOfPoint2f(points);
@@ -322,8 +320,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
         }
     }
 
-    void drawAxis(Mat img, Mat rvec, Mat tvec, Mat cameraMatrix, MatOfDouble distCoeffs)
-    {
+    void drawAxis(Mat img, Mat rvec, Mat tvec, Mat cameraMatrix, MatOfDouble distCoeffs) {
         // Length of the axis lines
         double axisLength = 5.0;
 
