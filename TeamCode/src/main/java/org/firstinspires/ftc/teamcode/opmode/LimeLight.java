@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 
 @TeleOp
 public class LimeLight extends LinearOpMode {
@@ -29,6 +31,7 @@ public class LimeLight extends LinearOpMode {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        FtcDashboard.getInstance().startCameraStream((CameraStreamSource) limelight, 0); // To test
         telemetry.setMsTransmissionInterval(11);
         limelight.pipelineSwitch(1);
         limelight.start();

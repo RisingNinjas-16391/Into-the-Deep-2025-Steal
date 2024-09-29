@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvInternalCamera;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 
 
@@ -22,6 +24,7 @@ public class SampleDetectionDemoTeleop extends LinearOpMode {
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId); // To Test
 
         FtcDashboard.getInstance().startCameraStream(webcam, 0);
 
