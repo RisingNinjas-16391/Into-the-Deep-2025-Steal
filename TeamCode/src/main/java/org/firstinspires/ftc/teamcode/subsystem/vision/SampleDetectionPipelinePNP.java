@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.subsystem.vision;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+
+import org.checkerframework.checker.units.qual.A;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -17,7 +21,13 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+@Config
 public class SampleDetectionPipelinePNP extends OpenCvPipeline {
     /*
      * Our working image buffers
@@ -35,6 +45,12 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
     Mat morphedYellowThreshold = new Mat();
 
     Mat contoursOnPlainImageMat = new Mat();
+
+    static List<String> pointsList = new ArrayList<>();
+
+    // Assuming the object is a rectangle with known dimensions
+    public static double objectWidth = 8.5;  // Replace with your object's width in real-world units (e.g., centimeters)
+    public static double objectHeight = 3.0;  // Replace with your object's height in real-world units
 
     /*
      * Threshold values
@@ -256,6 +272,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
 
         // Do a rect fit to the contour, and draw it on the screen
         RotatedRect rotatedRectFitToContour = Imgproc.minAreaRect(contour2f);
+
         drawRotatedRect(rotatedRectFitToContour, input, color);
 
         // The angle OpenCV gives us can be ambiguous, so look at the shape of
@@ -269,11 +286,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
         // Compute the angle and store it
         double angle = -(rotRectAngle - 180);
         drawTagText(rotatedRectFitToContour, Integer.toString((int) Math.round(angle)) + " deg", input, color);
-
         // Prepare object points and image points for solvePnP
-        // Assuming the object is a rectangle with known dimensions
-        double objectWidth = 10.0;  // Replace with your object's width in real-world units (e.g., centimeters)
-        double objectHeight = 5.0;  // Replace with your object's height in real-world units
 
         // Define the 3D coordinates of the object corners in the object coordinate space
         MatOfPoint3f objectPoints = new MatOfPoint3f(
@@ -426,8 +439,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
                 1); // Font thickness
     }
 
-    static void drawRotatedRect(RotatedRect rect, Mat drawOn, String color)
-    {
+    static void drawRotatedRect(RotatedRect rect, Mat drawOn, String color) {
         /*
          * Draws a rotated rect by drawing each of the 4 lines individually
          */
@@ -437,9 +449,9 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
 
         Scalar colorScalar = getColorScalar(color);
 
-        for (int i = 0; i < 4; ++i)
-        {
+        for (int i = 0; i < 4; ++i) {
             Imgproc.line(drawOn, points[i], points[(i + 1) % 4], colorScalar, 2);
+            pointsList = Collections.singletonList(((points[i]).toString() + (points[(i + 1) % 4]).toString()));
         }
     }
 
@@ -454,6 +466,32 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
             default:
                 return RED;
         }
+    }
+
+    public static double calculateDistance(String pointsString) {
+
+        pointsString = pointsString.replaceAll("[\\[\\]]", "");
+
+        Pattern pattern = Pattern.compile("\\{(\\d+\\.?\\d*),\\s*(\\d+\\.?\\d*)\\}");
+        Matcher matcher = pattern.matcher(pointsString);
+
+        double[] point1 = new double[2];
+        double[] point2 = new double[2];
+
+        if (matcher.find()) {
+            point1[0] = Double.parseDouble(Objects.requireNonNull(matcher.group(1)));
+            point1[1] = Double.parseDouble(Objects.requireNonNull(matcher.group(2)));
+        }
+
+        if (matcher.find()) {
+            point2[0] = Double.parseDouble(Objects.requireNonNull(matcher.group(1)));
+            point2[1] = Double.parseDouble(Objects.requireNonNull(matcher.group(2)));
+        }
+
+        double dx = point1[0] - point2[0];
+        double dy = point1[1] - point2[1];
+
+        return Math.sqrt(dx * dx + dy * dy);
     }
 }
 
