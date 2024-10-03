@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystem.vision;
 
 import static org.firstinspires.ftc.teamcode.subsystem.vision.SampleDetectionPipelinePNP.calculateDistance;
 import static org.firstinspires.ftc.teamcode.subsystem.vision.SampleDetectionPipelinePNP.pointsList;
+import static org.firstinspires.ftc.teamcode.subsystem.vision.SampleDetectionPipelinePNP.samplesList;
 
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -55,10 +56,13 @@ public class SampleDetectionDemoTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> objectCount = pipeline.getDetectedStones();
+//            ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> objectCount = pipeline.getDetectedStones();
+
+            samplesList.clear();
 
             telemetry.addData("pointsList Distance", calculateDistance(pointsList.toString()));
-            telemetry.addData("Objects Detected", objectCount);
+            telemetry.addData("samplesList", samplesList);
+//            telemetry.addData("Objects Detected", objectCount);
             telemetry.update();
         }
         webcam.stopStreaming();

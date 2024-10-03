@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.subsystem.vision;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 
-import org.checkerframework.checker.units.qual.A;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -47,6 +46,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
     Mat contoursOnPlainImageMat = new Mat();
 
     static List<String> pointsList = new ArrayList<>();
+    static List<String> samplesList = new ArrayList<>();
 
     // Assuming the object is a rectangle with known dimensions
     public static double objectWidth = 8.5;  // Replace with your object's width in real-world units (e.g., centimeters)
@@ -285,7 +285,8 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
 
         // Compute the angle and store it
         double angle = -(rotRectAngle - 180);
-        drawTagText(rotatedRectFitToContour, Integer.toString((int) Math.round(angle)) + " deg", input, color);
+        int intAngle = (int) Math.round(angle);
+        drawTagText(rotatedRectFitToContour, ((samplesList.size())) + " " + (intAngle) + " deg", input, color);
         // Prepare object points and image points for solvePnP
 
         // Define the 3D coordinates of the object corners in the object coordinate space
