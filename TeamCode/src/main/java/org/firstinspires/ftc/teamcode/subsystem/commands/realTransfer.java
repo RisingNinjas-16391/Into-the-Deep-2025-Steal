@@ -39,6 +39,7 @@ public class realTransfer extends CommandBase {
         return (trayReached && (timer.milliseconds() > 100));
     }
 
+    // TODO: Fix tray things
     @Override
     public void end(boolean interrupted) {
 //        intake.setTray(false);
