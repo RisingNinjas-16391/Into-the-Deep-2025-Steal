@@ -4,17 +4,14 @@ import static org.firstinspires.ftc.teamcode.subsystem.vision.SampleDetectionPip
 import static org.firstinspires.ftc.teamcode.subsystem.vision.SampleDetectionPipelinePNP.pointsList;
 import static org.firstinspires.ftc.teamcode.subsystem.vision.SampleDetectionPipelinePNP.samplesList;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.openftc.easyopencv.OpenCvInternalCamera;
-
-import com.acmerobotics.dashboard.FtcDashboard;
-
-import java.util.ArrayList;
 
 @TeleOp
 public class SampleDetectionDemoTeleop extends LinearOpMode {

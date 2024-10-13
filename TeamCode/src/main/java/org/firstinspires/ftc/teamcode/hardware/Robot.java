@@ -49,13 +49,10 @@ public class Robot {
     public SolversMotor backLeftMotor;
     public SolversMotor backRightMotor;
 
-    public SolversServo rightClaw;
-    public SolversServo leftClaw;
-    public SolversServo rightArm;
-    public SolversServo leftArm;
+    public SolversServo rightPivot;
+    public SolversServo leftPivot;
+    public SolversServo claw;
     public SolversServo wrist;
-    public SolversServo tray;
-    public SolversServo pitchingIntake;
 
     public SolversAxonServo frontLeftServo;
     public SolversAxonServo frontRightServo;
@@ -132,13 +129,10 @@ public class Robot {
         liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftClaw = new SolversServo(hardwareMap.get(PhotonServo.class, "leftClaw"), 0.0);
-        rightClaw = new SolversServo(hardwareMap.get(PhotonServo.class, "rightClaw"), 0.0);
-        leftArm = new SolversServo(hardwareMap.get(PhotonServo.class, "leftArm"), 0.0);
-        rightArm = new SolversServo(hardwareMap.get(PhotonServo.class, "rightArm"), 0.0);
+        leftPivot = new SolversServo(hardwareMap.get(PhotonServo.class, "leftClaw"), 0.0);
+        rightPivot = new SolversServo(hardwareMap.get(PhotonServo.class, "rightClaw"), 0.0);
+        claw = new SolversServo(hardwareMap.get(PhotonServo.class, "rightArm"), 0.0);
         wrist = new SolversServo(hardwareMap.get(PhotonServo.class, "wrist"), 0.0);
-        tray = new SolversServo(hardwareMap.get(PhotonServo.class, "tray"), 0.0);
-        pitchingIntake = new SolversServo(hardwareMap.get(PhotonServo.class, "pitchingIntake"), 0.0);
 
         frontLeftServo = new SolversAxonServo(hardwareMap.get(PhotonCRServo.class, "frontLeftServo"), 0.01);
         frontRightServo = new SolversAxonServo(hardwareMap.get(PhotonCRServo.class, "frontRightServo"), 0.01);
@@ -150,7 +144,7 @@ public class Robot {
         backLeftServo.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftArm.setDirection(Servo.Direction.REVERSE);
+        leftPivot.setDirection(Servo.Direction.REVERSE);
 
         frontLeftEncoder = hardwareMap.get(AnalogInput.class, "frontLeftEncoder");
         frontRightEncoder = hardwareMap.get(AnalogInput.class, "frontRightEncoder");

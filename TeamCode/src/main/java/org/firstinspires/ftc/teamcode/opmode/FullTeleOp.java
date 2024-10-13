@@ -3,16 +3,13 @@ package org.firstinspires.ftc.teamcode.opmode;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.DriveMode;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.MAX_EXTENDO_EXTENSION;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.OpModeType;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.STRAFE_MULTIPLIER;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.TURN_MULTIPLIER;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.SET_GAMEPAD_RED;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.driveMode;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.opModeType;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.geometry.Rotation2d;
-import com.arcrobotics.ftclib.kinematics.wpilibkinematics.ChassisSpeeds;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -79,17 +76,12 @@ public class FullTeleOp extends CommandOpMode {
         // Value to scale power to drivetrain based on driver trigger
         double speedMultiplier = (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) * 0.8) + 0.2;
 
-        ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                driver.getLeftX() * STRAFE_MULTIPLIER * speedMultiplier,
-                driver.getLeftY() * STRAFE_MULTIPLIER * speedMultiplier,
-                driver.getRightX() * TURN_MULTIPLIER * speedMultiplier,
-                new Rotation2d(robot.getAngle())
-        );
+        gamepad1.runLedEffect(SET_GAMEPAD_RED);
+        gamepad2.runLedEffect(SET_GAMEPAD_RED);
 
-        robot.swerveDrivetrain.update(chassisSpeeds);
 
         // For Mecanum:
-        //setMecanumSpeeds(driver.getLeftX(), driver.getLeftY(), driver.getRightX(), speedMultiplier);
+        //setMecanumSpeeds(drive    r.getLeftX(), driver.getLeftY(), driver.getRightX(), speedMultiplier);
         //testSetMecanumSpeeds(driver, speedMultiplier);
 
         // Driver buttons
@@ -127,7 +119,7 @@ public class FullTeleOp extends CommandOpMode {
             robot.intake.setExtendoTarget(robot.extensionEncoder.getPosition() - 10); // Needs to be tested
         }
 
-        robot.intake.setPitchingIntake(robot.intake.stackHeight);
+//        robot.intake.setPitchingIntake(robot.intake.stackHeight);
 
         // Operator buttons
         if (operator.wasJustPressed(GamepadKeys.Button.A)) {
@@ -140,6 +132,7 @@ public class FullTeleOp extends CommandOpMode {
             robot.deposit.wristIndex -= 1;
             robot.deposit.moveWrist();
             buttonTimer.reset();
+
         } else if ((operator.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0) && buttonTimer.milliseconds() >= 200) {
             robot.deposit.wristIndex += 1;
             robot.deposit.moveWrist();
@@ -147,16 +140,16 @@ public class FullTeleOp extends CommandOpMode {
         }
 
         if (operator.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
-            robot.deposit.teleOpSetClaw(!robot.deposit.leftClawOpen, robot.deposit.leftClawOpen);
+            robot.deposit.openClaw();
         } else if (operator.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
-            robot.deposit.teleOpSetClaw(!robot.deposit.leftClawOpen, robot.deposit.leftClawOpen);
+            robot.deposit.closeClaw();
         }
 
-        if (operator.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
-            robot.deposit.teleOpSetClaw(true, true  );
-        } else if (operator.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
-            robot.deposit.teleOpSetClaw(false, false);
-        }
+//        if (operator.wasJustPressed(GamepadKeys.Button.LEFT_STICK_BUTTON)) {
+//            robot.deposit.teleOpSetClaw(true, true  );
+//        } else if (operator.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
+//            robot.deposit.teleOpSetClaw(false, false);
+//        }
 
         if (operator.wasJustPressed(GamepadKeys.Button.DPAD_UP) && robot.deposit.pixelHeight < 10) {
             robot.deposit.pixelHeight += 1;

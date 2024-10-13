@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
-import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.CLAW_CLOSE_POS;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.CLAW_OPEN_POS;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.MAX_SLIDES_EXTENSION;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.WRIST_BACKDROP_POSITIONS;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.WRIST_TRANSFER_POS;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -22,14 +26,13 @@ public class Deposit extends SubsystemBase {
     public boolean slidesRetracted;
 
     // Between open and closed
-    public boolean leftClawOpen;
-    public boolean rightClawOpen;
+    public boolean clawOpen;
 
     // Default will reset deposit to transfer position (unpowered claw servos depending on auto vs tele-op)
     public void init() {
         slidePIDF.setTolerance(10, 10);
 
-        setArmTransfer(true);
+//        setArmTransfer(true);
 
         setWristTransfer();
 
@@ -37,11 +40,11 @@ public class Deposit extends SubsystemBase {
     }
 
     public void initAuto() {
-        setClaw(false, false);
+        openClaw();
     }
 
     public void initTeleOp() {
-        setClaw(true, true);
+        openClaw();
     }
 
     public void setSlideTarget(double target) {
@@ -63,11 +66,11 @@ public class Deposit extends SubsystemBase {
         return (slidePIDF.atSetPoint());
     }
 
-    public void setArmTransfer(boolean armTransfer) {
-        robot.rightArm.setPosition(armTransfer ? ARM_TRANSFER_POS : ARM_BACKDROP_POS);
-        robot.leftArm.setPosition(armTransfer ? -ARM_TRANSFER_POS + 1 : -ARM_BACKDROP_POS + 1);
-        this.armTransfer = armTransfer;
-    }
+//    public void setArmTransfer(boolean armTransfer) {
+//        robot.claw.setPosition(armTransfer ? ARM_TRANSFER_POS : ARM_BACKDROP_POS);
+//        robot.leftArm.setPosition(armTransfer ? -ARM_TRANSFER_POS + 1 : -ARM_BACKDROP_POS + 1);
+//        this.armTransfer = armTransfer;
+//    }
 
     // Be careful with these 2 methods to make sure armState is at the relevant state/position
     public void moveWrist() {
@@ -75,33 +78,30 @@ public class Deposit extends SubsystemBase {
         wristTransfer = false;
     }
 
-    public void teleOpSetClaw(boolean leftClawOpen, boolean rightClawOpen) {
-        if (wristIndex == 0 || wristIndex == 1 || wristIndex == 5) { // Right Claw is now Left Claw
-            setClaw(rightClawOpen, leftClawOpen);
-        } else {
-            setClaw(leftClawOpen, rightClawOpen);
-        }
-    }
-
     public void setWristTransfer() {
         robot.wrist.setPosition(WRIST_TRANSFER_POS);
         wristTransfer = true;
     }
 
-    public void setClaw(boolean leftClawOpen, boolean rightClawOpen) {
-        if (leftClawOpen) {
-            robot.leftClaw.setPosition(INTAKE_CLAW_OPEN_POS);
-        } else {
-            robot.leftClaw.setPosition(INTAKE_CLAW_CLOSE_POS);
-        }
-        this.leftClawOpen = leftClawOpen;
+    public void openClaw() {
+        robot.claw.setPosition(CLAW_OPEN_POS);
+        this.clawOpen = true;
+    }
 
-        if (rightClawOpen) {
-            robot.rightClaw.setPosition(DEPOSIT_CLAW_OPEN_POS);
-        } else {
-            robot.rightClaw.setPosition(DEPOSIT_CLAW_CLOSE_POS);
+    public void closeClaw() {
+        robot.claw.setPosition(CLAW_CLOSE_POS);
+        this.clawOpen = false;
+    }
+
+    public void toggleClaw() {
+        if (this.clawOpen) {
+            robot.claw.setPosition(CLAW_CLOSE_POS);
+            this.clawOpen = false;
         }
-        this.rightClawOpen = rightClawOpen;
+        else {
+            robot.claw.setPosition(CLAW_OPEN_POS);
+            this.clawOpen = true;
+        }
     }
 
     @Override

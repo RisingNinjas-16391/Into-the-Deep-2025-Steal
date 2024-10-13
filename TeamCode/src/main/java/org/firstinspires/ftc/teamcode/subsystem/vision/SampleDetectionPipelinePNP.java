@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystem.vision;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 
 import org.opencv.calib3d.Calib3d;

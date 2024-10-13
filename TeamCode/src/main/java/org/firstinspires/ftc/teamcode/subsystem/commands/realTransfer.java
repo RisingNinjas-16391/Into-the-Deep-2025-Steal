@@ -21,13 +21,13 @@ public class realTransfer extends CommandBase {
     @Override
     public void initialize() {
         timer.reset();
-        intake.setTray(true);
+//        intake.setTray(true);
     }
 
     @Override
     public void execute() {
         if (timer.milliseconds() > 500) {
-            deposit.setClaw(false, false);
+            deposit.openClaw();
             timer.reset();
             trayReached = true;
         }
@@ -41,6 +41,7 @@ public class realTransfer extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        intake.setTray(false);
+//        intake.setTray(false);
+        assert true;
     }
 }

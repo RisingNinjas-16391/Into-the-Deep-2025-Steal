@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 @Config
 public class Globals {
@@ -17,6 +18,22 @@ public class Globals {
     }
 
     public static DriveMode driveMode;
+
+    public static Gamepad.LedEffect SET_GAMEPAD_RED = new Gamepad.LedEffect.Builder()
+            .addStep(1, 0, 0, Gamepad.LED_DURATION_CONTINUOUS)
+            .build();
+
+    public static Gamepad.LedEffect SET_GAMEPAD_GREEN = new Gamepad.LedEffect.Builder()
+            .addStep(1, 1, 0, Gamepad.LED_DURATION_CONTINUOUS)
+            .build();
+
+    public static Gamepad.LedEffect SET_GAMEPAD_BLUE = new Gamepad.LedEffect.Builder()
+            .addStep(0, 0, 1, Gamepad.LED_DURATION_CONTINUOUS)
+            .build();
+
+    public static Gamepad.LedEffect SET_GAMEPAD_OFF = new Gamepad.LedEffect.Builder()
+            .addStep(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS)
+            .build();
 
     public static boolean USING_IMU = true;
 
@@ -49,10 +66,8 @@ public class Globals {
     public static double WRIST_TRANSFER_POS = 0;
     // 4th item or 3rd with 0-index is always the default (middle horizontal)
     public static double[] WRIST_BACKDROP_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08};
-    public static double INTAKE_CLAW_OPEN_POS = 0.07; // Needs to be tuned
-    public static double INTAKE_CLAW_CLOSE_POS = 0.18; // Needs to be tuned
-    public static double DEPOSIT_CLAW_OPEN_POS = 0.41;
-    public static double DEPOSIT_CLAW_CLOSE_POS = 0.66;
+    public static double CLAW_OPEN_POS = 0.07;
+    public static double CLAW_CLOSE_POS = 0.18;
 
     // Slides
     // Encoder ticks for max extension for extendo

@@ -17,10 +17,10 @@ public class depositBackdrop extends CommandBase {
     @Override
     public void initialize() {
         deposit.setSlideTarget(deposit.pixelHeight * BACKDROP_INCREMENTAL_HEIGHT);
-        deposit.setClaw(false, false);
+        deposit.openClaw();
         deposit.wristIndex = 3;
         deposit.moveWrist();
-        deposit.setArmTransfer(false);
+//        deposit.setArmTransfer(false);
     }
 
     @Override
