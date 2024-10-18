@@ -79,7 +79,6 @@ public class FullTeleOp extends CommandOpMode {
         gamepad1.runLedEffect(SET_GAMEPAD_RED);
         gamepad2.runLedEffect(SET_GAMEPAD_RED);
 
-
         // For Mecanum:
         //setMecanumSpeeds(drive    r.getLeftX(), driver.getLeftY(), driver.getRightX(), speedMultiplier);
         //testSetMecanumSpeeds(driver, speedMultiplier);
