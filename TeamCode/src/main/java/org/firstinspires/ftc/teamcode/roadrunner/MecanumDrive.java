@@ -43,6 +43,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -62,8 +63,6 @@ import java.util.List;
 public class MecanumDrive {
     public static class Params {
         // IMU orientation (for tuning)
-        // TODO: fill in these values based on
-        //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
                 RevHubOrientationOnRobot.LogoFacingDirection.UP;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
@@ -144,9 +143,6 @@ public class MecanumDrive {
             rightFront = new OverflowEncoder(new RawEncoder(MecanumDrive.this.rightFront));
 
             imu = lazyImu.get();
-
-            // TODO: reverse encoders if needed
-            //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         }
 
         @Override
@@ -222,23 +218,19 @@ public class MecanumDrive {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
-        // TODO: make sure your config has motors with these names (or change them)
-        //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        leftFront = hardwareMap.get(DcMotorEx.class, "left_front");
-        leftBack = hardwareMap.get(DcMotorEx.class, "left_back");
-        rightBack = hardwareMap.get(DcMotorEx.class, "right_back");
-        rightFront = hardwareMap.get(DcMotorEx.class, "right_front");
+        leftFront = hardwareMap.get(DcMotorEx.class, "FL");
+        leftBack = hardwareMap.get(DcMotorEx.class, "BL");
+        rightBack = hardwareMap.get(DcMotorEx.class, "BR");
+        rightFront = hardwareMap.get(DcMotorEx.class, "FR");
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        // TODO: reverse motor directions if needed
-        //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
-        //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         lazyImu = new LazyImu(hardwareMap, "imu", new RevHubOrientationOnRobot(
                 PARAMS.logoFacingDirection, PARAMS.usbFacingDirection));
 
