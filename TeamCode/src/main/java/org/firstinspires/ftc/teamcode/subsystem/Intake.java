@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
         TRANSFER
     }
 
-    public IntakeState intakeState;
+    public static IntakeState intakeState;
     private static final PIDFController extendoPIDF = new PIDFController(0,0,0, 0);
 
     // Loop number for when distance sensor was polled
@@ -50,30 +50,28 @@ public class Intake extends SubsystemBase {
         extendoPIDF.setSetPoint(this.target);
     }
 
-//    public void setPitchingIntake(int stackHeight) {
-//        if (stackHeight != this.stackHeight) {
-//            // Limit integers to 0-5
-//            this.stackHeight = Math.max(Math.min(stackHeight, 5), 0);
-//            robot.pitchingIntake.setPosition(STACK_HEIGHTS[this.stackHeight]);
-//        }
-//    }
-//
-//    public void setTray(boolean trayTransfer) {
-//        if (trayTransfer != this.trayTransfer) {
-//            robot.tray.setPosition(trayTransfer ? TRAY_TRANSFER : TRAY_INTAKE);
-//            this.trayTransfer = trayTransfer;
-//        }
-//    }
-
-    public void sampleDetected() {
+    public SampleDetected sampleDetected() {
         if (intakeState == IntakeState.INTAKE) {
-            if (robot.colorSensor.getDistance(DistanceUnit.CM) < 5) {
-                assert true;
+            robot.colorSensor.enableLed(true);
+
+            int red = robot.colorSensor.red();
+            int green = robot.colorSensor.green();
+            int blue = robot.colorSensor.blue();
+
+            double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
+
+            if (distance < 3.5) {
+                if (red >= green && red >= blue) {
+                    return SampleDetected.RED;
+                } else if (green >= red && green >= blue) {
+                    return SampleDetected.YELLOW;
+                } else {
+                    return SampleDetected.BLUE;
+                }
             }
         }
+        return currentSample;
     }
-
-
 
     @Override
     public void periodic() {

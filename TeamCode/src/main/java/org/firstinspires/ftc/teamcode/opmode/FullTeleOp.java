@@ -60,6 +60,8 @@ public class FullTeleOp extends CommandOpMode {
             gamepad2.rumble(500);
         }
 
+        currentSample = robot.intake.sampleDetected();
+
         switch (currentSample) {
             case RED:
                 gamepad1.runLedEffect(SET_GAMEPAD_RED);
@@ -85,8 +87,6 @@ public class FullTeleOp extends CommandOpMode {
         // Minimum power of 0.2 and scale trigger value by remainder
         // Value to scale power to drivetrain based on driver trigger
         double speedMultiplier = (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) * 0.8) + 0.2;
-
-
 
         // For Mecanum:
         //setMecanumSpeeds(drive    r.getLeftX(), driver.getLeftY(), driver.getRightX(), speedMultiplier);

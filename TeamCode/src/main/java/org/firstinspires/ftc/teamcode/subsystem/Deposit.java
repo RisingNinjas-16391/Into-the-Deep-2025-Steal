@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
-import static org.firstinspires.ftc.teamcode.subsystem.Intake.*;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -35,9 +34,6 @@ public class Deposit extends SubsystemBase {
 
     public void initAuto() {
         openClaw();
-        if (SampleDetected.YELLOW) {
-
-        }
     }
 
     public void initTeleOp() {
