@@ -38,7 +38,8 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // tweaked slightly to compensate for imperfect mounting (eg. 1.3 degrees).
 
         // RR localizer note: These units are inches and radians.
-        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(0));
+        public SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, Math.toRadians(90));
+        // Heading is probably Math.toRadians(90), haven't actually ran the tuner
 
         // Here we can set the linear and angular scalars, which can compensate for
         // scaling issues with the sensor measurements. Note that as of firmware
@@ -57,7 +58,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         // inverse of the error. For example, if you move the robot 100 inches and
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
         public double linearScalar = 1.0;
-        public double angularScalar = 1.0;
+        public double angularScalar = 0.9909;
     }
 
     public static Params PARAMS = new Params();
@@ -145,5 +146,24 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         otos.setLinearScalar(PARAMS.linearScalar);
         otos.setAngularScalar(PARAMS.angularScalar);
         otos.calibrateImu(833, true);
+    }
+
+    public void setFieldCentricDrivePowers(PoseVelocity2d powers, double lefTrigger, double botHeading) {
+        botHeading += PARAMS.offset.h;
+        double speedMultiplier = 0.35 + (1 - 0.35) * lefTrigger;
+        double x = powers.component1().x;
+        double y = powers.component1().y;
+        double rx = powers.component2();
+
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+
+        rotX = rotX * 1.1;
+        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+
+        leftFront.setPower(((rotY + rotX + rx) / denominator) * speedMultiplier);
+        leftBack.setPower(((rotY - rotX + rx) / denominator) * speedMultiplier);
+        rightFront.setPower(((rotY - rotX - rx) / denominator) * speedMultiplier);
+        rightBack.setPower(((rotY + rotX - rx) / denominator) * speedMultiplier);
     }
 }

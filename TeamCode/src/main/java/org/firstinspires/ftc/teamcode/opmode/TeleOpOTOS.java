@@ -2,21 +2,17 @@ package org.firstinspires.ftc.teamcode.opmode;
 
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Rotation2d;
-import com.acmerobotics.roadrunner.ftc.SparkFunOTOSCorrected;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.outoftheboxrobotics.photoncore.Photon;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive;
 import org.firstinspires.ftc.teamcode.tuning.example.RobotOTOS;
 
@@ -32,7 +28,6 @@ public class TeleOpOTOS extends CommandOpMode {
     public Rotation2d lastHeading;
     public double radsTurned = 0;
     private final RobotOTOS robot = RobotOTOS.getInstance();
-    public IMU imu;
 
     @Override
     public void initialize() {
@@ -43,15 +38,6 @@ public class TeleOpOTOS extends CommandOpMode {
         super.reset();
 
         robot.init(hardwareMap);
-
-        // Retrieve the IMU from the hardware map
-        imu = hardwareMap.get(IMU.class, "imu");
-        // Adjust the orientation parameters to match your robot
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        imu.initialize(parameters);
 
         timer.reset();
         buttonTimer.reset();
@@ -66,6 +52,17 @@ public class TeleOpOTOS extends CommandOpMode {
 
     @Override
     public void run() {
+        drive.setFieldCentricDrivePowers(new PoseVelocity2d(
+            new Vector2d(
+                    -gamepad1.left_stick_y,
+                    -gamepad1.left_stick_x
+                ),
+                -gamepad1.right_stick_x
+            ),
+            gamepad1.left_trigger,
+            radsTurned
+        );
+
         drive.updatePoseEstimate();
 
         radsTurned += drive.pose.heading.minus(lastHeading);
@@ -73,12 +70,9 @@ public class TeleOpOTOS extends CommandOpMode {
 
         if (gamepad1.square) {
             radsTurned = 0;
-            imu.resetYaw();
-
         }
 
         telemetry.addData("otos", Math.toDegrees(radsTurned));
-        telemetry.addData("controlHub", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
         telemetry.update();
 
         // DO NOT REMOVE! Removing this will return stale data since bulk caching is on Manual mode
