@@ -132,6 +132,8 @@ public class FullTeleOp extends CommandOpMode {
             buttonTimer.reset();
         }
 
+
+
         if (operator.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
             robot.deposit.openClaw();
         } else if (operator.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {

@@ -29,12 +29,11 @@ public class Intake extends SubsystemBase {
     }
 
     public void autoExtendoSetPower() {
-        double extendoPower = extendoPIDF.calculate(robot.liftEncoder.getPosition(), target);
-        robot.liftLeft.setPower(extendoPower);
-        robot.liftRight.setPower(-extendoPower);
+        double extendoPower = extendoPIDF.calculate(robot.liftEncoder.getPosition(), this.target);
+        robot.extension.setPower(extendoPower);
 
         // Extendo is only retracted it has reached a target of 0
-        extendoRetracted = ((target <= 0)) && (this.reached());
+        extendoRetracted = ((this.target <= 0)) && (this.reached());
     }
 
     // Returns if extendo has reached the target
