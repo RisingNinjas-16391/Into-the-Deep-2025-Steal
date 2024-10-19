@@ -38,8 +38,6 @@ public class motorEncoders extends OpMode {
 
         telemetry.addData("liftEncoder", robot.liftEncoder.getPosition());
         telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
-        telemetry.addData("parallelPod", robot.parallelPod.getPosition());
-        telemetry.addData("perpendicularPod", robot.perpendicularPod.getPosition());
     }
 
     @Override
@@ -49,16 +47,13 @@ public class motorEncoders extends OpMode {
         if (RESET_ALL_ENCODERS) {
             robot.liftEncoder.reset();
             robot.extensionEncoder.reset();
-            robot.parallelPod.reset();
-            robot.perpendicularPod.reset();
         }
 
         robot.ControlHub.clearBulkCache();
 
         telemetry.addData("liftEncoder", robot.liftEncoder.getPosition());
         telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
-        telemetry.addData("parallelPod", robot.parallelPod.getPosition());
-        telemetry.addData("perpendicularPod", robot.perpendicularPod.getPosition());
+
         telemetry.addData("loop time (ms)", timer.milliseconds());
 
         telemetry.update();

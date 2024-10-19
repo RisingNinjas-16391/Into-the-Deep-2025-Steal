@@ -140,5 +140,10 @@ public class SparkFunOTOSDrive extends MecanumDrive {
         return new PoseVelocity2d(new Vector2d(otosVel.x, otosVel.y),otosVel.h);
     }
 
-
+    public void calibrateOTOSimu() {
+        otos.setOffset(PARAMS.offset);
+        otos.setLinearScalar(PARAMS.linearScalar);
+        otos.setAngularScalar(PARAMS.angularScalar);
+        otos.calibrateImu(833, true);
+    }
 }

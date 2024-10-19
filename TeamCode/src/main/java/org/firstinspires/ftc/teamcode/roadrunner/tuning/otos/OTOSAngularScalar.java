@@ -27,7 +27,5 @@ public class OTOSAngularScalar extends LinearOpMode {
             telemetry.addData("Calculated Angular Scalar", 3600 / Math.toDegrees(radsTurned));
             telemetry.update();
         }
-
-
     }
 }
