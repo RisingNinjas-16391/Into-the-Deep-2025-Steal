@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
-import static org.firstinspires.ftc.teamcode.hardware.Globals.CLAW_CLOSE_POS;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.CLAW_OPEN_POS;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.MAX_SLIDES_EXTENSION;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.WRIST_BACKDROP_POSITIONS;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.WRIST_TRANSFER_POS;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
+import static org.firstinspires.ftc.teamcode.subsystem.Intake.*;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -14,7 +11,6 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 public class Deposit extends SubsystemBase {
     private final Robot robot = Robot.getInstance();
     private static final PIDFController slidePIDF = new PIDFController(0,0,0, 0);
-    public int pixelHeight = 1;
     public int wristIndex = 3;
     public boolean wristTransfer;
     private double target;
@@ -32,8 +28,6 @@ public class Deposit extends SubsystemBase {
     public void init() {
         slidePIDF.setTolerance(10, 10);
 
-//        setArmTransfer(true);
-
         setWristTransfer();
 
         setSlideTarget(0);
@@ -41,6 +35,9 @@ public class Deposit extends SubsystemBase {
 
     public void initAuto() {
         openClaw();
+        if (SampleDetected.YELLOW) {
+
+        }
     }
 
     public void initTeleOp() {

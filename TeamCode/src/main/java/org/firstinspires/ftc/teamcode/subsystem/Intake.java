@@ -1,34 +1,26 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
-import static org.firstinspires.ftc.teamcode.hardware.Globals.INTAKE_DISTANCE_SENSOR_POLLING;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.INTAKE_POWER;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.INTAKE_REVERSE_POWER;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.MAX_EXTENDO_EXTENSION;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.PIXEL_DISTANCE;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.STACK_HEIGHTS;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.TRAY_INTAKE;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.TRAY_TRANSFER;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
 public class Intake extends SubsystemBase {
     private final Robot robot = Robot.getInstance();
-    // 0 is fully retracted, 1-5 is how many pixels
-    public int stackHeight = 0;
     private double target;
     // Between retracted and extended
     public boolean extendoRetracted;
     // Between transfer and intake position
     public boolean trayTransfer;
     public enum IntakeState {
-        ON,
-        OFF,
-        REVERSED_ON
+        INTAKE,
+        TRANSFER
     }
+
     public IntakeState intakeState;
     private static final PIDFController extendoPIDF = new PIDFController(0,0,0, 0);
 
@@ -36,7 +28,6 @@ public class Intake extends SubsystemBase {
     private int loopNumber = 0;
 
     public void init() {
-        setIntake(IntakeState.OFF);
         setExtendoTarget(0);
     }
 
@@ -59,22 +50,6 @@ public class Intake extends SubsystemBase {
         extendoPIDF.setSetPoint(this.target);
     }
 
-    public void setIntake(IntakeState intakeState) {
-        this.intakeState = intakeState;
-
-        switch (intakeState) {
-            case ON:
-                robot.intakeMotor.setPower(INTAKE_POWER);
-                break;
-            case OFF:
-                robot.intakeMotor.setPower(0);
-                break;
-            case REVERSED_ON:
-                robot.intakeMotor.setPower(INTAKE_REVERSE_POWER);
-                break;
-        }
-    }
-
 //    public void setPitchingIntake(int stackHeight) {
 //        if (stackHeight != this.stackHeight) {
 //            // Limit integers to 0-5
@@ -90,16 +65,15 @@ public class Intake extends SubsystemBase {
 //        }
 //    }
 
-    public boolean sampleDetected() {
-        if (intakeState == IntakeState.ON) {
-            if (loopNumber > INTAKE_DISTANCE_SENSOR_POLLING) {
-                return robot.colorSensor.getDistance(DistanceUnit.CM) < PIXEL_DISTANCE;
-            } else {
-                loopNumber++;
+    public void sampleDetected() {
+        if (intakeState == IntakeState.INTAKE) {
+            if (robot.colorSensor.getDistance(DistanceUnit.CM) < 5) {
+                assert true;
             }
         }
-        return false;
     }
+
+
 
     @Override
     public void periodic() {

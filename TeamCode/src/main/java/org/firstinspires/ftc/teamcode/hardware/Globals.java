@@ -17,13 +17,22 @@ public class Globals {
         FIELD_CENTRIC
     }
 
+    public enum SampleDetected {
+        RED,
+        BLUE,
+        YELLOW,
+        NONE
+    }
+
+    public static SampleDetected currentSample = SampleDetected.YELLOW;
+
     public static DriveMode driveMode;
 
     public static Gamepad.LedEffect SET_GAMEPAD_RED = new Gamepad.LedEffect.Builder()
             .addStep(1, 0, 0, Gamepad.LED_DURATION_CONTINUOUS)
             .build();
 
-    public static Gamepad.LedEffect SET_GAMEPAD_GREEN = new Gamepad.LedEffect.Builder()
+    public static Gamepad.LedEffect SET_GAMEPAD_YELLOW = new Gamepad.LedEffect.Builder()
             .addStep(1, 1, 0, Gamepad.LED_DURATION_CONTINUOUS)
             .build();
 
@@ -36,24 +45,11 @@ public class Globals {
             .build();
 
     public static boolean USING_IMU = true;
-
-    public static double STARTING_X;
-    public static double STARTING_Y;
     public static double STARTING_HEADING;
 
-    // Swerve drivetrain constants
-    // Max speed of any 1 module - use https://www.desmos.com/calculator/nougchzjkc or measure speed (m/s)
-    public static double MAXIMUM_MODULE_SPEED = 2.085;
-
-    // c2c distance between pods (meters)
-    public static double WIDTH = 0.30235;
-    public static double LENGTH = 0.34405;
-
-    // Converts value of -1 to 1 to max m/s if full power
-    public static final double STRAFE_MULTIPLIER = MAXIMUM_MODULE_SPEED;
-    // Converts value of -1 to 1 to max rad/sec if full power
-    // Takes circumference of circle formed by wheels divided by maximum module speed
-    public static final double TURN_MULTIPLIER = (Math.hypot(LENGTH, WIDTH) * Math.PI)/MAXIMUM_MODULE_SPEED;
+    // Robot Width and Length (in inches)
+    public static double ROBOT_WIDTH = 11.5;
+    public static double ROBOT_LENGTH = 12.25;
 
     // By default values refer to servo positions, unless otherwise specified
     // By default for values that control opposite running hardware, the right value of the hardware is used
@@ -78,19 +74,4 @@ public class Globals {
     public static double FIRST_BACKDROP_ROW = 0; // Encoder ticks
     // Encoder ticks for slides between pixel row heights on backdrop
     public static double BACKDROP_INCREMENTAL_HEIGHT = 0; // Encoder ticks
-
-    // Intake
-    public static double INTAKE_POWER = 0.5; // Motor power
-    public static double INTAKE_REVERSE_POWER = 0.5; // Motor power
-    // Highest to lowest (lowest being normal intake flat on ground) servo positions for pitching intake
-    // 0th index is fully retracted
-    public static double[] STACK_HEIGHTS = {};
-    public static double TRAY_INTAKE = 0;
-    public static double TRAY_TRANSFER = 0.55;
-    // Time for distance sensor to detect a pixel until it knows it has 2 pixels in milliseconds
-    public static double TWO_PIXEL_TIME = 1000;
-    // Distance for distance sensor to return as lower than for a pixel to be detected in tray in centimeters
-    public static double PIXEL_DISTANCE = 5;
-    // After how many loops should intake distance sensor be polled
-    public static int INTAKE_DISTANCE_SENSOR_POLLING = 3;
 }
