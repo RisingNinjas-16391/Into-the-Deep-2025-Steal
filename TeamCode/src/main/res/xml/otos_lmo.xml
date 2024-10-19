@@ -8,8 +8,8 @@
             <goBILDA5202SeriesMotor name="FR" port="3"/>
             <Servo name="claw" port="0"/>
             <ControlHubImuBHI260AP name="imu" port="0" bus="0"/>
-            <SparkFunOTOSCorrected name="sensor_otos" port="0" bus="1"/>
-       <!-- <SparkFunOTOS name="sensor_otos" port="0" bus="1"/> -->
+            <SparkFunOTOS2 name="sensor_otos" port="0" bus="1"/>
+       <!-- <SparkFunOTOSname="sensor_otos" port="0" bus="1"/> -->
         </LynxModule>
     </LynxUsbDevice>
     <LynxUsbDevice name="Expansion Hub Portal 1" serialNumber="DQ81DA4Y" parentModuleAddress="2">

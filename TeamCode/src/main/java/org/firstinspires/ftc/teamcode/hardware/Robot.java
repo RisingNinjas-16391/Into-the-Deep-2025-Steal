@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
+import static org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive.PARAMS;
 
+import com.acmerobotics.roadrunner.ftc.SparkFunOTOSCorrected;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.outoftheboxrobotics.photoncore.Photon;
@@ -17,12 +19,15 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversAxonServo;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversMotor;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 
+import java.lang.System;
 import java.util.List;
 
 import javax.annotation.concurrent.GuardedBy;
@@ -56,8 +61,8 @@ public class Robot {
 
     public Motor.Encoder liftEncoder;
     public Motor.Encoder extensionEncoder;
-    public Motor.Encoder parallelPod;
-    public Motor.Encoder perpendicularPod;
+
+    public SparkFunOTOSCorrected otos;
 
     public RevColorSensorV3 colorSensor;
 
@@ -137,12 +142,14 @@ public class Robot {
         liftEncoder = new MotorEx(hardwareMap, "liftRight").encoder;
         extensionEncoder = new MotorEx(hardwareMap, "extension").encoder;
 
-        parallelPod = new MotorEx(hardwareMap, "backRightMotor").encoder;
-        parallelPod.setDirection(Motor.Direction.REVERSE);
-        perpendicularPod = new MotorEx(hardwareMap, "backLeftMotor").encoder;
-        perpendicularPod.setDirection(Motor.Direction.REVERSE);
-
         colorSensor = (RevColorSensorV3) hardwareMap.colorSensor.get("colorSensor");
+
+        otos = hardwareMap.get(SparkFunOTOSCorrected.class,"sensor_otos");
+
+        otos.setLinearUnit(DistanceUnit.INCH);
+        otos.setAngularUnit(AngleUnit.RADIANS);
+
+        otos.setOffset(PARAMS.offset);
 
         // Bulk reading enabled!
         // AUTO mode will bulk read by default and will redo and clear cache once the exact same read is done again
@@ -161,8 +168,40 @@ public class Robot {
 
         // Add any OpMode specific initializations here
         if (Globals.opModeType == OpModeType.AUTO) {
-
             // deposit.initAuto();
         }
+
+        else {
+            otos.setOffset(PARAMS.offset);
+            System.out.println("OTOS calibration beginning!");
+            System.out.println(otos.setLinearScalar(PARAMS.linearScalar));
+            System.out.println(otos.setAngularScalar(PARAMS.angularScalar));
+
+            // The IMU on the OTOS includes a gyroscope and accelerometer, which could
+            // have an offset. Note that as of firmware version 1.0, the calibration
+            // will be lost after a power cycle; the OTOS performs a quick calibration
+            // when it powers up, but it is recommended to perform a more thorough
+            // calibration at the start of all your programs. Note that the sensor must
+            // be completely stationary and flat during calibration! When calling
+            // calibrateImu(), you can specify the number of samples to take and whether
+            // to wait until the calibration is complete. If no parameters are provided,
+            // it will take 255 samples and wait until done; each sample takes about
+            // 2.4ms, so about 612ms total
+
+            // RR localizer note: It is technically possible to change the number of samples to slightly reduce init times,
+            // however, I found that it caused pretty severe heading drift.
+            // Also, if you're careful to always wait more than 612ms in init, you could technically disable waitUntilDone;
+            // this would allow your OpMode code to run while the calibration occurs.
+            // However, that may cause other issues.
+            // In the future I hope to do that by default and just add a check in updatePoseEstimate for it
+            System.out.println(otos.calibrateImu(255, true));
+            System.out.println("OTOS calibration complete!");
+        }
+    }
+
+    public void getOTOSPosition() {
+        // Get the latest position, which includes the x and y coordinates, plus the
+        // heading angle
+        SparkFunOTOSCorrected.Pose2D pos = otos.getPosition();
     }
 }
