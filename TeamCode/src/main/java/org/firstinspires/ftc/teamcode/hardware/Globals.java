@@ -60,8 +60,13 @@ public class Globals {
     public static double ARM_BACKDROP_POS = 0;
 
     public static double WRIST_TRANSFER_POS = 0;
+    public static double WRIST_INTAKE_POS = 0;
+    public static double PIVOT_TRANSFER_POS = 0;
+    public static double PIVOT_INTAKE_POS = 0;
+
     // 4th item or 3rd with 0-index is always the default (middle horizontal)
-    public static double[] WRIST_BACKDROP_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08};
+    // NEEDS TO BE TUNED
+    public static double[] WRIST_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08};
     public static double CLAW_OPEN_POS = 0.07;
     public static double CLAW_CLOSE_POS = 0.18;
 

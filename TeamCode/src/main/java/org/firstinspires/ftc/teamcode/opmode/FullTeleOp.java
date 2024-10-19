@@ -10,8 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.subsystem.Intake;
-import org.firstinspires.ftc.teamcode.subsystem.commands.depositBackdrop;
+import org.firstinspires.ftc.teamcode.subsystem.commands.depositHighBasket;
 import org.firstinspires.ftc.teamcode.subsystem.commands.transfer;
 
 @Photon
@@ -117,7 +116,7 @@ public class FullTeleOp extends CommandOpMode {
 
         // Operator buttons
         if (operator.wasJustPressed(GamepadKeys.Button.A)) {
-            new depositBackdrop(robot.deposit);
+            new depositHighBasket(robot.deposit);
         } else if (operator.wasJustPressed(GamepadKeys.Button.B)) {
             robot.deposit.setSlideTarget(0);
         }

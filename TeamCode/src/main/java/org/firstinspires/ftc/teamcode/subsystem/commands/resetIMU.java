@@ -13,7 +13,8 @@ public class resetIMU extends CommandBase {
 
     @Override
     public void initialize() {
-        robot.resetIMU();
+        // fix with otos
+//        robot.resetIMU();
     }
 
 }

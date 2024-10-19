@@ -67,7 +67,7 @@ public class Deposit extends SubsystemBase {
 
     // Be careful with these 2 methods to make sure armState is at the relevant state/position
     public void moveWrist() {
-        robot.wrist.setPosition(WRIST_BACKDROP_POSITIONS[Math.max(Math.min(wristIndex, 5), 0)]);
+        robot.wrist.setPosition(WRIST_POSITIONS[Math.max(Math.min(wristIndex, 5), 0)]);
         wristTransfer = false;
     }
 

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem.commands;
 
+import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
@@ -14,10 +16,10 @@ public class intakeTransferReady extends CommandBase {
 
     @Override
     public void initialize() {
+        intake.closeClaw();
+        intake.setWrist(WRIST_TRANSFER_POS);
+        intake.setPivotServo(PIVOT_TRANSFER_POS);
         intake.setExtendoTarget(0);
-        intake.setIntake(Intake.IntakeState.OFF);
-//        intake.setTray(false);
-//        intake.setPitchingIntake(0);
     }
 
     @Override

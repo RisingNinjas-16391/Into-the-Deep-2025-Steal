@@ -24,9 +24,6 @@ public class Intake extends SubsystemBase {
     public static IntakeState intakeState;
     private static final PIDFController extendoPIDF = new PIDFController(0,0,0, 0);
 
-    // Loop number for when distance sensor was polled
-    private int loopNumber = 0;
-
     public void init() {
         setExtendoTarget(0);
     }
@@ -43,6 +40,23 @@ public class Intake extends SubsystemBase {
     // Returns if extendo has reached the target
     public boolean reached() {
         return (extendoPIDF.atSetPoint());
+    }
+
+    public void setPivotServo(double target) {
+        robot.leftPivot.setPosition(target);
+        robot.rightPivot.setPosition(target);
+    }
+
+    public void openClaw() {
+        robot.claw.setPosition(CLAW_OPEN_POS);
+    }
+
+    public void closeClaw() {
+        robot.claw.setPosition(CLAW_CLOSE_POS);
+    }
+
+    public void setWrist(double target) {
+        robot.wrist.setPosition(target);
     }
 
     public void setExtendoTarget(double target) {
