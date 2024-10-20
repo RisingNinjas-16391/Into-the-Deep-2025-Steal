@@ -52,6 +52,11 @@ public class TeleOpOTOS extends CommandOpMode {
 
     @Override
     public void run() {
+        drive.updatePoseEstimate();
+
+        radsTurned += drive.pose.heading.minus(lastHeading);
+        lastHeading = drive.pose.heading;
+
         drive.setFieldCentricDrivePowers(new PoseVelocity2d(
             new Vector2d(
                     -gamepad1.left_stick_y,
@@ -62,11 +67,6 @@ public class TeleOpOTOS extends CommandOpMode {
             gamepad1.left_trigger,
             radsTurned
         );
-
-        drive.updatePoseEstimate();
-
-        radsTurned += drive.pose.heading.minus(lastHeading);
-        lastHeading = drive.pose.heading;
 
         if (gamepad1.square) {
             radsTurned = 0;
