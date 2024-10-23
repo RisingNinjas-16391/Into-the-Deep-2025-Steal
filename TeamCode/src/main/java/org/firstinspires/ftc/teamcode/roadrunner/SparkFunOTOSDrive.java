@@ -149,6 +149,7 @@ public class SparkFunOTOSDrive extends MecanumDrive {
     }
 
     public void setFieldCentricDrivePowers(PoseVelocity2d powers, double lefTrigger, double botHeading) {
+        // Gamepad parameters doesn't need to be inverted
         botHeading += PARAMS.offset.h;
         double speedMultiplier = 0.35 + (1 - 0.35) * lefTrigger;
         double x = powers.component1().x;
