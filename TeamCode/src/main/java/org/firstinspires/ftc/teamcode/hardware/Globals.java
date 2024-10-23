@@ -56,8 +56,8 @@ public class Globals {
     // e.g. for ARM_TRANSFER_POS, it should correspond with the real position of the rightArm servo at the transfer
 
     // Deposit
-    public static double ARM_TRANSFER_POS = 0;
-    public static double ARM_BACKDROP_POS = 0;
+    public static double ARM_TRANSFER_POS = 0.0;
+    public static double ARM_SCORING_POS = 1.0;
 
     public static double WRIST_TRANSFER_POS = 0;
     public static double WRIST_INTAKE_POS = 0;
@@ -67,8 +67,11 @@ public class Globals {
     // 4th item or 3rd with 0-index is always the default (middle horizontal)
     // NEEDS TO BE TUNED
     public static double[] WRIST_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08};
-    public static double CLAW_OPEN_POS = 0.07;
-    public static double CLAW_CLOSE_POS = 0.18;
+    public static double INTAKE_CLAW_OPEN_POS = 0.07;
+    public static double INTAKE_CLAW_CLOSE_POS = 0.18;
+
+    public static double DEPOSIT_CLAW_OPEN_POS = 0.53;
+    public static double DEPOSIT_CLAW_CLOSE_POS = 0.4;
 
     // Slides
     // Encoder ticks for max extension for extendo

@@ -4,7 +4,6 @@ import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
@@ -47,11 +46,11 @@ public class Intake extends SubsystemBase {
     }
 
     public void openClaw() {
-        robot.claw.setPosition(CLAW_OPEN_POS);
+        robot.claw.setPosition(INTAKE_CLAW_OPEN_POS);
     }
 
     public void closeClaw() {
-        robot.claw.setPosition(CLAW_CLOSE_POS);
+        robot.claw.setPosition(INTAKE_CLAW_CLOSE_POS);
     }
 
     public void setWrist(double target) {
