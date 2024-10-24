@@ -8,11 +8,9 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.outoftheboxrobotics.photoncore.hardware.motor.PhotonDcMotor;
-import com.outoftheboxrobotics.photoncore.hardware.servo.PhotonCRServo;
 import com.outoftheboxrobotics.photoncore.hardware.servo.PhotonServo;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -21,7 +19,6 @@ import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.hardware.caching.SolversAxonServo;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversMotor;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
@@ -30,34 +27,25 @@ import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import java.lang.System;
 import java.util.List;
 
-import javax.annotation.concurrent.GuardedBy;
-
 @Photon
 public class Robot {
     public SolversMotor liftLeft;
     public SolversMotor liftRight;
     public SolversMotor extension;
-    public SolversMotor intakeMotor;
 
     public SolversMotor frontLeftMotor;
     public SolversMotor frontRightMotor;
     public SolversMotor backLeftMotor;
     public SolversMotor backRightMotor;
 
-    public SolversServo rightPivot;
-    public SolversServo leftPivot;
-    public SolversServo claw;
+    public SolversServo leftIntakePivot;
+    public SolversServo rightIntakePivot;
+    public SolversServo intakeClaw;
     public SolversServo wrist;
 
-    public SolversAxonServo frontLeftServo;
-    public SolversAxonServo frontRightServo;
-    public SolversAxonServo backLeftServo;
-    public SolversAxonServo backRightServo;
-
-    public AnalogInput frontLeftEncoder;
-    public AnalogInput frontRightEncoder;
-    public AnalogInput backLeftEncoder;
-    public AnalogInput backRightEncoder;
+    public SolversServo leftDepositPivot;
+    public SolversServo rightDepositPivot;
+    public SolversServo depositClaw;
 
     public Motor.Encoder liftEncoder;
     public Motor.Encoder extensionEncoder;
@@ -93,7 +81,6 @@ public class Robot {
         extension = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "extension"), 0.01);
         extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeMotor = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "intakeMotor"), 0.01);
 
         frontLeftMotor = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "frontLeftMotor"), 0.01);
         frontRightMotor = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "frontRightMotor"), 0.01);
@@ -110,34 +97,16 @@ public class Robot {
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        intakeMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        leftPivot = new SolversServo(hardwareMap.get(PhotonServo.class, "leftClaw"), 0.0);
-        rightPivot = new SolversServo(hardwareMap.get(PhotonServo.class, "rightClaw"), 0.0);
-        claw = new SolversServo(hardwareMap.get(PhotonServo.class, "rightArm"), 0.0);
+        
+        leftIntakePivot = new SolversServo(hardwareMap.get(PhotonServo.class, "leftIntakePivot"), 0.0);
+        rightIntakePivot = new SolversServo(hardwareMap.get(PhotonServo.class, "rightIntakePivot"), 0.0);
+        leftDepositPivot = new SolversServo(hardwareMap.get(PhotonServo.class, "leftDepositPivot"), 0.0);
+        rightDepositPivot = new SolversServo(hardwareMap.get(PhotonServo.class, "rightDepositPivot"), 0.0);
+        intakeClaw = new SolversServo(hardwareMap.get(PhotonServo.class, "intakeClaw"), 0.0);
+        depositClaw = new SolversServo(hardwareMap.get(PhotonServo.class, "depositClaw"), 0.0);
         wrist = new SolversServo(hardwareMap.get(PhotonServo.class, "wrist"), 0.0);
 
-        frontLeftServo = new SolversAxonServo(hardwareMap.get(PhotonCRServo.class, "frontLeftServo"), 0.01);
-        frontRightServo = new SolversAxonServo(hardwareMap.get(PhotonCRServo.class, "frontRightServo"), 0.01);
-        backLeftServo = new SolversAxonServo(hardwareMap.get(PhotonCRServo.class, "backLeftServo"), 0.01);
-        backRightServo = new SolversAxonServo(hardwareMap.get(PhotonCRServo.class, "backRightServo"), 0.01);
-
-        frontLeftServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightServo.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        leftPivot.setDirection(Servo.Direction.REVERSE);
-
-        frontLeftEncoder = hardwareMap.get(AnalogInput.class, "frontLeftEncoder");
-        frontRightEncoder = hardwareMap.get(AnalogInput.class, "frontRightEncoder");
-        backLeftEncoder = hardwareMap.get(AnalogInput.class, "backLeftEncoder");
-        backRightEncoder = hardwareMap.get(AnalogInput.class, "backRightEncoder");
-
-        frontLeftServo.setServoEncoder(frontLeftEncoder);
-        frontRightServo.setServoEncoder(frontRightEncoder);
-        backLeftServo.setServoEncoder(backLeftEncoder);
-        backRightServo.setServoEncoder(backRightEncoder);
+        leftIntakePivot.setDirection(Servo.Direction.REVERSE);
 
         liftEncoder = new MotorEx(hardwareMap, "liftRight").encoder;
         extensionEncoder = new MotorEx(hardwareMap, "extension").encoder;

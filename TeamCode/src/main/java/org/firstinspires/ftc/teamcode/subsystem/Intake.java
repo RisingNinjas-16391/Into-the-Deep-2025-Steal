@@ -41,16 +41,16 @@ public class Intake extends SubsystemBase {
     }
 
     public void setPivotServo(double target) {
-        robot.leftPivot.setPosition(target);
-        robot.rightPivot.setPosition(target);
+        robot.leftIntakePivot.setPosition(target);
+        robot.rightIntakePivot.setPosition(target);
     }
 
     public void openClaw() {
-        robot.claw.setPosition(INTAKE_CLAW_OPEN_POS);
+        robot.intakeClaw.setPosition(INTAKE_CLAW_OPEN_POS);
     }
 
     public void closeClaw() {
-        robot.claw.setPosition(INTAKE_CLAW_CLOSE_POS);
+        robot.intakeClaw.setPosition(INTAKE_CLAW_CLOSE_POS);
     }
 
     public void setWrist(double target) {

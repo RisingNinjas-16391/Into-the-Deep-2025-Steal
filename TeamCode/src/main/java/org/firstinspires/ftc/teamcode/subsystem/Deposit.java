@@ -77,22 +77,22 @@ public class Deposit extends SubsystemBase {
     }
 
     public void openClaw() {
-        robot.claw.setPosition(INTAKE_CLAW_OPEN_POS);
+        robot.intakeClaw.setPosition(INTAKE_CLAW_OPEN_POS);
         this.clawOpen = true;
     }
 
     public void closeClaw() {
-        robot.claw.setPosition(INTAKE_CLAW_CLOSE_POS);
+        robot.intakeClaw.setPosition(INTAKE_CLAW_CLOSE_POS);
         this.clawOpen = false;
     }
 
     public void toggleClaw() {
         if (this.clawOpen) {
-            robot.claw.setPosition(INTAKE_CLAW_CLOSE_POS);
+            robot.intakeClaw.setPosition(INTAKE_CLAW_CLOSE_POS);
             this.clawOpen = false;
         }
         else {
-            robot.claw.setPosition(INTAKE_CLAW_OPEN_POS);
+            robot.intakeClaw.setPosition(INTAKE_CLAW_OPEN_POS);
             this.clawOpen = true;
         }
     }
