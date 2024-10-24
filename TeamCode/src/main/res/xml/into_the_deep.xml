@@ -1,0 +1,36 @@
+<Robot type="FirstInspires-FTC">
+    <!-- Config for main 2024 Robot -->
+    <LynxUsbDevice name="Control Hub Portal" serialNumber="(embedded)" parentModuleAddress="173">
+        <LynxModule name="Control Hub" port="173">
+
+            <goBILDA5202SeriesMotor name="BL" port="0"/>
+            <goBILDA5202SeriesMotor name="FL" port="1"/>
+
+            <goBILDA5202SeriesMotor name="liftLeft" port="2"/>
+
+            <Servo name="leftIntakePivot" port="0"/>
+            <Servo name="leftDepositPivot" port="1"/>
+            <Servo name="intakeClaw" port="2"/>
+
+            <ControlHubImuBHI260AP name="imu" port="0" bus="0"/>
+            <SparkFunOTOS2 name="sensor_otos" port="0" bus="1"/>
+
+        </LynxModule>
+    </LynxUsbDevice>
+    
+    <LynxUsbDevice name="Expansion Hub Portal 1" serialNumber="DQ81DA4Y" parentModuleAddress="2">
+        <LynxModule name="Expansion Hub 2" port="2">
+
+            <goBILDA5202SeriesMotor name="BR" port="0"/>
+            <goBILDA5202SeriesMotor name="FR" port="1"/>
+
+            <goBILDA5202SeriesMotor name="liftRight" port="2"/>
+            <goBILDA5202SeriesMotor name="extension" port="3"/>
+
+            <Servo name="rightIntakePivot" port="0"/>
+            <Servo name="rightDepositPivot" port="1"/>
+            <Servo name="depositClaw" port="2"/>
+
+        </LynxModule>
+    </LynxUsbDevice>
+</Robot>

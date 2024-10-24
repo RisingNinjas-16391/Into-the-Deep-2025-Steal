@@ -97,7 +97,7 @@ public class Robot {
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        
+
         leftIntakePivot = new SolversServo(hardwareMap.get(PhotonServo.class, "leftIntakePivot"), 0.0);
         rightIntakePivot = new SolversServo(hardwareMap.get(PhotonServo.class, "rightIntakePivot"), 0.0);
         leftDepositPivot = new SolversServo(hardwareMap.get(PhotonServo.class, "leftDepositPivot"), 0.0);
