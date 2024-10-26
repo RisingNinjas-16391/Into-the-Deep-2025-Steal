@@ -14,7 +14,8 @@ public class Intake extends SubsystemBase {
     // Between retracted and extended
     public boolean extendoRetracted;
     // Between transfer and intake position
-    public boolean trayTransfer;
+    public int wristIndex = 3;
+    public boolean wristTransfer;
     public enum IntakeState {
         INTAKE,
         TRANSFER
@@ -55,6 +56,23 @@ public class Intake extends SubsystemBase {
 
     public void setWrist(double target) {
         robot.wrist.setPosition(target);
+    }
+
+    //    public void setArmTransfer(boolean armTransfer) {
+//        robot.claw.setPosition(armTransfer ? ARM_TRANSFER_POS : ARM_BACKDROP_POS);
+//        robot.leftArm.setPosition(armTransfer ? -ARM_TRANSFER_POS + 1 : -ARM_BACKDROP_POS + 1);
+//        this.armTransfer = armTransfer;
+//    }
+
+    // Be careful with these 2 methods to make sure armState is at the relevant state/position
+    public void moveWrist() {
+        robot.wrist.setPosition(WRIST_POSITIONS[Math.max(Math.min(wristIndex, 5), 0)]);
+        wristTransfer = false;
+    }
+
+    public void setWristTransfer() {
+        robot.wrist.setPosition(WRIST_TRANSFER_POS);
+        wristTransfer = true;
     }
 
     public void setExtendoTarget(double target) {

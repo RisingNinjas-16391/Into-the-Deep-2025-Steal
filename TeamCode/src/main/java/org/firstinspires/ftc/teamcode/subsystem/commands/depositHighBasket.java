@@ -16,7 +16,7 @@ public class depositHighBasket extends CommandBase {
 
     @Override
     public void initialize() {
-        deposit.setSlideTarget(BACKDROP_INCREMENTAL_HEIGHT);
+        deposit.setSlideTarget(HIGH_BUCKET_HEIGHT);
         deposit.openClaw();
         deposit.wristIndex = 3;
         deposit.moveWrist();

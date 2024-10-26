@@ -121,7 +121,7 @@ public class Robot {
         otos.setOffset(PARAMS.offset);
 
         // Bulk reading enabled!
-        // AUTO mode will bulk read by default and will redo and clear cache once the exact same read is done again
+        // AUTO mode will xbulk read by default and will redo and clear cache once the exact same read is done again
         // MANUAL mode will bulk read once per loop but needs to be manually cleared
         // Also in opModes only clear ControlHub cache as it is a hardware write
         allHubs = hardwareMap.getAll(LynxModule.class);
