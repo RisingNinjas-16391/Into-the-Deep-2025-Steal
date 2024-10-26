@@ -11,14 +11,12 @@ import static org.firstinspires.ftc.teamcode.tuning.example.ExampleConstants.CEN
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.tuning.example.ExampleRobot;
 
-@Photon
 @Config
 @TeleOp
 public class depositClawTester extends OpMode {

@@ -5,7 +5,6 @@ import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -13,7 +12,6 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositHighBasket;
 import org.firstinspires.ftc.teamcode.subsystem.commands.transfer;
 
-@Photon
 @TeleOp
 public class FullTeleOp extends CommandOpMode {
     public GamepadEx driver;

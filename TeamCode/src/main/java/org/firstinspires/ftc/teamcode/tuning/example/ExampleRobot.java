@@ -1,28 +1,24 @@
 package org.firstinspires.ftc.teamcode.tuning.example;
 
-
-import com.outoftheboxrobotics.photoncore.Photon;
-import com.outoftheboxrobotics.photoncore.hardware.motor.PhotonDcMotor;
-import com.outoftheboxrobotics.photoncore.hardware.servo.PhotonServo;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
-import org.firstinspires.ftc.teamcode.hardware.caching.SolversMotor;
+import org.firstinspires.ftc.teamcode.hardware.caching.SolversDcMotorEx;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
 
 import java.util.List;
 
-@Photon
 public class ExampleRobot {
     public SolversServo leftServo;
     public SolversServo rightServo;
     public SolversServo centerServo;
-    public SolversMotor centerMotor;
-    public SolversMotor leftMotor;
-    public SolversMotor rightMotor;
+    public SolversDcMotorEx centerMotor;
+    public SolversDcMotorEx leftMotor;
+    public SolversDcMotorEx rightMotor;
 
 
     private static ExampleRobot instance = null;
@@ -41,15 +37,15 @@ public class ExampleRobot {
 
     // Make sure to run this after instance has been enabled/made
     public void init(HardwareMap hardwareMap) { // CONFIG: robotTester
-        centerServo = new SolversServo(hardwareMap.get(PhotonServo.class, "centerServo"), 0.0); // Servo Slot 0 on Control Hub
-        leftServo = new SolversServo(hardwareMap.get(PhotonServo.class, "leftServo"), 0.0); // Servo Slot 1 on Control Hub
-        rightServo = new SolversServo(hardwareMap.get(PhotonServo.class, "rightServo"), 0.0); // Servo Slot 2 on Control Hub
+        centerServo = new SolversServo(hardwareMap.get(Servo.class, "centerServo"), 0.0); // Servo Slot 0 on Control Hub
+        leftServo = new SolversServo(hardwareMap.get(Servo.class, "leftServo"), 0.0); // Servo Slot 1 on Control Hub
+        rightServo = new SolversServo(hardwareMap.get(Servo.class, "rightServo"), 0.0); // Servo Slot 2 on Control Hub
 
         leftServo.setDirection(Servo.Direction.REVERSE);
 
-        centerMotor = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "centerMotor"), 0.01); // Motor Slot 0 on Control Hub
-        leftMotor = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "leftMotor"), 0.01); // Motor Slot 1 on Control Hub
-        rightMotor = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "rightMotor"), 0.01); // Motor Slot 2 on Control Hub
+        centerMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "centerMotor"), 0.01); // Motor Slot 0 on Control Hub
+        leftMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "leftMotor"), 0.01); // Motor Slot 1 on Control Hub
+        rightMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "rightMotor"), 0.01); // Motor Slot 2 on Control Hub
 
         centerMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 

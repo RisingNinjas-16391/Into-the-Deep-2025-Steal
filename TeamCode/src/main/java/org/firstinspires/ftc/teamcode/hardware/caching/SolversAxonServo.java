@@ -4,9 +4,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.norm
 
 import androidx.annotation.NonNull;
 
-import com.outoftheboxrobotics.photoncore.Photon;
-import com.outoftheboxrobotics.photoncore.hardware.servo.PhotonCRServo;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoControllerEx;
@@ -19,16 +18,15 @@ import com.qualcomm.robotcore.util.Range;
  * Credit to 22105 Runtime Terror for majority of the class
  */
 
-@Photon
 public class SolversAxonServo {
     private double offset = 0;
     private double lastPower = 0;
     private AnalogInput servoEncoder = null;
-    private final PhotonCRServo crservo;
+    private final CRServo crservo;
 
     private double powerThreshold = 0;
 
-    public SolversAxonServo(@NonNull PhotonCRServo crservo, double powerThreshold) {
+    public SolversAxonServo(@NonNull CRServo crservo, double powerThreshold) {
         this.crservo = crservo;
         this.powerThreshold = powerThreshold;
         this.lastPower = crservo.getPower();

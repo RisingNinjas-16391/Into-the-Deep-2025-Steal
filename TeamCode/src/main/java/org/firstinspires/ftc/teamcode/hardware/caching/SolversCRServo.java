@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware.caching;
 
-import com.outoftheboxrobotics.photoncore.hardware.servo.PhotonCRServo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.ServoControllerEx;
@@ -12,11 +12,11 @@ import com.qualcomm.robotcore.hardware.ServoControllerEx;
 
 public class SolversCRServo {
     private double lastPower = 0;
-    private final PhotonCRServo crservo;
+    private final CRServo crservo;
 
     private double powerThreshold = 0.0;
 
-    public SolversCRServo(PhotonCRServo crservo, double powerThreshold) {
+    public SolversCRServo(CRServo crservo, double powerThreshold) {
         this.crservo = crservo;
         this.powerThreshold = powerThreshold;
     }

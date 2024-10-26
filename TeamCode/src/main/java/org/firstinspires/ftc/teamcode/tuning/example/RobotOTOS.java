@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.tuning.example;
 import static org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive.PARAMS;
 
 import com.acmerobotics.roadrunner.ftc.SparkFunOTOSCorrected;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -15,16 +14,8 @@ import org.firstinspires.ftc.teamcode.hardware.Globals;
 
 import java.util.List;
 
-@Photon
 public class RobotOTOS {
-//    public SolversServo leftServo;
-//    public SolversServo rightServo;
-//    public SolversServo centerServo;
-//    public SolversMotor centerMotor;
-//    public SolversMotor leftMotor;
-//    public SolversMotor rightMotor;
     public SparkFunOTOS otos;
-
 
     private static RobotOTOS instance = null;
     public boolean enabled;
@@ -41,21 +32,7 @@ public class RobotOTOS {
     public LynxModule ControlHub;
 
     // Make sure to run this after instance has been enabled/made
-    public void init(HardwareMap hardwareMap) { // CONFIG: robotTester
-//        leftServo = new SolversServo(hardwareMap.get(PhotonServo.class, "leftServo"), 0.0); // Servo Slot 4 on Control Hub
-//        rightServo = new SolversServo(hardwareMap.get(PhotonServo.class, "rightServo"), 0.0); // Servo Slot 5 on Control Hub
-//        centerServo = new SolversServo(hardwareMap.get(PhotonServo.class, "centerServo"), 0.0); // Servo Slot 0 on Control Hub
-//
-//        leftServo.setDirection(Servo.Direction.REVERSE);
-//
-//        centerMotor = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "centerMotor"), 0.01); // Motor Slot 0 on Control Hub
-//
-//        leftMotor = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "leftMotor"), 0.01); // Motor Slot 2 on Control Hub
-//
-//        rightMotor = new SolversMotor(hardwareMap.get(PhotonDcMotor.class, "rightMotor"), 0.01); // Motor Slot 3 on Control Hub
-//
-//        centerMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
+    public void init(HardwareMap hardwareMap) {
         otos = hardwareMap.get(SparkFunOTOSCorrected.class,"sensor_otos");
 
         otos.setLinearUnit(DistanceUnit.INCH);

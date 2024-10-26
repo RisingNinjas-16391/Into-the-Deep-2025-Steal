@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.hardware.caching;
 
 import static org.firstinspires.ftc.teamcode.hardware.System.round;
 
-import com.outoftheboxrobotics.photoncore.hardware.servo.PhotonServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -13,11 +12,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class SolversServo {
     // Set to 2 at the start so that any pos will update it
     private double lastPos = 2;
-    private final PhotonServo servo;
+    private final Servo servo;
 
     private double posThreshold = 0.0;
 
-    public SolversServo(PhotonServo servo, double posThreshold) {
+    public SolversServo(Servo servo, double posThreshold) {
         this.servo = servo;
         this.posThreshold = posThreshold;
     }

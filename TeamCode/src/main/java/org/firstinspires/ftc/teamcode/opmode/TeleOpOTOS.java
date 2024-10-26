@@ -11,7 +11,6 @@ import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -20,7 +19,6 @@ import org.firstinspires.ftc.teamcode.roadrunner.Drawing;
 import org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive;
 import org.firstinspires.ftc.teamcode.tuning.example.RobotOTOS;
 
-@Photon
 @TeleOp
 public class TeleOpOTOS extends CommandOpMode {
     public GamepadEx driver;
