@@ -40,15 +40,6 @@ public class MeepMeepTesting {
                 .waitSeconds(1.0)
                 .setReversed(false)
                 .strafeToConstantHeading(new Vector2d(-26.2, -15))
-
-
-
-
-
-
-
-
-
                 .build());
 
         RoadRunnerBotEntity myBot2 = new DefaultBotBuilder(meepMeep)
@@ -79,7 +70,24 @@ public class MeepMeepTesting {
 
 
                 .build());
-        
+
+
+
+        new TrajectoryBuilder(
+                new Pose2d(8, -61.75, Math.toRadians(90)),
+                1e-6,
+                0,
+                60, 60,
+                0.5,
+                                                                                                                                                                                                                                                                                                                                Math.toRadians(1),
+                pose -> new Pose2dDual<>(
+                        pose.position.x(),
+                        pose.position.y.unaryMinus(),
+                        pose.position.inverse()
+                )
+
+        ) ;
+
 
 
 
