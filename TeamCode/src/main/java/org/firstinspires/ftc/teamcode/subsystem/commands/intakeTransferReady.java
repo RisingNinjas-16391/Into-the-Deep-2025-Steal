@@ -17,7 +17,7 @@ public class intakeTransferReady extends CommandBase {
         Intake.intakeState = Intake.IntakeState.TRANSFER;
         intake.closeClaw();
         intake.setWrist(WRIST_TRANSFER_POS);
-        intake.setPivotServo(PIVOT_TRANSFER_POS);
+        intake.setPivotServo(INTAKE_PIVOT_TRANSFER_POS);
         intake.setExtendoTarget(0);
     }
 
