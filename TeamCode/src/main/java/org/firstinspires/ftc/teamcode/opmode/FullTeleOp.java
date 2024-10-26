@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.subsystem.commands.depositHighBasket;
+import org.firstinspires.ftc.teamcode.subsystem.commands.setDeposit;
 import org.firstinspires.ftc.teamcode.subsystem.commands.transfer;
 
 @TeleOp
@@ -114,23 +114,10 @@ public class FullTeleOp extends CommandOpMode {
 
         // Operator buttons
         if (operator.wasJustPressed(GamepadKeys.Button.A)) {
-            new depositHighBasket(robot.deposit);
+            new setDeposit(robot.deposit, HIGH_BUCKET_HEIGHT);
         } else if (operator.wasJustPressed(GamepadKeys.Button.B)) {
             robot.deposit.setSlideTarget(0);
         }
-
-        if ((operator.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0) && buttonTimer.milliseconds() >= 200) {
-            robot.deposit.wristIndex -= 1;
-            robot.deposit.moveWrist();
-            buttonTimer.reset();
-
-        } else if ((operator.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0) && buttonTimer.milliseconds() >= 200) {
-            robot.deposit.wristIndex += 1;
-            robot.deposit.moveWrist();
-            buttonTimer.reset();
-        }
-
-
 
         if (operator.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
             robot.deposit.openClaw();

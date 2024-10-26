@@ -53,9 +53,7 @@ public class Globals {
     // By default for values that control opposite running hardware, the right value of the hardware is used
     // e.g. for ARM_TRANSFER_POS, it should correspond with the real position of the servo at the transfer
 
-    // Deposit
-    public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.0;
-    public static double DEPOSIT_PIVOT_SCORING_POS = 1.0;
+    // TODO: TUNE
 
     // Intake
     public static double WRIST_TRANSFER_POS = 0;
@@ -64,23 +62,29 @@ public class Globals {
     public static double INTAKE_PIVOT_HOLD_POS = 0;
     public static double INTAKE_PIVOT_PICKUP_POS = 0;
 
-    // 4th item or 3rd with 0-index is always the default (middle horizontal)
-
-    public static double[] WRIST_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08}; // TODO: TUNE
+    public static double[] WRIST_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08}; // TODO: TUNE. Note that 4th item or 3rd with 0-index is always the default (middle horizontal)
     public static double INTAKE_CLAW_OPEN_POS = 0.07;
     public static double INTAKE_CLAW_CLOSE_POS = 0.18;
 
+    // Deposit
+    public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.0;
+    public static double DEPOSIT_PIVOT_SCORING_POS = 1.0;
     public static double DEPOSIT_CLAW_OPEN_POS = 0.53;
     public static double DEPOSIT_CLAW_CLOSE_POS = 0.4;
 
     // TODO: TUNE ALL OF THESE
-    // Extendo + Slides
+    // Extendo
     public static double MAX_EXTENDO_EXTENSION = 10000; // Encoder ticks
-    // Encoder ticks for max extension on scoring slides
+    public static double AUTON_EXTENDO_EXTENSION; // Encoder ticks
+
+    // Slides
     public static double MAX_SLIDES_EXTENSION = 10000; // Encoder ticks
-    // Encoder ticks for first pixel row height
+    public static double TRANSFER_SLIDES_EXTENSION = 10000; // Encoder ticks
+    public static double SCORING_SLIDES_EXTENSION = 10000; // Encoder ticks
+
     public static double LOW_BUCKET_HEIGHT = 0; // Encoder ticks
     public static double HIGH_BUCKET_HEIGHT = 0; // Encoder ticks
+
     public static double LOW_SPECIMEN_HEIGHT = 0; // Encoder ticks
     public static double HIGH_SPECIMEN_HEIGHT = 0; // Encoder ticks
     public static double AUTO_HANG_HEIGHT = 0; // Encoder ticks

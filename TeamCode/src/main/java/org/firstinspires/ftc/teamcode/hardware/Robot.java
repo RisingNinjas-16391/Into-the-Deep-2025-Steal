@@ -107,6 +107,7 @@ public class Robot {
         wrist = new SolversServo(hardwareMap.get(Servo.class, "wrist"), 0.0);
 
         leftIntakePivot.setDirection(Servo.Direction.REVERSE);
+        leftDepositPivot.setDirection(Servo.Direction.REVERSE);
 
         liftEncoder = new MotorEx(hardwareMap, "liftRight").encoder;
         extensionEncoder = new MotorEx(hardwareMap, "extension").encoder;

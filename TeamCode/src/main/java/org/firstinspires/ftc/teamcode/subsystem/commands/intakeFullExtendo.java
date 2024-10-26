@@ -20,7 +20,7 @@ public class intakeFullExtendo extends CommandBase {
         intakeState = Intake.IntakeState.INTAKE;
         intake.openClaw();
         intake.setWrist(WRIST_INTAKE_POS);
-        intake.setPivotServo(PIVOT_INTAKE_POS);
+//        intake.setPivotServo(PIVOT_INTAKE_POS);
         intake.setExtendoTarget(MAX_EXTENDO_EXTENSION);
     }
 

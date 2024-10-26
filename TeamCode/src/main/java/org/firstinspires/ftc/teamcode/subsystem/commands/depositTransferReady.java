@@ -18,8 +18,6 @@ public class depositTransferReady extends CommandBase {
     public void initialize() {
         deposit.setSlideTarget(0);
         deposit.openClaw();
-        deposit.setWristTransfer();
-//        deposit.setArmTransfer(true);
         timer.reset();
     }
 

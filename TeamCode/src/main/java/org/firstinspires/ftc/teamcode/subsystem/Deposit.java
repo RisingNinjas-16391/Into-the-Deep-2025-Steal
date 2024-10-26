@@ -29,11 +29,11 @@ public class Deposit extends SubsystemBase {
     }
 
     public void initAuto() {
-        openClaw();
+        closeClaw();
     }
 
     public void initTeleOp() {
-        openClaw();
+
     }
 
     public void setSlideTarget(double target) {
@@ -56,24 +56,18 @@ public class Deposit extends SubsystemBase {
     }
 
     public void openClaw() {
-        robot.intakeClaw.setPosition(INTAKE_CLAW_OPEN_POS);
+        robot.depositClaw.setPosition(DEPOSIT_CLAW_OPEN_POS);
         this.clawOpen = true;
     }
 
     public void closeClaw() {
-        robot.intakeClaw.setPosition(INTAKE_CLAW_CLOSE_POS);
+        robot.depositClaw.setPosition(DEPOSIT_CLAW_CLOSE_POS);
         this.clawOpen = false;
     }
 
-    public void toggleClaw() {
-        if (this.clawOpen) {
-            robot.intakeClaw.setPosition(INTAKE_CLAW_CLOSE_POS);
-            this.clawOpen = false;
-        }
-        else {
-            robot.intakeClaw.setPosition(INTAKE_CLAW_OPEN_POS);
-            this.clawOpen = true;
-        }
+    public void pivotTransferPos() {
+        robot.leftDepositPivot.setPosition(DEPOSIT_PIVOT_TRANSFER_POS);
+        robot.rightDepositPivot.setPosition(DEPOSIT_PIVOT_TRANSFER_POS);
     }
 
     @Override

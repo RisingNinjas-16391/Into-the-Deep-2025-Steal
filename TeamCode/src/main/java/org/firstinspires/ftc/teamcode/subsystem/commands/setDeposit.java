@@ -1,26 +1,24 @@
 package org.firstinspires.ftc.teamcode.subsystem.commands;
 
-import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
-
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 
-public class depositHighBasket extends CommandBase {
+public class setDeposit extends CommandBase {
     Deposit deposit;
+    double target;
 
-    public depositHighBasket(Deposit deposit) {
+    public setDeposit(Deposit deposit, double target) {
         this.deposit = deposit;
+        this.target = target;
         addRequirements(deposit);
     }
 
     @Override
     public void initialize() {
-        deposit.setSlideTarget(HIGH_BUCKET_HEIGHT);
+        deposit.setSlideTarget(target);
+        deposit.pivotTransferPos();
         deposit.openClaw();
-        deposit.wristIndex = 3;
-        deposit.moveWrist();
-//        deposit.setArmTransfer(false);
     }
 
     @Override
