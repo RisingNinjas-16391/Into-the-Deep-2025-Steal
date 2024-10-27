@@ -61,6 +61,7 @@ public class Globals {
     public static double INTAKE_PIVOT_TRANSFER_POS = 0;
     public static double INTAKE_PIVOT_HOLD_POS = 0;
     public static double INTAKE_PIVOT_PICKUP_POS = 0;
+    public static double INTAKE_PIVOT_READY_PICKUP_POS = 0;
 
     public static double[] WRIST_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08}; // TODO: TUNE. Note that 4th item or 3rd with 0-index is always the default (middle horizontal)
     public static double INTAKE_CLAW_OPEN_POS = 0.07;
@@ -79,14 +80,15 @@ public class Globals {
 
     // Slides
     public static double MAX_SLIDES_EXTENSION = 10000; // Encoder ticks
-    public static double TRANSFER_SLIDES_EXTENSION = 10000; // Encoder ticks
-    public static double SCORING_SLIDES_EXTENSION = 10000; // Encoder ticks
+    public static double SLIDES_PIVOT_READY_EXTENSION = 10000; // Encoder ticks
 
-    public static double LOW_BUCKET_HEIGHT = 0; // Encoder ticks
-    public static double HIGH_BUCKET_HEIGHT = 0; // Encoder ticks
+    public static double LOW_BUCKET_HEIGHT = 775; // Encoder ticks
+    public static double HIGH_BUCKET_HEIGHT = 1500; // Encoder ticks
 
-    public static double LOW_SPECIMEN_HEIGHT = 0; // Encoder ticks
-    public static double HIGH_SPECIMEN_HEIGHT = 0; // Encoder ticks
+//    public static double LOW_SPECIMEN_HEIGHT = 0; // Encoder ticks
+//    public static double LOW_SPECIMEN_ATTACH_HEIGHT = 0; // Encoder ticks
+    public static double HIGH_SPECIMEN_HEIGHT = 580; // Encoder ticks
+    public static double HIGH_SPECIMEN_ATTACH_HEIGHT = 400; // Encoder ticks
     public static double AUTO_HANG_HEIGHT = 0; // Encoder ticks
     public static double ENDGAME_HANG_HEIGHT = 0; // Encoder ticks
 }

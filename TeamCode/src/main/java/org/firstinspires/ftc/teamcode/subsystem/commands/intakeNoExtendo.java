@@ -18,9 +18,9 @@ public class intakeNoExtendo extends CommandBase {
     @Override
     public void initialize() {
         intakeState = Intake.IntakeState.INTAKE;
-        intake.openClaw();
         intake.setWrist(WRIST_INTAKE_POS);
-//        intake.setPivotServo(PIVOT_INTAKE_POS);
+        intake.openClaw();
+        intake.setPivotServo(INTAKE_PIVOT_READY_PICKUP_POS);
         intake.setExtendoTarget(0);
     }
 

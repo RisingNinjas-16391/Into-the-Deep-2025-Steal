@@ -10,27 +10,23 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.tuning.example.ExampleRobot;
 
 @Config
 @TeleOp
 public class depositPIDF extends OpMode {
 
-    // D, 0.0007
-    // F, 0.00085
-    // I, 0
-    // maxPowerConstant, 0.5
-    // P, 0.024
 
-    public static double p = 0.00;
+    public static double p = 0.009;
     public static double i = 0;
-    public static double d = 0.000;
-    public static double f = 0.000;
+    public static double d = 0.00017;
+    public static double f = 0.00016;
 
     public static int setPoint = 0;
-    public static double maxPowerConstant = 1.0;
+    public static double maxPowerConstant = 0.8;
 
     private static final PIDFController slidePIDF = new PIDFController(p,i,d, f);
-    private final Robot robot = Robot.getInstance();
+    private final ExampleRobot robot = ExampleRobot.getInstance();
 
     public ElapsedTime timer = new ElapsedTime();
 
@@ -42,7 +38,7 @@ public class depositPIDF extends OpMode {
         robot.init(hardwareMap);
         slidePIDF.setTolerance(5, 10);
 
-        robot.liftEncoder.reset();
+        robot.encoder.reset();
 
         telemetry.addData("encoder position", motorPos);
         telemetry.addData("setPoint", setPoint);
@@ -53,7 +49,7 @@ public class depositPIDF extends OpMode {
     public void loop() {
         timer.reset();
 
-        motorPos = robot.liftEncoder.getPosition();
+        motorPos = robot.encoder.getPosition();
 
         slidePIDF.setP(p);
         slidePIDF.setI(i);
@@ -65,8 +61,8 @@ public class depositPIDF extends OpMode {
         double maxPower = (f * motorPos) + maxPowerConstant;
         double power = Range.clip(slidePIDF.calculate(motorPos, setPoint), -maxPower, maxPower);
 
-        robot.liftLeft.setPower(power);
-        robot.liftRight.setPower(power);
+        robot.liftBottom.setPower(power);
+        robot.liftTop.setPower(power);
 
         robot.ControlHub.clearBulkCache();
 

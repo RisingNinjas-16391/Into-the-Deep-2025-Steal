@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.tuning.example;
 
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -20,6 +22,10 @@ public class ExampleRobot {
     public SolversDcMotorEx leftMotor;
     public SolversDcMotorEx rightMotor;
 
+    public SolversDcMotorEx liftBottom;
+    public SolversDcMotorEx liftTop;
+    public Motor.Encoder encoder;
+
 
     private static ExampleRobot instance = null;
     public boolean enabled;
@@ -37,17 +43,22 @@ public class ExampleRobot {
 
     // Make sure to run this after instance has been enabled/made
     public void init(HardwareMap hardwareMap) { // CONFIG: robotTester
-        centerServo = new SolversServo(hardwareMap.get(Servo.class, "centerServo"), 0.0); // Servo Slot 0 on Control Hub
-        leftServo = new SolversServo(hardwareMap.get(Servo.class, "leftServo"), 0.0); // Servo Slot 1 on Control Hub
-        rightServo = new SolversServo(hardwareMap.get(Servo.class, "rightServo"), 0.0); // Servo Slot 2 on Control Hub
+//        centerServo = new SolversServo(hardwareMap.get(Servo.class, "centerServo"), 0.0); // Servo Slot 0 on Control Hub
+//        leftServo = new SolversServo(hardwareMap.get(Servo.class, "leftServo"), 0.0); // Servo Slot 1 on Control Hub
+//        rightServo = new SolversServo(hardwareMap.get(Servo.class, "rightServo"), 0.0); // Servo Slot 2 on Control Hub
+//
+//        leftServo.setDirection(Servo.Direction.REVERSE);
+//
+//        centerMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "centerMotor"), 0.01); // Motor Slot 0 on Control Hub
+//        leftMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "leftMotor"), 0.01); // Motor Slot 1 on Control Hub
+//        rightMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "rightMotor"), 0.01); // Motor Slot 2 on Control Hub
 
-        leftServo.setDirection(Servo.Direction.REVERSE);
+        liftBottom = new SolversDcMotorEx((hardwareMap.get(DcMotorEx.class, "liftBottom")), 0.01);
+        liftTop = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "liftTop"), 0.01);
+        encoder = new MotorEx(hardwareMap, "liftTop").encoder;
 
-        centerMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "centerMotor"), 0.01); // Motor Slot 0 on Control Hub
-        leftMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "leftMotor"), 0.01); // Motor Slot 1 on Control Hub
-        rightMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "rightMotor"), 0.01); // Motor Slot 2 on Control Hub
-
-        centerMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftTop.setDirection(DcMotorSimple.Direction.REVERSE);
+//        encoder.setDirection(MotorEx.Direction.REVERSE);
 
         // Bulk reading enabled!
         // AUTO mode will bulk read by default and will redo and clear cache once the exact same read is done again

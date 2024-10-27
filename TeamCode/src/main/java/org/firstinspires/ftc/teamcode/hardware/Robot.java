@@ -26,8 +26,8 @@ import java.lang.System;
 import java.util.List;
 
 public class Robot {
-    public SolversDcMotorEx liftLeft;
-    public SolversDcMotorEx liftRight;
+    public SolversDcMotorEx liftBottom;
+    public SolversDcMotorEx liftTop;
     public SolversDcMotorEx extension;
 
     public SolversDcMotorEx frontLeftMotor;
@@ -71,8 +71,8 @@ public class Robot {
 
     // Make sure to run this after instance has been enabled/made
     public void init(HardwareMap hardwareMap) {
-        liftLeft = new SolversDcMotorEx((hardwareMap.get(DcMotorEx.class, "liftLeft")), 0.01);
-        liftRight = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "liftRight"), 0.01);
+        liftBottom = new SolversDcMotorEx((hardwareMap.get(DcMotorEx.class, "liftBottom")), 0.01);
+        liftTop = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "liftTop"), 0.01);
         extension = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "extension"), 0.01);
 
         frontLeftMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "FL"), 0.01);
@@ -84,8 +84,8 @@ public class Robot {
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftBottom.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftTop.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -94,7 +94,7 @@ public class Robot {
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -109,8 +109,11 @@ public class Robot {
         leftIntakePivot.setDirection(Servo.Direction.REVERSE);
         leftDepositPivot.setDirection(Servo.Direction.REVERSE);
 
-        liftEncoder = new MotorEx(hardwareMap, "liftRight").encoder;
+        liftEncoder = new MotorEx(hardwareMap, "liftTop").encoder;
         extensionEncoder = new MotorEx(hardwareMap, "extension").encoder;
+
+        liftEncoder.setDirection(MotorEx.Direction.REVERSE);
+        // TODO: Check if extensionEncoder needs to be reversed
 
         colorSensor = (RevColorSensorV3) hardwareMap.colorSensor.get("colorSensor");
 

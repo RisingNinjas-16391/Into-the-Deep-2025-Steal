@@ -14,7 +14,7 @@ public class intakeTransferReady extends CommandBase {
 
     @Override
     public void initialize() {
-        Intake.intakeState = Intake.IntakeState.TRANSFER;
+//        Intake.intakeState = Intake.IntakeState.FULL_TRANSFER;
         intake.closeClaw();
         intake.setWrist(WRIST_TRANSFER_POS);
         intake.setPivotServo(INTAKE_PIVOT_TRANSFER_POS);

@@ -18,6 +18,8 @@ public class Intake extends SubsystemBase {
     public boolean wristTransfer;
     public enum IntakeState {
         INTAKE,
+        FULL_EXTENSION,
+        HALF_EXTENSION,
         TRANSFER
     }
 

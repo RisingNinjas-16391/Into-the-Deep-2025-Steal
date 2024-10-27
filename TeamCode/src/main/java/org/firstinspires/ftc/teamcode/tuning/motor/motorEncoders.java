@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.tuning.motor;
 
-import static org.firstinspires.ftc.teamcode.hardware.Globals.driveMode;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.opModeType;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -12,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Globals;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.tuning.example.ExampleRobot;
 
 @Config
 @TeleOp
@@ -22,7 +22,7 @@ public class motorEncoders extends OpMode {
     public static boolean RESET_PARALLEL_ENCODER = false;
     public static boolean RESET_PERPENDICULAR_ENCODER = false;
 
-    private final Robot robot = Robot.getInstance();
+    private final ExampleRobot robot = ExampleRobot.getInstance();
     public ElapsedTime timer = new ElapsedTime();
 
     @Override
@@ -34,8 +34,8 @@ public class motorEncoders extends OpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         robot.init(hardwareMap);
 
-        telemetry.addData("liftEncoder", robot.liftEncoder.getPosition());
-        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
+        telemetry.addData("liftEncoder", robot.encoder.getPosition());
+//        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
     }
 
     @Override
@@ -43,14 +43,14 @@ public class motorEncoders extends OpMode {
         timer.reset();
 
         if (RESET_ALL_ENCODERS) {
-            robot.liftEncoder.reset();
-            robot.extensionEncoder.reset();
+            robot.encoder.reset();
+//            robot.extensionEncoder.reset();
         }
 
         robot.ControlHub.clearBulkCache();
 
-        telemetry.addData("liftEncoder", robot.liftEncoder.getPosition());
-        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
+        telemetry.addData("liftEncoder", robot.encoder.getPosition());
+//        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
 
         telemetry.addData("loop time (ms)", timer.milliseconds());
 

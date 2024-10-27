@@ -13,9 +13,6 @@ public class Deposit extends SubsystemBase {
 
     private double target;
 
-    // Between transfer and backdrop position
-    public boolean armTransfer;
-
     // Between retracted and extended
     public boolean slidesRetracted;
 
@@ -43,8 +40,8 @@ public class Deposit extends SubsystemBase {
 
     public void autoSetSlidePower() {
         double power = slidePIDF.calculate(robot.liftEncoder.getPosition(), target);
-        robot.liftRight.setPower(power);
-        robot.liftLeft.setPower(power);
+        robot.liftTop.setPower(power);
+        robot.liftBottom.setPower(power);
 
         // Slides are only retracted once stopped and at a target of 0
         slidesRetracted = ((target <= 0)) && (this.reached());

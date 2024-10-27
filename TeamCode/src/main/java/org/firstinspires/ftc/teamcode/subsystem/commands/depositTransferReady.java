@@ -16,7 +16,8 @@ public class depositTransferReady extends CommandBase {
 
     @Override
     public void initialize() {
-        deposit.setSlideTarget(0);
+//        deposit.
+//        deposit.setSlideTarget(0);
         deposit.openClaw();
         timer.reset();
     }
