@@ -21,8 +21,10 @@
     <LynxUsbDevice name="Expansion Hub Portal 1" serialNumber="DQ81DA4Y" parentModuleAddress="2">
         <LynxModule name="Expansion Hub 2" port="2">
 
-<!--            <goBILDA5202SeriesMotor name="BR" port="0"/>-->
-<!--            <goBILDA5202SeriesMotor name="FR" port="1"/>-->
+            <goBILDA5202SeriesMotor name="FR" port="0"/>
+            <goBILDA5202SeriesMotor name="BR" port="1"/>
+            <goBILDA5202SeriesMotor name="BL" port="2"/>
+            <goBILDA5202SeriesMotor name="FL" port="3"/>
 
             <Servo name="rightDepositPivot" port="1"/>
             <Servo name="leftDepositPivot" port="3"/>
