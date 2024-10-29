@@ -52,6 +52,11 @@ public class Intake extends SubsystemBase {
         return (extendoPIDF.atSetPoint());
     }
 
+    public void stopSlide() {
+        robot.liftTop.setPower(0);
+        robot.liftBottom.setPower(0);
+    }
+
     public void setPivotServo(double target) {
         robot.leftIntakePivot.setPosition(target);
         robot.rightIntakePivot.setPosition(target);

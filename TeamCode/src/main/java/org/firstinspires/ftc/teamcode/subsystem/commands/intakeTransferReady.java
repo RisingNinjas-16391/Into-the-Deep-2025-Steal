@@ -14,15 +14,20 @@ public class intakeTransferReady extends CommandBase {
 
     @Override
     public void initialize() {
-//        Intake.intakeState = Intake.IntakeState.FULL_TRANSFER;
         intake.closeClaw();
-        intake.setWrist(WRIST_TRANSFER_POS);
+        intake.setWristTransfer();
         intake.setPivotServo(INTAKE_PIVOT_TRANSFER_POS);
         intake.setExtendoTarget(0);
+        // intake.extendoRetracted will change the intake state automatically
     }
 
     @Override
     public boolean isFinished() {
         return (intake.extendoRetracted);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        intake.stopSlide();
     }
 }

@@ -28,4 +28,9 @@ public class intakeNoExtendo extends CommandBase {
     public boolean isFinished() {
         return (intake.extendoRetracted);
     }
+
+    @Override
+    public void end(boolean interrupted) {
+        intake.stopSlide();
+    }
 }

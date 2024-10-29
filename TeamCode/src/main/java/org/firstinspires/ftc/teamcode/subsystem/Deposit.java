@@ -52,6 +52,11 @@ public class Deposit extends SubsystemBase {
         slidePIDF.setSetPoint(target);
     }
 
+    public void stopSlide() {
+        robot.liftTop.setPower(0);
+        robot.liftBottom.setPower(0);
+    }
+
     public void autoSetSlidePower() {
         double power = slidePIDF.calculate(robot.liftEncoder.getPosition(), target);
         robot.liftTop.setPower(power);

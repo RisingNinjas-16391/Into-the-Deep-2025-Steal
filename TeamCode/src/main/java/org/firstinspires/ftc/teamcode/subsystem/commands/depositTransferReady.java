@@ -1,13 +1,15 @@
 package org.firstinspires.ftc.teamcode.subsystem.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
+import org.firstinspires.ftc.teamcode.subsystem.Intake;
+
+import static org.firstinspires.ftc.teamcode.subsystem.Deposit.*;
+import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 
 public class depositTransferReady extends CommandBase {
     Deposit deposit;
-    ElapsedTime timer = new ElapsedTime();
 
     public depositTransferReady(Deposit deposit) {
         this.deposit = deposit;
@@ -16,15 +18,21 @@ public class depositTransferReady extends CommandBase {
 
     @Override
     public void initialize() {
-//        deposit.
-//        deposit.setSlideTarget(0);
+        if (intakeState.equals(Intake.ExtendoState.FULL_EXTENSION) || intakeState.equals(Intake.ExtendoState.HALF_EXTENSION)) {
+            deposit.setSlideTarget(SLIDES_PIVOT_READY_EXTENSION);
+            deposit.pivotTransferPos();
+        }
+        deposit.setSlideTarget(0);
         deposit.openClaw();
-        timer.reset();
     }
 
     @Override
     public boolean isFinished() {
-        // Slides must be retracted and time must be given for servos to reach transfer position
-        return ((timer.milliseconds() > 2000) && (deposit.slidesRetracted));
+        return true;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        deposit.stopSlide();
     }
 }
