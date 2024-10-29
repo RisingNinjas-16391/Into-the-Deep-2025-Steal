@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 
 public class setDeposit extends CommandBase {
     Deposit deposit;
-    double target;
+    private double target;
 
     public setDeposit(Deposit deposit, double target) {
         this.deposit = deposit;

@@ -56,7 +56,7 @@ public class FullTeleOp extends CommandOpMode {
             gamepad1.rumble(500);
             gamepad2.rumble(500);
         }
-
+        robot.leftDepositPivot.getPosition();
         currentSample = robot.intake.sampleDetected();
 
         switch (currentSample) {

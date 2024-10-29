@@ -17,11 +17,12 @@ public class intakeFullExtendo extends CommandBase {
 
     @Override
     public void initialize() {
-        intake.setWrist(WRIST_INTAKE_POS);
+        intake.setWristIntake();
         intake.openClaw();
         intake.setPivotServo(INTAKE_PIVOT_READY_PICKUP_POS);
         intake.setExtendoTarget(MAX_EXTENDO_EXTENSION);
-    }
+        extendoState = ExtendoState.FULL_EXTENSION;
+}
 
     @Override
     public boolean isFinished() {

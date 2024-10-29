@@ -35,4 +35,8 @@ public class SolversServo {
     public double getPosition() {
         return round(lastPos, 2);
     }
+
+    public double getPosition(int places) {
+        return round(lastPos, places);
+    }
 }

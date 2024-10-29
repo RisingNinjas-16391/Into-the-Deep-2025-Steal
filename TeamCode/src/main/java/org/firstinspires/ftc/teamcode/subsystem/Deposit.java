@@ -19,6 +19,20 @@ public class Deposit extends SubsystemBase {
     // Between open and closed
     public boolean clawOpen;
 
+    public enum SlideState {
+        SCORING,
+        TRANSFER,
+        PIVOT_READY;
+        public enum DepositPivotState {
+            SCORING,
+            TRANSFER,
+            MIDDLE_HOLD
+        }
+    }
+
+    public static Intake.ExtendoState intakeState;
+    public static Intake.ExtendoState.IntakePivotState extendoPivotState;
+
     // Default will reset deposit to transfer position (unpowered claw servos depending on auto vs tele-op)
     public void init() {
         slidePIDF.setTolerance(10, 10);

@@ -81,7 +81,6 @@ public class Globals {
     // Slides
     public static double MAX_SLIDES_EXTENSION = 10000; // Encoder ticks
     public static double SLIDES_PIVOT_READY_EXTENSION = 10000; // Encoder ticks
-
     public static double LOW_BUCKET_HEIGHT = 775; // Encoder ticks
     public static double HIGH_BUCKET_HEIGHT = 1500; // Encoder ticks
 
