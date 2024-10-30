@@ -80,23 +80,23 @@ public class Robot {
         backLeftMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "BL"), 0.01);
         backRightMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "BR"), 0.01);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftBottom.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftTop.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        extension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontLeftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        frontRightMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        backLeftMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        backRightMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        liftBottom.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        liftTop.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        extension.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        extension.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        liftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftBottom.setDirection(DcMotorEx.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
         leftIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "leftIntakePivot"), 0.0);
         rightIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "rightIntakePivot"), 0.0);

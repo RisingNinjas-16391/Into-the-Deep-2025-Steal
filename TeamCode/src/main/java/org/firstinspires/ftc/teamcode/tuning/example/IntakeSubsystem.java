@@ -1,36 +1,41 @@
 package org.firstinspires.ftc.teamcode.tuning.example;
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
+import org.firstinspires.ftc.teamcode.hardware.caching.SolversDcMotor;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversDcMotorEx;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
+import org.firstinspires.ftc.teamcode.subsystem.Deposit;
+import org.firstinspires.ftc.teamcode.subsystem.Intake;
 
 import java.util.List;
 
-public class ExampleRobot {
-    public SolversServo leftServo;
+public class IntakeSubsystem {
+    public SolversServo leftIntakePivot;
     public SolversServo wrist;
-    public SolversServo rightServo;
+    public SolversServo rightIntakePivot;
+    public SolversDcMotor centerMotor;
     public SolversServo intakeClaw;
-    public SolversDcMotorEx centerMotor;
-    public SolversDcMotorEx leftMotor;
-    public SolversDcMotorEx rightMotor;
     public RevColorSensorV3 colorSensor;
-    public SolversDcMotorEx liftBottom;
-    public SolversDcMotorEx liftTop;
-    public Motor.Encoder encoder;
+    public Deposit deposit;
+    public Intake intake;
+    public Motor.Encoder liftEncoder;
 
-    private static ExampleRobot instance = null;
+    private static IntakeSubsystem instance = null;
     public boolean enabled;
 
-    public static ExampleRobot getInstance() {
+    public static IntakeSubsystem getInstance() {
         if (instance == null) {
-            instance = new ExampleRobot();
+            instance = new IntakeSubsystem();
         }
         instance.enabled = true;
         return instance;
@@ -42,16 +47,17 @@ public class ExampleRobot {
     // Make sure to run this after instance has been enabled/made
     public void init(HardwareMap hardwareMap) { // CONFIG: robotTester
         intakeClaw = new SolversServo(hardwareMap.get(Servo.class, "intakeClaw"), 0.0); // Servo Slot 0 on Control Hub
-        leftServo = new SolversServo(hardwareMap.get(Servo.class, "leftServo"), 0.0); // Servo Slot 1 on Control Hub
-        rightServo = new SolversServo(hardwareMap.get(Servo.class, "rightServo"), 0.0); // Servo Slot 2 on Control Hub
+        leftIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "leftServo"), 0.0); // Servo Slot 1 on Control Hub
+        rightIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "rightServo"), 0.0); // Servo Slot 2 on Control Hub
         wrist = new SolversServo(hardwareMap.get(Servo.class, "wrist"), 0.0); // Servo Slot 2 on Control Hub
         colorSensor = (RevColorSensorV3) hardwareMap.colorSensor.get("colorSensor");
-        leftServo.setDirection(Servo.Direction.REVERSE);
+        leftIntakePivot.setDirection(Servo.Direction.REVERSE);
 //
-//        centerMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "centerMotor"), 0.01); // Motor Slot 0 on Control Hub
+        centerMotor = new SolversDcMotor(hardwareMap.get(DcMotor.class, "centerMotor"), 0.01); // Motor Slot 0 on Control Hub
+        liftEncoder = new Motor(hardwareMap, "centerMotor").encoder;
 //        leftMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "leftMotor"), 0.01); // Motor Slot 1 on Control Hub
 //        rightMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "rightMotor"), 0.01); // Motor Slot 2 on Control Hub
-
+        centerMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 //        liftBottom = new SolversDcMotorEx((hardwareMap.get(DcMotorEx.class, "liftBottom")), 0.01);
 //        liftTop = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "liftTop"), 0.01);
 //        encoder = new MotorEx(hardwareMap, "liftTop").encoder;
@@ -71,5 +77,7 @@ public class ExampleRobot {
             }
         }
 
+        intake = new Intake();
+        deposit = new Deposit();
     }
 }

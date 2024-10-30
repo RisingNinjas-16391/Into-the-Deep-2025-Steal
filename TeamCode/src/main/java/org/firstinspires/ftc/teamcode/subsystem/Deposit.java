@@ -72,12 +72,12 @@ public class Deposit extends SubsystemBase {
     }
 
     public void openClaw() {
-        robot.depositClaw.setPosition(DEPOSIT_CLAW_OPEN_POS);
+        robot.depositClaw.setPosition(DEPOSIT_CLAW_OUTSIDE_OPEN_POS);
         this.clawOpen = true;
     }
 
     public void closeClaw() {
-        robot.depositClaw.setPosition(DEPOSIT_CLAW_CLOSE_POS);
+        robot.depositClaw.setPosition(DEPOSIT_CLAW_OUTSIDE_CLOSE_POS);
         this.clawOpen = false;
     }
 

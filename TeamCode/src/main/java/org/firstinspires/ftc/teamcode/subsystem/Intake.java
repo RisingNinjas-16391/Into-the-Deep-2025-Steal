@@ -84,11 +84,10 @@ public class Intake extends SubsystemBase {
         }
     }
     public void setWristIntake() {
-        if (!intakePivotState.equals(ExtendoState.IntakePivotState.MIDDLE_HOLD)) {
-            robot.wrist.setPosition(WRIST_INTAKE_POS);
-        }
+        robot.wrist.setPosition(WRIST_INTAKE_POS);
         intakePivotState = ExtendoState.IntakePivotState.INTAKE;
     }
+
     public void setExtendoTarget(double target) {
         this.target = Math.max(Math.min(target, MAX_EXTENDO_EXTENSION), 0);
         extendoPIDF.setSetPoint(this.target);

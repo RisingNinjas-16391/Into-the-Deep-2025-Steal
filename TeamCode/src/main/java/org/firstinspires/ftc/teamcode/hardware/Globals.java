@@ -56,22 +56,28 @@ public class Globals {
     // TODO: TUNE
 
     // Intake
-    public static double WRIST_TRANSFER_POS = 0;
-    public static double WRIST_INTAKE_POS = 0;
-    public static double INTAKE_PIVOT_TRANSFER_POS = 0;
-    public static double INTAKE_PIVOT_HOLD_POS = 0;
-    public static double INTAKE_PIVOT_PICKUP_POS = 0;
+
+    // wrist perpendicular to tray pos: 0.53
+
+    public static double WRIST_TRANSFER_POS = 0.80;
+    public static double WRIST_INTAKE_POS = 0.53;
+    public static double[] WRIST_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08}; // TODO: TUNE. Note that 4th item or 3rd with 0-index is always the default (middle horizontal)
+    public static double INTAKE_PIVOT_TRANSFER_POS = 0.32;
+    public static double INTAKE_PIVOT_HOLD_POS = 0.4;
+    public static double INTAKE_PIVOT_PICKUP_POS = 0.53;
     public static double INTAKE_PIVOT_READY_PICKUP_POS = 0;
 
-    public static double[] WRIST_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08}; // TODO: TUNE. Note that 4th item or 3rd with 0-index is always the default (middle horizontal)
+
     public static double INTAKE_CLAW_OPEN_POS = 0.07;
     public static double INTAKE_CLAW_CLOSE_POS = 0.18;
 
     // Deposit
     public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.0;
     public static double DEPOSIT_PIVOT_SCORING_POS = 1.0;
-    public static double DEPOSIT_CLAW_OPEN_POS = 0.53;
-    public static double DEPOSIT_CLAW_CLOSE_POS = 0.4;
+    public static double DEPOSIT_CLAW_OUTSIDE_OPEN_POS = 0.625;
+    public static double DEPOSIT_CLAW_OUTSIDE_CLOSE_POS = 0.83;
+    public static double DEPOSIT_CLAW_INSIDE_OPEN_POS = 0.88;
+    public static double DEPOSIT_CLAW_INSIDE_CLOSE_POS = 0.6;
 
     // TODO: TUNE ALL OF THESE
     // Extendo
