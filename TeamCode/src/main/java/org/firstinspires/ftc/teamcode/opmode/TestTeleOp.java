@@ -58,7 +58,7 @@ public class TestTeleOp extends CommandOpMode {
                 currentSample = SampleDetected.RED;
             } else if (green >= red && green >= blue) {
                 currentSample = SampleDetected.YELLOW; // green means yellow sample
-            } else if (distance >= 5.0) {
+            } else if (distance >= 5.0) { // THIS IS FINE! It will get updated in loop
                 currentSample = SampleDetected.BLUE; // Set default to be blue if on blue side, set default to be red if on red side.
             }
             else {

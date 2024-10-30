@@ -94,25 +94,24 @@ public class Intake extends SubsystemBase {
     }
 
     public SampleDetected sampleDetected() {
-        if (intakePivotState.equals(ExtendoState.IntakePivotState.INTAKE)) {
-            robot.colorSensor.enableLed(true);
+        robot.colorSensor.enableLed(true);
 
-            int red = robot.colorSensor.red();
-            int green = robot.colorSensor.green();
-            int blue = robot.colorSensor.blue();
+        int red = robot.colorSensor.red();
+        int green = robot.colorSensor.green();
+        int blue = robot.colorSensor.blue();
 
-            double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
+        double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
 
-            if (distance < 3.5) {
-                if (red >= green && red >= blue) {
-                    return SampleDetected.RED;
-                } else if (green >= red && green >= blue) {
-                    return SampleDetected.YELLOW;
-                } else {
-                    return SampleDetected.BLUE;
-                }
+        if (distance < 4.25) {
+            if (red >= green && red >= blue) {
+                return SampleDetected.RED;
+            } else if (green >= red && green >= blue) {
+                return SampleDetected.YELLOW;
+            } else {
+                return SampleDetected.BLUE;
             }
         }
+
         return currentSample;
     }
 

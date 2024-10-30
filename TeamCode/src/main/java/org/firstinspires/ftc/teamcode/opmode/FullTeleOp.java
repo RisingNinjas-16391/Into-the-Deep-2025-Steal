@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.subsystem.commands.setDeposit;
-import org.firstinspires.ftc.teamcode.subsystem.commands.transfer;
+import org.firstinspires.ftc.teamcode.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.subsystem.commands.*;
 
 @TeleOp
 public class FullTeleOp extends CommandOpMode {
@@ -56,7 +56,7 @@ public class FullTeleOp extends CommandOpMode {
             gamepad1.rumble(500);
             gamepad2.rumble(500);
         }
-        robot.leftDepositPivot.getPosition();
+
         currentSample = robot.intake.sampleDetected();
 
         switch (currentSample) {
@@ -79,51 +79,54 @@ public class FullTeleOp extends CommandOpMode {
 
         // Runs the command scheduler and performs all the periodic() functions of each subsystem
         super.run();
-
-        // Driving stuff
-        // Minimum power of 0.2 and scale trigger value by remainder
-        // Value to scale power to drivetrain based on driver trigger
-        double speedMultiplier = (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) * 0.8) + 0.2;
-
-        // For Mecanum:
-        //setMecanumSpeeds(drive    r.getLeftX(), driver.getLeftY(), driver.getRightX(), speedMultiplier);
-        //testSetMecanumSpeeds(driver, speedMultiplier);
-
-        // Driver buttons
+        //Driver buttons
         if (driver.wasJustPressed(GamepadKeys.Button.A)) {
-            robot.intake.setExtendoTarget(MAX_EXTENDO_EXTENSION);
+            new setIntake(robot.intake, Intake.ExtendoState.IntakePivotState.READY_INTAKE);
         } else if ((driver.wasJustPressed(GamepadKeys.Button.B))) {
-            robot.intake.setExtendoTarget(0);
+            new setIntake(robot.intake, Intake.ExtendoState.IntakePivotState.INTAKE);
+        } else if ((driver.wasJustPressed(GamepadKeys.Button.X))) {
+            new setIntake(robot.intake, Intake.ExtendoState.IntakePivotState.TRANSFER);
+        } else if ((driver.wasJustPressed(GamepadKeys.Button.Y))) {
+            new setIntake(robot.intake, Intake.ExtendoState.IntakePivotState.MIDDLE_HOLD);
         }
 
-        if (driver.wasJustPressed(GamepadKeys.Button.X)) {
-            new transfer(robot.deposit, robot.intake);
-        }
+//        if (driver.wasJustPressed(GamepadKeys.Button.A)) {
+//            robot.intake.setExtendoTarget(MAX_EXTENDO_EXTENSION);
+//        } else if ((driver.wasJustPressed(GamepadKeys.Button.B))) {
+//            robot.intake.setExtendoTarget(0);
+//        }
+//
+//        if (driver.wasJustPressed(GamepadKeys.Button.X)) {
+//            new transfer(robot.deposit, robot.intake);
+//        }
+//
+//        if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
+////            robot.imu.resetYaw();
+//        }
 
-        if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
-//            robot.imu.resetYaw();
-        }
-
-        if (driver.isDown(GamepadKeys.Button.DPAD_UP)) {
-            robot.intake.setExtendoTarget(robot.extensionEncoder.getPosition() + 10); // Needs to be tested
-        } else if (driver.isDown(GamepadKeys.Button.DPAD_DOWN)) {
-            robot.intake.setExtendoTarget(robot.extensionEncoder.getPosition() - 10); // Needs to be tested
-        }
+//        if (driver.isDown(GamepadKeys.Button.DPAD_UP)) {
+//            robot.intake.setExtendoTarget(robot.extensionEncoder.getPosition() + 10); // Needs to be tested
+//        } else if (driver.isDown(GamepadKeys.Button.DPAD_DOWN)) {
+//            robot.intake.setExtendoTarget(robot.extensionEncoder.getPosition() - 10); // Needs to be tested
+//        }
 
 //        robot.intake.setPitchingIntake(robot.intake.stackHeight);
 
-        // Operator buttons
-        if (operator.wasJustPressed(GamepadKeys.Button.A)) {
-            new setDeposit(robot.deposit, HIGH_BUCKET_HEIGHT);
-        } else if (operator.wasJustPressed(GamepadKeys.Button.B)) {
-            robot.deposit.setSlideTarget(0);
-        }
+//        // Operator buttons
+//        if (operator.wasJustPressed(GamepadKeys.Button.A)) {
+//            new setDeposit(robot.deposit, HIGH_BUCKET_HEIGHT);
+//        } else if (operator.wasJustPressed(GamepadKeys.Button.B)) {
+//            robot.deposit.setSlideTarget(0);
+//        }
 
-        if (operator.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
-            robot.deposit.openClaw();
-        } else if (operator.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
-            robot.deposit.closeClaw();
-        }
+//        For Reference:
+//        if (operator.wasJustPressed(GamepadKeys.Button.BUTTON)) {
+//
+//        }
+//
+//        if (driver.wasJustPressed(GamepadKeys.Button.BUTTON)) {
+//            robot.intake.setExtendoTarget(MAX_EXTENDO_EXTENSION);
+//        }
 
         // DO NOT REMOVE! Removing this will return stale data since bulk caching is on Manual mode
         // Also only clearing the control hub to decrease loop times

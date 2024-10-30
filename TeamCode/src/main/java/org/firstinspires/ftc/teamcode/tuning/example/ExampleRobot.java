@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
-import org.firstinspires.ftc.teamcode.hardware.caching.SolversDcMotorEx;
+import org.firstinspires.ftc.teamcode.hardware.caching.SolversDcMotor;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
 
 import java.util.List;
@@ -17,12 +17,12 @@ public class ExampleRobot {
     public SolversServo wrist;
     public SolversServo rightServo;
     public SolversServo intakeClaw;
-    public SolversDcMotorEx centerMotor;
-    public SolversDcMotorEx leftMotor;
-    public SolversDcMotorEx rightMotor;
+    public SolversDcMotor centerMotor;
+    public SolversDcMotor leftMotor;
+    public SolversDcMotor rightMotor;
     public RevColorSensorV3 colorSensor;
-    public SolversDcMotorEx liftBottom;
-    public SolversDcMotorEx liftTop;
+    public SolversDcMotor liftBottom;
+    public SolversDcMotor liftTop;
     public Motor.Encoder encoder;
 
     private static ExampleRobot instance = null;

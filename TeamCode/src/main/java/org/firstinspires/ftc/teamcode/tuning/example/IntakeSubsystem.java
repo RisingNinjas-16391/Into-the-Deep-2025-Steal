@@ -1,18 +1,15 @@
 package org.firstinspires.ftc.teamcode.tuning.example;
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversDcMotor;
-import org.firstinspires.ftc.teamcode.hardware.caching.SolversDcMotorEx;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
@@ -53,11 +50,11 @@ public class IntakeSubsystem {
         colorSensor = (RevColorSensorV3) hardwareMap.colorSensor.get("colorSensor");
         leftIntakePivot.setDirection(Servo.Direction.REVERSE);
 //
-        centerMotor = new SolversDcMotor(hardwareMap.get(DcMotor.class, "centerMotor"), 0.01); // Motor Slot 0 on Control Hub
-        liftEncoder = new Motor(hardwareMap, "centerMotor").encoder;
+//        centerMotor = new SolversDcMotor(hardwareMap.get(DcMotor.class, "centerMotor"), 0.01); // Motor Slot 0 on Control Hub
+//        liftEncoder = new Motor(hardwareMap, "centerMotor").encoder;
 //        leftMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "leftMotor"), 0.01); // Motor Slot 1 on Control Hub
 //        rightMotor = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "rightMotor"), 0.01); // Motor Slot 2 on Control Hub
-        centerMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        centerMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 //        liftBottom = new SolversDcMotorEx((hardwareMap.get(DcMotorEx.class, "liftBottom")), 0.01);
 //        liftTop = new SolversDcMotorEx(hardwareMap.get(DcMotorEx.class, "liftTop"), 0.01);
 //        encoder = new MotorEx(hardwareMap, "liftTop").encoder;
