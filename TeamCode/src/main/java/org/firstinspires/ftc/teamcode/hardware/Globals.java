@@ -53,7 +53,7 @@ public class Globals {
     // By default for values that control opposite running hardware, the right value of the hardware is used
     // e.g. for ARM_TRANSFER_POS, it should correspond with the real position of the servo at the transfer
 
-    // TODO: TUNE
+    // TODO: TUNE. 9.99 or other sus numbers generally means not tuned!
 
     // Intake
 
@@ -61,15 +61,16 @@ public class Globals {
 
     public static double WRIST_TRANSFER_POS = 0.80;
     public static double WRIST_INTAKE_POS = 0.53;
-    public static double[] WRIST_POSITIONS = {1, 0.82, 0.64, 0.46, 0.28, 0.08}; // TODO: TUNE. Note that 4th item or 3rd with 0-index is always the default (middle horizontal)
+    public static double[] WRIST_POSITIONS = {1, 9.99, 9.99, 0.53, 9.99, 0.0}; // TODO: TUNE. Note that 4th item or 3rd with 0-index is always the default (intake pos)
     public static double INTAKE_PIVOT_TRANSFER_POS = 0.32;
     public static double INTAKE_PIVOT_HOLD_POS = 0.4;
     public static double INTAKE_PIVOT_PICKUP_POS = 0.53;
     public static double INTAKE_PIVOT_READY_PICKUP_POS = 0;
-
-
     public static double INTAKE_CLAW_OPEN_POS = 0.07;
     public static double INTAKE_CLAW_CLOSE_POS = 0.18;
+    public static double TRAY_OPEN_POS = 9.99;
+    public static double TRAY_CLOSE_POS = 9.99;
+
 
     // Deposit
     public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.0;

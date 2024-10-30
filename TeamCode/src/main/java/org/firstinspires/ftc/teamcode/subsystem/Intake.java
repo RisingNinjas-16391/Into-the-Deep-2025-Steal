@@ -47,6 +47,11 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    public void setExtendoTarget(double target) {
+        this.target = Math.max(Math.min(target, MAX_EXTENDO_EXTENSION), 0);
+        extendoPIDF.setSetPoint(this.target);
+    }
+
     // Returns if extendo has reached the target
     public boolean reached() {
         return (extendoPIDF.atSetPoint());
@@ -88,9 +93,12 @@ public class Intake extends SubsystemBase {
         intakePivotState = ExtendoState.IntakePivotState.INTAKE;
     }
 
-    public void setExtendoTarget(double target) {
-        this.target = Math.max(Math.min(target, MAX_EXTENDO_EXTENSION), 0);
-        extendoPIDF.setSetPoint(this.target);
+    public void openTray() {
+        robot.trayServo.setPosition(TRAY_OPEN_POS);
+    }
+
+    public void closeTray() {
+        robot.trayServo.setPosition(TRAY_CLOSE_POS);
     }
 
     public SampleDetected sampleDetected() {
