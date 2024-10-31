@@ -24,7 +24,7 @@ public class Globals {
         NONE
     }
 
-    public static SampleDetected currentSample = SampleDetected.YELLOW;
+    public static SampleDetected currentSample = SampleDetected.NONE;
 
     public static DriveMode driveMode;
 
@@ -65,12 +65,11 @@ public class Globals {
     public static double INTAKE_PIVOT_TRANSFER_POS = 0.32;
     public static double INTAKE_PIVOT_HOLD_POS = 0.4;
     public static double INTAKE_PIVOT_PICKUP_POS = 0.53;
-    public static double INTAKE_PIVOT_READY_PICKUP_POS = 0;
-    public static double INTAKE_CLAW_OPEN_POS = 0.07;
-    public static double INTAKE_CLAW_CLOSE_POS = 0.18;
-    public static double TRAY_OPEN_POS = 9.99;
-    public static double TRAY_CLOSE_POS = 9.99;
-
+    public static double INTAKE_PIVOT_READY_PICKUP_POS = 0.5;
+    public static double INTAKE_CLAW_OPEN_POS = 0.65;
+    public static double INTAKE_CLAW_CLOSE_POS = 0.85;
+    public static double TRAY_OPEN_POS = 1.0;
+    public static double TRAY_CLOSE_POS = 0.35;
 
     // Deposit
     public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.0;

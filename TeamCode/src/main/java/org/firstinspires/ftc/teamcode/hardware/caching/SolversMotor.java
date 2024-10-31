@@ -8,18 +8,18 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  * Credit to team FTC 22105 (Runtime Terror) for the base class, we just modified it
  */
 
-public class SolversDcMotor {
+public class SolversMotor {
     private double lastPower = 0;
     private final DcMotor motor;
 
     private double powerThreshold = 0.0;
 
-    public SolversDcMotor(DcMotor motor, double powerThreshold) {
+    public SolversMotor(DcMotor motor, double powerThreshold) {
         this.motor = motor;
         this.powerThreshold = powerThreshold;
     }
 
-    public SolversDcMotor(DcMotor motor) {
+    public SolversMotor(DcMotor motor) {
         this.motor = motor;
     }
 

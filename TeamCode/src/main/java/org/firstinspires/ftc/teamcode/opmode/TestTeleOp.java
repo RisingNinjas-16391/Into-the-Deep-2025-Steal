@@ -1,25 +1,31 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
+import static org.firstinspires.ftc.teamcode.subsystem.Intake.ExtendoState.IntakePivotState.*;
+import static org.firstinspires.ftc.teamcode.subsystem.Intake.WristState;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setIntake;
-import org.firstinspires.ftc.teamcode.tuning.example.IntakeSubsystem;
 
 @TeleOp
+@Config
 public class TestTeleOp extends CommandOpMode {
-    public GamepadEx driver;
-    public GamepadEx operator;
-
-    private final IntakeSubsystem robot = IntakeSubsystem.getInstance();
-
-    private boolean endgame = false;
+    public static double motorSpeed = 0.0;
+    Intake.ExtendoState.IntakePivotState intakePivotState;
+    ElapsedTime wristTimer = new ElapsedTime();
+    public String moveWrist = "";
+    private final Robot robot = Robot.getInstance();
 
     @Override
     public void initialize() {
@@ -29,74 +35,108 @@ public class TestTeleOp extends CommandOpMode {
         // Resets command scheduler
         super.reset();
 
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         robot.init(hardwareMap);
 
         register(robot.deposit, robot.intake);
 
-        // Initialize subsystems
-        driver = new GamepadEx(gamepad1);
-        operator = new GamepadEx(gamepad2);
+        wristTimer.reset();
     }
 
     @Override
     public void run() {
-        robot.colorSensor.enableLed(true);
 
-        int red = robot.colorSensor.red();
-        int green = robot.colorSensor.green();
-        int blue = robot.colorSensor.blue();
+        // Runs the command scheduler and performs all the periodic() functions of each subsystem
+        super.run();
 
-        double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
+        currentSample = robot.intake.sampleDetected();
 
-        telemetry.addData("RGB", "(" + red + ", " + green + ", " + blue + ")");
-
-        telemetry.addData("distance (CM)", distance);
+        telemetry.addData("currentSample", currentSample.toString());
+        telemetry.addData("distance", robot.intake.colorSensorDistance());
 
 
-        if (distance < 3.5) {
-            if (red >= green && red >= blue) {
-                currentSample = SampleDetected.RED;
-            } else if (green >= red && green >= blue) {
-                currentSample = SampleDetected.YELLOW; // green means yellow sample
-            } else if (distance >= 5.0) { // THIS IS FINE! It will get updated in loop
-                currentSample = SampleDetected.BLUE; // Set default to be blue if on blue side, set default to be red if on red side.
-            }
-            else {
-                currentSample = SampleDetected.YELLOW;
-            }
-        }
+        gamepad1.runLedEffect(SET_GAMEPAD_YELLOW);
+        gamepad2.runLedEffect(SET_GAMEPAD_YELLOW);
 
         switch (currentSample) {
             case RED:
                 gamepad1.runLedEffect(SET_GAMEPAD_RED);
                 gamepad2.runLedEffect(SET_GAMEPAD_RED);
-
+                break;
             case BLUE:
                 gamepad1.runLedEffect(SET_GAMEPAD_BLUE);
                 gamepad2.runLedEffect(SET_GAMEPAD_BLUE);
-
+                break;
             case YELLOW:
                 gamepad1.runLedEffect(SET_GAMEPAD_YELLOW);
                 gamepad2.runLedEffect(SET_GAMEPAD_YELLOW);
-
+                break;
             case NONE:
                 gamepad1.runLedEffect(SET_GAMEPAD_OFF);
                 gamepad2.runLedEffect(SET_GAMEPAD_OFF);
+                break;
         }
-
-        // Runs the command scheduler and performs all the periodic() functions of each subsystem
-        super.run();
 
         // Driver buttons
-        if (driver.wasJustPressed(GamepadKeys.Button.A)) {
-            new setIntake(robot.intake, Intake.ExtendoState.IntakePivotState.READY_INTAKE);
-        } else if ((driver.wasJustPressed(GamepadKeys.Button.B))) {
-            new setIntake(robot.intake, Intake.ExtendoState.IntakePivotState.INTAKE);
-        } else if ((driver.wasJustPressed(GamepadKeys.Button.X))) {
-            new setIntake(robot.intake, Intake.ExtendoState.IntakePivotState.TRANSFER);
-        } else if ((driver.wasJustPressed(GamepadKeys.Button.Y))) {
-            new setIntake(robot.intake, Intake.ExtendoState.IntakePivotState.MIDDLE_HOLD);
+        if (gamepad1.triangle) {
+            robot.intake.setPivotServo(INTAKE_PIVOT_READY_PICKUP_POS);
+            wristTimer.reset();
+            moveWrist = "intake";
         }
+
+        else if (gamepad1.cross) {
+            robot.intake.setPivotServo(INTAKE_PIVOT_PICKUP_POS);
+            wristTimer.reset();
+            moveWrist = "intake";
+        }
+
+        else if (gamepad1.circle) {
+            robot.intake.closeClaw();
+            robot.intake.setPivotServo(INTAKE_PIVOT_HOLD_POS);
+        }
+
+        else if (gamepad1.square) {
+            robot.intake.closeClaw();
+            robot.intake.setPivotServo(INTAKE_PIVOT_TRANSFER_POS);
+
+            wristTimer.reset();
+            moveWrist = "transfer";
+        }
+
+        if (gamepad1.left_stick_button) {
+            robot.intake.openClaw();
+
+        } else if (gamepad1.right_stick_button) {
+            robot.intake.closeClaw();
+        }
+
+        if (moveWrist.equals("intake") && wristTimer.milliseconds() >= 1000) {
+            robot.intake.setWristIntake();
+            robot.intake.openClaw();
+            moveWrist = "";
+        }
+
+        if (moveWrist.equals("transfer") && wristTimer.milliseconds() >= 1000) {
+            robot.intake.openClaw();
+            moveWrist = "";
+        }
+
+//        if (gamepad1.left_trigger > 0) {
+//            robot.liftBottom.setPower(gamepad1.left_trigger);
+//            robot.liftTop.setPower(gamepad1.left_trigger);
+//        } else if (gamepad1.right_trigger > 0) {
+//            robot.liftBottom.setPower(-gamepad1.right_trigger);
+//            robot.liftTop.setPower(-gamepad1.right_trigger);
+//        }
+//        else {
+//            robot.liftBottom.setPower(0);
+//            robot.liftTop.setPower(0);
+//        }
+
+        telemetry.addData("lt", gamepad1.left_trigger);
+        telemetry.addData("rt", gamepad1.right_trigger);
+
+        telemetry.update();
 
         // DO NOT REMOVE! Removing this will return stale data since bulk caching is on Manual mode
         // Also only clearing the control hub to decrease loop times

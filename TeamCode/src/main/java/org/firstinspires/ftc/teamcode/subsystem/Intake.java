@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
+import static org.firstinspires.ftc.teamcode.subsystem.Intake.*;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -25,10 +26,16 @@ public class Intake extends SubsystemBase {
             TRANSFER,
             MIDDLE_HOLD
         }
+        public enum WristState {
+            INTAKE,
+            TRANSFER,
+            OTHER
+        }
     }
 
     public static ExtendoState extendoState;
-    public static ExtendoState.IntakePivotState intakePivotState;
+    public static ExtendoState.IntakePivotState intakePivotState = ExtendoState.IntakePivotState.TRANSFER;
+    public static ExtendoState.WristState WristState = ExtendoState.WristState.TRANSFER;
     private static final PIDFController extendoPIDF = new PIDFController(0,0,0, 0);
 
     public void init() {
@@ -82,15 +89,12 @@ public class Intake extends SubsystemBase {
     public void moveWrist() {
         robot.wrist.setPosition(WRIST_POSITIONS[Math.max(Math.min(wristIndex, 5), 0)]);
     }
-
     public void setWristTransfer() {
-        if (intakePivotState.equals(ExtendoState.IntakePivotState.MIDDLE_HOLD)) {
-            robot.wrist.setPosition(WRIST_TRANSFER_POS);
-        }
+        robot.wrist.setPosition(WRIST_TRANSFER_POS);
+
     }
     public void setWristIntake() {
         robot.wrist.setPosition(WRIST_INTAKE_POS);
-        intakePivotState = ExtendoState.IntakePivotState.INTAKE;
     }
 
     public void openTray() {
@@ -110,7 +114,7 @@ public class Intake extends SubsystemBase {
 
         double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
 
-        if (distance < 4.25) {
+        if (distance < 1.5) {
             if (red >= green && red >= blue) {
                 return SampleDetected.RED;
             } else if (green >= red && green >= blue) {
@@ -119,8 +123,15 @@ public class Intake extends SubsystemBase {
                 return SampleDetected.BLUE;
             }
         }
+        else {
+            return SampleDetected.NONE;
+        }
+    }
 
-        return currentSample;
+    public double colorSensorDistance() {
+        robot.colorSensor.enableLed(true);
+
+        return(robot.colorSensor.getDistance(DistanceUnit.CM));
     }
 
     @Override

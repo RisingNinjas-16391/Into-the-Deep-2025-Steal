@@ -3,13 +3,11 @@ package org.firstinspires.ftc.teamcode.tuning.example;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
-import org.firstinspires.ftc.teamcode.hardware.caching.SolversDcMotor;
+import org.firstinspires.ftc.teamcode.hardware.caching.SolversMotor;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
@@ -20,7 +18,7 @@ public class IntakeSubsystem {
     public SolversServo leftIntakePivot;
     public SolversServo wrist;
     public SolversServo rightIntakePivot;
-    public SolversDcMotor centerMotor;
+    public SolversMotor centerMotor;
     public SolversServo intakeClaw;
     public RevColorSensorV3 colorSensor;
     public Deposit deposit;

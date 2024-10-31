@@ -26,7 +26,7 @@ public class depositPIDF extends OpMode {
     public static double maxPowerConstant = 0.8;
 
     private static final PIDFController slidePIDF = new PIDFController(p,i,d, f);
-    private final ExampleRobot robot = ExampleRobot.getInstance();
+    private final Robot robot = Robot.getInstance();
 
     public ElapsedTime timer = new ElapsedTime();
 
@@ -38,7 +38,7 @@ public class depositPIDF extends OpMode {
         robot.init(hardwareMap);
         slidePIDF.setTolerance(5, 10);
 
-        robot.encoder.reset();
+        robot.liftEncoder.reset();
 
         telemetry.addData("encoder position", motorPos);
         telemetry.addData("setPoint", setPoint);
@@ -49,7 +49,7 @@ public class depositPIDF extends OpMode {
     public void loop() {
         timer.reset();
 
-        motorPos = robot.encoder.getPosition();
+        motorPos = robot.liftEncoder.getPosition();
 
         slidePIDF.setP(p);
         slidePIDF.setI(i);

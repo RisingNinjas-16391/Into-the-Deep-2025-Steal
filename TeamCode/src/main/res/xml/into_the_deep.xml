@@ -7,11 +7,11 @@
             <Servo name="rightIntakePivot" port="1"/>
             <Servo name="wrist" port="2"/>
             <Servo name="leftIntakePivot" port="3"/>
+            <Servo name="trayServo" port="5"/>
 
             <goBILDA5202SeriesMotor name="extension" port="0"/>-->
             <goBILDA5202SeriesMotor name="liftBottom" port="2"/>-->
             <goBILDA5202SeriesMotor name="liftTop" port="3"/>-->
-            <goBILDA5202SeriesMotor name="trayServo" port="5"/>-->
 
             <ControlHubImuBHI260AP name="imu" port="0" bus="0"/>
             <SparkFunOTOS2 name="sensor_otos" port="0" bus="1"/>

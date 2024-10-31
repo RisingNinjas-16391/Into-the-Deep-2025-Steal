@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.hardware.caching.SolversDcMotor;
+import org.firstinspires.ftc.teamcode.hardware.caching.SolversMotor;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
@@ -25,14 +25,14 @@ import java.lang.System;
 import java.util.List;
 
 public class Robot {
-    public SolversDcMotor liftBottom;
-    public SolversDcMotor liftTop;
-    public SolversDcMotor extension;
+    public SolversMotor liftBottom;
+    public SolversMotor liftTop;
+    public SolversMotor extension;
 
-    public SolversDcMotor frontLeftMotor;
-    public SolversDcMotor frontRightMotor;
-    public SolversDcMotor backLeftMotor;
-    public SolversDcMotor backRightMotor;
+    public SolversMotor frontLeftMotor;
+    public SolversMotor frontRightMotor;
+    public SolversMotor backLeftMotor;
+    public SolversMotor backRightMotor;
 
     public SolversServo leftIntakePivot;
     public SolversServo rightIntakePivot;
@@ -71,14 +71,14 @@ public class Robot {
 
     // Make sure to run this after instance has been enabled/made
     public void init(HardwareMap hardwareMap) {
-        liftBottom = new SolversDcMotor((hardwareMap.get(DcMotor.class, "liftBottom")), 0.01);
-        liftTop = new SolversDcMotor(hardwareMap.get(DcMotor.class, "liftTop"), 0.01);
-        extension = new SolversDcMotor(hardwareMap.get(DcMotor.class, "extension"), 0.01);
+        liftBottom = new SolversMotor((hardwareMap.get(DcMotor.class, "liftBottom")), 0.01);
+        liftTop = new SolversMotor(hardwareMap.get(DcMotor.class, "liftTop"), 0.01);
+        extension = new SolversMotor(hardwareMap.get(DcMotor.class, "extension"), 0.01);
 
-        frontLeftMotor = new SolversDcMotor(hardwareMap.get(DcMotor.class, "FL"), 0.01);
-        frontRightMotor = new SolversDcMotor(hardwareMap.get(DcMotor.class, "FR"), 0.01);
-        backLeftMotor = new SolversDcMotor(hardwareMap.get(DcMotor.class, "BL"), 0.01);
-        backRightMotor = new SolversDcMotor(hardwareMap.get(DcMotor.class, "BR"), 0.01);
+        frontLeftMotor = new SolversMotor(hardwareMap.get(DcMotor.class, "FL"), 0.01);
+        frontRightMotor = new SolversMotor(hardwareMap.get(DcMotor.class, "FR"), 0.01);
+        backLeftMotor = new SolversMotor(hardwareMap.get(DcMotor.class, "BL"), 0.01);
+        backRightMotor = new SolversMotor(hardwareMap.get(DcMotor.class, "BR"), 0.01);
 
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -93,6 +93,9 @@ public class Robot {
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        liftBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         liftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -110,8 +113,8 @@ public class Robot {
         leftIntakePivot.setDirection(Servo.Direction.REVERSE);
         leftDepositPivot.setDirection(Servo.Direction.REVERSE);
 
-        liftEncoder = new MotorEx(hardwareMap, "liftTop").encoder;
-        extensionEncoder = new MotorEx(hardwareMap, "extension").encoder;
+        liftEncoder = new Motor(hardwareMap, "liftTop").encoder;
+        extensionEncoder = new Motor(hardwareMap, "extension").encoder;
 
         liftEncoder.setDirection(MotorEx.Direction.REVERSE);
         // TODO: Check if extensionEncoder needs to be reversed

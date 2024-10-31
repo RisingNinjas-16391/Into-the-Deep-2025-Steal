@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.hardware.Globals;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.tuning.example.ExampleRobot;
@@ -22,7 +23,7 @@ public class motorEncoders extends OpMode {
     public static boolean RESET_PARALLEL_ENCODER = false;
     public static boolean RESET_PERPENDICULAR_ENCODER = false;
 
-    private final ExampleRobot robot = ExampleRobot.getInstance();
+    private final Robot robot = Robot.getInstance();
     public ElapsedTime timer = new ElapsedTime();
 
     @Override
@@ -34,7 +35,7 @@ public class motorEncoders extends OpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         robot.init(hardwareMap);
 
-        telemetry.addData("liftEncoder", robot.encoder.getPosition());
+        telemetry.addData("liftEncoder", robot.liftEncoder.getPosition());
 //        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
     }
 
@@ -43,13 +44,13 @@ public class motorEncoders extends OpMode {
         timer.reset();
 
         if (RESET_ALL_ENCODERS) {
-            robot.encoder.reset();
+            robot.liftEncoder.reset();
 //            robot.extensionEncoder.reset();
         }
 
         robot.ControlHub.clearBulkCache();
 
-        telemetry.addData("liftEncoder", robot.encoder.getPosition());
+        telemetry.addData("liftEncoder", robot.liftEncoder.getPosition());
 //        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
 
         telemetry.addData("loop time (ms)", timer.milliseconds());
