@@ -116,7 +116,7 @@ public class Robot {
         liftEncoder = new Motor(hardwareMap, "liftTop").encoder;
         extensionEncoder = new Motor(hardwareMap, "extension").encoder;
 
-        liftEncoder.setDirection(MotorEx.Direction.REVERSE);
+        liftEncoder.setDirection(Motor.Direction.REVERSE);
         // TODO: Check if extensionEncoder needs to be reversed
 
         colorSensor = (RevColorSensorV3) hardwareMap.colorSensor.get("colorSensor");

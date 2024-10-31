@@ -15,8 +15,6 @@ import org.firstinspires.ftc.teamcode.tuning.example.ExampleRobot;
 @Config
 @TeleOp
 public class depositPIDF extends OpMode {
-
-
     public static double p = 0.009;
     public static double i = 0;
     public static double d = 0.00017;
