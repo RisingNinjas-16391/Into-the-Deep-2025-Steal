@@ -28,23 +28,6 @@ public class Globals {
 
     public static DriveMode driveMode;
 
-    public static Gamepad.LedEffect SET_GAMEPAD_RED = new Gamepad.LedEffect.Builder()
-            .addStep(1, 0, 0, Gamepad.LED_DURATION_CONTINUOUS)
-            .build();
-
-    public static Gamepad.LedEffect SET_GAMEPAD_YELLOW = new Gamepad.LedEffect.Builder()
-            .addStep(1, 1, 0, Gamepad.LED_DURATION_CONTINUOUS)
-            .build();
-
-    public static Gamepad.LedEffect SET_GAMEPAD_BLUE = new Gamepad.LedEffect.Builder()
-            .addStep(0, 0, 1, Gamepad.LED_DURATION_CONTINUOUS)
-            .build();
-
-    public static Gamepad.LedEffect SET_GAMEPAD_OFF = new Gamepad.LedEffect.Builder()
-            .addStep(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS)
-            .build();
-
-
     // Robot Width and Length (in inches)
     public static double ROBOT_WIDTH = 11.5;
     public static double ROBOT_LENGTH = 12.25;

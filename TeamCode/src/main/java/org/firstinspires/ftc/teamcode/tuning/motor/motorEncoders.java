@@ -36,7 +36,7 @@ public class motorEncoders extends OpMode {
         robot.init(hardwareMap);
 
         telemetry.addData("liftEncoder", robot.liftEncoder.getPosition());
-//        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
+        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
     }
 
     @Override
@@ -45,13 +45,13 @@ public class motorEncoders extends OpMode {
 
         if (RESET_ALL_ENCODERS) {
             robot.liftEncoder.reset();
-//            robot.extensionEncoder.reset();
+            robot.extensionEncoder.reset();
         }
 
         robot.ControlHub.clearBulkCache();
 
         telemetry.addData("liftEncoder", robot.liftEncoder.getPosition());
-//        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
+        telemetry.addData("extensionEncoder", robot.extensionEncoder.getPosition());
 
         telemetry.addData("loop time (ms)", timer.milliseconds());
 

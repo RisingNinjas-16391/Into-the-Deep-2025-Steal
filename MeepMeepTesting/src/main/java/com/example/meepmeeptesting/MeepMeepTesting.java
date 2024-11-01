@@ -1,10 +1,6 @@
 package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Pose2dDual;
-import com.acmerobotics.roadrunner.ProfileParams;
-import com.acmerobotics.roadrunner.TrajectoryBuilder;
-import com.acmerobotics.roadrunner.TrajectoryBuilderParams;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueDark;
@@ -23,7 +19,6 @@ public class MeepMeepTesting {
                 .build();
 
         myBot1.runAction(myBot1.getDrive().actionBuilder(new Pose2d(-8, -61.75, Math.toRadians(90)))
-
                 .strafeToConstantHeading(new Vector2d(-8, -37.75))
                 .waitSeconds(2.0)
                 .strafeToConstantHeading(new Vector2d(-8, -39.75))
@@ -55,7 +50,6 @@ public class MeepMeepTesting {
                 .build();
 
         myBot3.runAction(myBot3.getDrive().actionBuilder(new Pose2d(8, 61.75, Math.toRadians(270)))
-
                 .strafeToConstantHeading(new Vector2d(8, 37.75))
                 .waitSeconds(2.0)
                 .strafeToConstantHeading(new Vector2d(8, 39.75))
@@ -77,19 +71,15 @@ public class MeepMeepTesting {
                 .splineToLinearHeading(new Pose2d(28.2, 15, Math.toRadians(180)), Math.toRadians(225))
                 .waitSeconds(1.0)
                 .strafeToConstantHeading(new Vector2d(26.2, 15))
-
-
                 .build());
 
         RoadRunnerBotEntity myBot2 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setColorScheme(new ColorSchemeRedDark())
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12.25)
-
                 .build();
 
         myBot2.runAction(myBot2.getDrive().actionBuilder(new Pose2d(8, -61.75, Math.toRadians(90)))
-
                 .strafeToConstantHeading(new Vector2d(8, -37.75))
                 .waitSeconds(2.0)
                 .strafeToConstantHeading(new Vector2d(8, -39.75))
@@ -134,13 +124,7 @@ public class MeepMeepTesting {
                 .strafeToConstantHeading(new Vector2d(-53, 10.1))
                 .strafeToConstantHeading(new Vector2d(-61, 10.1))
                 .strafeToConstantHeading(new Vector2d(-61, 54.5))
-
-
                 .build());
-
-
-
-
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                 .setDarkMode(true)

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmode;
+package org.firstinspires.ftc.teamcode.opmode.TeleOp;
 
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 
@@ -7,12 +7,10 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.roadrunner.Drawing;
@@ -56,14 +54,14 @@ public class TeleOpOTOS extends CommandOpMode {
         drive.updatePoseEstimate();
 
         drive.setFieldCentricDrivePowers(new PoseVelocity2d(
-            new Vector2d(
+                new Vector2d(
                     (gamepad1.left_stick_y),
                     (gamepad1.left_stick_x)
                 ),
                 gamepad1.right_stick_x
             ),
             gamepad1.left_trigger,
-                drive.pose.heading.toDouble()
+            drive.pose.heading.toDouble()
         );
 
         if (gamepad1.square) {

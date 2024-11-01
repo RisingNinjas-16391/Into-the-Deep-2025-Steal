@@ -1,22 +1,16 @@
-package org.firstinspires.ftc.teamcode.opmode;
+package org.firstinspires.ftc.teamcode.opmode.TeleOp;
 
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
-import static org.firstinspires.ftc.teamcode.subsystem.Intake.ExtendoState.IntakePivotState.*;
-import static org.firstinspires.ftc.teamcode.subsystem.Intake.WristState;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
-import org.firstinspires.ftc.teamcode.subsystem.commands.setIntake;
 
 @TeleOp
 @Config
@@ -55,27 +49,27 @@ public class TestTeleOp extends CommandOpMode {
         telemetry.addData("distance", robot.intake.colorSensorDistance());
 
 
-        gamepad1.runLedEffect(SET_GAMEPAD_YELLOW);
-        gamepad2.runLedEffect(SET_GAMEPAD_YELLOW);
-
-        switch (currentSample) {
-            case RED:
-                gamepad1.runLedEffect(SET_GAMEPAD_RED);
-                gamepad2.runLedEffect(SET_GAMEPAD_RED);
-                break;
-            case BLUE:
-                gamepad1.runLedEffect(SET_GAMEPAD_BLUE);
-                gamepad2.runLedEffect(SET_GAMEPAD_BLUE);
-                break;
-            case YELLOW:
-                gamepad1.runLedEffect(SET_GAMEPAD_YELLOW);
-                gamepad2.runLedEffect(SET_GAMEPAD_YELLOW);
-                break;
-            case NONE:
-                gamepad1.runLedEffect(SET_GAMEPAD_OFF);
-                gamepad2.runLedEffect(SET_GAMEPAD_OFF);
-                break;
-        }
+//        gamepad1.runLedEffect(SET_GAMEPAD_YELLOW);
+//        gamepad2.runLedEffect(SET_GAMEPAD_YELLOW);
+//
+//        switch (currentSample) {
+//            case RED:
+//                gamepad1.runLedEffect(SET_GAMEPAD_RED);
+//                gamepad2.runLedEffect(SET_GAMEPAD_RED);
+//                break;
+//            case BLUE:
+//                gamepad1.runLedEffect(SET_GAMEPAD_BLUE);
+//                gamepad2.runLedEffect(SET_GAMEPAD_BLUE);
+//                break;
+//            case YELLOW:
+//                gamepad1.runLedEffect(SET_GAMEPAD_YELLOW);
+//                gamepad2.runLedEffect(SET_GAMEPAD_YELLOW);
+//                break;
+//            case NONE:
+//                gamepad1.runLedEffect(SET_GAMEPAD_OFF);
+//                gamepad2.runLedEffect(SET_GAMEPAD_OFF);
+//                break;
+//        }
 
         // Driver buttons
         if (gamepad1.triangle) {
