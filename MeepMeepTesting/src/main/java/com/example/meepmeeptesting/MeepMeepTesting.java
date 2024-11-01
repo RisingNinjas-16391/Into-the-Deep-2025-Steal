@@ -41,7 +41,8 @@ public class MeepMeepTesting {
                 .strafeToConstantHeading(new Vector2d(-61, -12.1))
                 .strafeToConstantHeading(new Vector2d(-61, -48.5))
                 .waitSeconds(1.0)
-                .strafeToConstantHeading(new Vector2d(-61, -45.5))
+                .strafeToConstantHeading(new Vector2d(-57, -48.5))
+                .waitSeconds(0.5)
                 .splineToLinearHeading(new Pose2d(-28.2, -15, Math.toRadians(0)), Math.toRadians(45))
                 .waitSeconds(1.0)
                 .strafeToConstantHeading(new Vector2d(-26.2, -15))
@@ -72,11 +73,13 @@ public class MeepMeepTesting {
                 .strafeToConstantHeading(new Vector2d(53, 12.1))
                 .strafeToConstantHeading(new Vector2d(61, 12.1))
                 .strafeToConstantHeading(new Vector2d(61, 48.5))
-                .strafeToConstantHeading(new Vector2d(61, 46.5))
                 .waitSeconds(1.0)
+                .strafeToConstantHeading(new Vector2d(57, 48.5))
+                .waitSeconds(0.5)
                 .splineToLinearHeading(new Pose2d(28.2, 15, Math.toRadians(180)), Math.toRadians(225))
                 .waitSeconds(1.0)
                 .strafeToConstantHeading(new Vector2d(26.2, 15))
+
 
 
                 .build());
