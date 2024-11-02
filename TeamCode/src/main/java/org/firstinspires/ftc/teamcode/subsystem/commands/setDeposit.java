@@ -27,6 +27,7 @@ public class setDeposit extends CommandBase {
     public void initialize() {
         switch (state) {
             case MIDDLE_HOLD:
+                deposit.setClawOpen(true);
             case SCORING:
                 deposit.setClawOpen(false);
                 break;

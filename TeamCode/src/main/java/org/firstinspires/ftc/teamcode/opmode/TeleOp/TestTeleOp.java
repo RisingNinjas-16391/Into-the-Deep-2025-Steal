@@ -15,6 +15,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -26,6 +27,7 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setIntake;
+import org.firstinspires.ftc.teamcode.subsystem.commands.testCommand;
 import org.firstinspires.ftc.teamcode.subsystem.commands.transferToDeposit;
 
 @TeleOp
@@ -90,19 +92,19 @@ public class TestTeleOp extends CommandOpMode {
         );
 
         // Reset IMU for field centric
-        if (driver.wasJustPressed(GamepadKeys.Button.X)) {
-            robot.drive.pose = new Pose2d(0, 0,0);
-        }
-
+        driver.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new InstantCommand(() ->
+                        robot.drive.pose = new Pose2d(0, 0,0)));
 
         // All command testing stuff
-        if (driver.wasJustPressed(GamepadKeys.Button.A)) {
-            schedule(new depositSafeRetracted(robot.deposit));
-        } else if (driver.wasJustPressed(GamepadKeys.Button.B)) {
-            schedule(new transferToDeposit(robot.deposit, robot.intake));
-        } else if (driver.wasJustPressed(GamepadKeys.Button.X)) {
-            schedule(new setIntake(robot.intake, Intake.IntakePivotState.TRANSFER));
-        }
+        driver.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new depositSafeRetracted(robot.deposit));
+
+        driver.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new transferToDeposit(robot.deposit, robot.intake));
+
+        driver.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new setIntake(robot.intake, Intake.IntakePivotState.INTAKE));
 
 
         // DO NOT REMOVE! Runs FTCLib Command Scheduler

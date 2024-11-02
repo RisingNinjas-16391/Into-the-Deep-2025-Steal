@@ -17,7 +17,7 @@ public class Intake extends SubsystemBase {
     // Between transfer and intake position
     public int wristIndex = 3;
     // Whether the claw is open or not in the current state of the claw
-    public boolean clawOpen;
+    public boolean clawOpen = true;
 
     public enum ClawState {
         INNER,
@@ -46,6 +46,7 @@ public class Intake extends SubsystemBase {
     private static final PIDFController extendoPIDF = new PIDFController(0.023,0,0, 0);
 
     public void init() {
+        setClawState(ClawState.OUTER);
         setExtendoTarget(0);
     }
 

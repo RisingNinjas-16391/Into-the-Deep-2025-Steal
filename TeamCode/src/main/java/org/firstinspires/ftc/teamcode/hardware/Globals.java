@@ -53,11 +53,11 @@ public class Globals {
     public static double TRAY_CLOSE_POS = 0.35;
 
     // Deposit
-    public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.0;
+    public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.05;
     public static double DEPOSIT_PIVOT_SCORING_POS = 1.0;
-    public static double DEPOSIT_PIVOT_MIDDLE_POS = 0.5;
+    public static double DEPOSIT_PIVOT_MIDDLE_POS = 0.25;
     public static double DEPOSIT_CLAW_OUTSIDE_OPEN_POS = 0.625;
-    public static double DEPOSIT_CLAW_OUTSIDE_CLOSE_POS = 0.83;
+    public static double DEPOSIT_CLAW_OUTSIDE_CLOSE_POS = 0.4;
 
 
     // TODO: TUNE ALL OF THESE
@@ -70,6 +70,8 @@ public class Globals {
     public static double SLIDES_PIVOT_READY_EXTENSION = 200; // Encoder ticks
     public static double LOW_BUCKET_HEIGHT = 900; // Encoder ticks
     public static double HIGH_BUCKET_HEIGHT = 1800; // Encoder ticks
+
+    public static double SPECIMEN_INTAKE_HEIGHT = 0;
 
 //    public static double LOW_SPECIMEN_HEIGHT = 0; // Encoder ticks
 //    public static double LOW_SPECIMEN_ATTACH_HEIGHT = 0; // Encoder ticks

@@ -43,7 +43,7 @@ public class Deposit extends SubsystemBase {
         setSlideTarget(0);
 
         setPivot(DepositPivotState.MIDDLE_HOLD);
-        setClawOpen(false);
+        setClawOpen(true);
 
         // OpMode specific initializations
         if (opModeType.equals(OpModeType.AUTO)) {

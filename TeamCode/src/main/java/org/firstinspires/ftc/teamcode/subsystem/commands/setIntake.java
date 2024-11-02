@@ -25,6 +25,10 @@ public class setIntake extends CommandBase {
     public void initialize() {
         switch (state) {
             case READY_INTAKE:
+                intake.setWrist(Intake.WristState.INTAKE);
+                intake.setClawOpen(true);
+                intake.setTrayOpen(true);
+                break;
             case INTAKE:
                 intake.setWrist(Intake.WristState.INTAKE);
                 intake.setClawOpen(true);
