@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.Gamepad;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 @Config
 public class Globals {
@@ -11,6 +15,8 @@ public class Globals {
     }
 
     public static OpModeType opModeType;
+
+    public static Pose2d startingPose = new Pose2d(0, 0, 0);
 
     public enum DriveMode {
         ROBOT_CENTRIC,
@@ -59,8 +65,7 @@ public class Globals {
     public static double DEPOSIT_PIVOT_SCORING_POS = 1.0;
     public static double DEPOSIT_CLAW_OUTSIDE_OPEN_POS = 0.625;
     public static double DEPOSIT_CLAW_OUTSIDE_CLOSE_POS = 0.83;
-    public static double DEPOSIT_CLAW_INSIDE_OPEN_POS = 0.88;
-    public static double DEPOSIT_CLAW_INSIDE_CLOSE_POS = 0.6;
+
 
     // TODO: TUNE ALL OF THESE
     // Extendo

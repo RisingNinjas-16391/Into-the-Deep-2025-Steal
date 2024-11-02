@@ -47,17 +47,18 @@ public class FullTeleOp extends CommandOpMode {
 
     @Override
     public void initialize() {
+        // Must have for all opModes
         opModeType = OpModeType.TELEOP;
         driveMode = DriveMode.FIELD_CENTRIC;
+        startingPose = new Pose2d(0, 0, 0);
+
+        // DO NOT REMOVE! Resetting FTCLib Command Scheduler
+        super.reset();
 
         robot.init(hardwareMap);
 
         // Initialize subsystems
         register(robot.deposit, robot.intake);
-        robot.deposit.initTeleOp();
-
-        drive = new SparkFunOTOSDrive(hardwareMap, new Pose2d(0,0,0));
-        drive.calibrateOTOSimu();
 
         driver = new GamepadEx(gamepad1);
         operator = new GamepadEx(gamepad2);
@@ -69,8 +70,8 @@ public class FullTeleOp extends CommandOpMode {
             timer = new ElapsedTime();
             buttonTimer = new ElapsedTime();
         }
-        // Endgame/hang rumble after 110 seconds to notify driver to hang
-        else if ((timer.seconds() > 110) && (!endgame)) {
+        // Endgame/hang rumble after 105 seconds to notify driver to hang
+        else if ((timer.seconds() > 105) && (!endgame)) {
             endgame = true;
             gamepad1.rumble(500);
             gamepad2.rumble(500);
@@ -100,13 +101,6 @@ public class FullTeleOp extends CommandOpMode {
             currentSample = SampleDetected.NONE;
         }
 
-        try {
-            buttons = String.valueOf(gamepad1).substring(75).substring(1);
-        }
-        catch (Exception ignored) {
-            assert true;
-        }
-
         // Gamepad Lights (untested)
         if (currentSample.equals(RED)) {
             gamepad1.setLedColor(1, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
@@ -123,61 +117,25 @@ public class FullTeleOp extends CommandOpMode {
         }
 
         // OTOS Field Centric Drive Code
-//
+        drive.updatePoseEstimate();
+        drive.setFieldCentricDrivePowers(
+            new PoseVelocity2d(
+                new Vector2d((gamepad1.left_stick_y), (gamepad1.left_stick_x)),
+                gamepad1.right_stick_x),
+                gamepad1.left_trigger,
+                drive.pose.heading.toDouble()
+        );
 
-        if (driver.wasJustPressed(GamepadKeys.Button.A)) {
-            telemetry.addData("b", buttons);
-            runningActions.add(new SequentialAction(
-//                    new SleepAction(0.5),
-//                    new InstantAction(() -> servo.setPosition(0.5))
-            ));
-        } else if (gamepad1.square && checkButton(gamepad1, "square")) {
-            robot.intake.setWristIntake();
-        } else if (gamepad1.circle && checkButton(gamepad1, "circle")) {
-            robot.intake.setWristTransfer();
+        //
+        if (driver.wasJustPressed(GamepadKeys.Button.X)) {
+            drive.pose = new Pose2d(drive.pose.position.x, drive.pose.position.y,0);
         }
+
+        // DO NOT REMOVE! Runs FTCLib Command Scheduler
+        super.run();
+
+        // DO NOT REMOVE! Needed for telemetry
         telemetry.update();
-
-//        if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_STICK_BUTTON)) {
-//            drive.pose = new Pose2d(drive.pose.position.x, drive.pose.position.y,0);
-//        }
-
-        // Operator buttons
-
-//        if (gamepad1.left_trigger > 0) {
-//            robot.liftBottom.setPower(gamepad1.left_trigger);
-//            robot.liftTop.setPower(gamepad1.left_trigger);
-//        } else if (gamepad1.right_trigger > 0) {
-//            robot.liftBottom.setPower(-gamepad1.right_trigger);
-//            robot.liftTop.setPower(-gamepad1.right_trigger);
-//        }
-//        else {
-//            robot.liftBottom.setPower(0);
-//            robot.liftTop.setPower(0);
-//        }
-
-        if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0) {
-            telemetry.addData("left trigger", GamepadKeys.Trigger.LEFT_TRIGGER);
-        }
-
-
-        if (gamepad1.left_trigger > 0) {
-            telemetry.addData("sdk left trigger", gamepad1.left_trigger);
-        }
-        // Telemetry
-        telemetry.addData("buttons", buttons);
-        telemetry.update();
-
-        // Runs RR Actions
-        List<Action> newActions = new ArrayList<>();
-        for (Action action : runningActions) {
-            action.preview(packet.fieldOverlay());
-            if (action.run(packet)) {
-                newActions.add(action);
-            }
-        }
-        runningActions = newActions;
-
         dash.sendTelemetryPacket(packet);
 
         // DO NOT REMOVE! Removing this will return stale data since bulk caching is on Manual mode

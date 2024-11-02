@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 import static org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive.PARAMS;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.SparkFunOTOSCorrected;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversMotor;
 import org.firstinspires.ftc.teamcode.hardware.caching.SolversServo;
+import org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 
@@ -56,6 +58,7 @@ public class Robot {
 
     public Deposit deposit;
     public Intake intake;
+    public SparkFunOTOSDrive drive;
 
     private static Robot instance = new Robot();
     public boolean enabled;
@@ -140,12 +143,13 @@ public class Robot {
 
         intake = new Intake();
         deposit = new Deposit();
+        drive = new SparkFunOTOSDrive(hardwareMap, startingPose);
+        drive.calibrateOTOSimu();
 
         // Add any OpMode specific initializations here
         if (Globals.opModeType == OpModeType.AUTO) {
             // deposit.initAuto();
         }
-
         else {
             otos.setOffset(PARAMS.offset);
             System.out.println("OTOS calibration beginning!");
