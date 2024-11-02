@@ -103,6 +103,11 @@ public class Robot {
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        liftEncoder = new Motor(hardwareMap, "liftTop").encoder;
+        extensionEncoder = new Motor(hardwareMap, "extension").encoder;
+
+//        liftEncoder.setDirection(Motor.Direction.REVERSE);
+
         leftIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "leftIntakePivot"), 0.0);
         rightIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "rightIntakePivot"), 0.0);
         leftDepositPivot = new SolversServo(hardwareMap.get(Servo.class, "leftDepositPivot"), 0.0);
@@ -115,11 +120,6 @@ public class Robot {
         leftIntakePivot.setDirection(Servo.Direction.REVERSE);
         leftDepositPivot.setDirection(Servo.Direction.REVERSE);
 
-        liftEncoder = new Motor(hardwareMap, "liftTop").encoder;
-        extensionEncoder = new Motor(hardwareMap, "extension").encoder;
-
-//        liftEncoder.setDirection(Motor.Direction.REVERSE);
-
         colorSensor = (RevColorSensorV3) hardwareMap.colorSensor.get("colorSensor");
 
         otos = hardwareMap.get(SparkFunOTOSCorrected.class,"sensor_otos");
@@ -130,7 +130,7 @@ public class Robot {
         otos.setOffset(PARAMS.offset);
 
         // Bulk reading enabled!
-        // AUTO mode will xbulk read by default and will redo and clear cache once the exact same read is done again
+        // AUTO mode will bulk read by default and will redo and clear cache once the exact same read is done again
         // MANUAL mode will bulk read once per loop but needs to be manually cleared
         // Also in opModes only clear ControlHub cache as it is a hardware write
         allHubs = hardwareMap.getAll(LynxModule.class);
@@ -143,39 +143,43 @@ public class Robot {
 
         intake = new Intake();
         deposit = new Deposit();
+
+        // OTOS stuff leave it alone
         drive = new SparkFunOTOSDrive(hardwareMap, startingPose);
         drive.calibrateOTOSimu();
+        otos.setOffset(PARAMS.offset);
+        System.out.println("OTOS calibration beginning!");
+        System.out.println(otos.setLinearScalar(PARAMS.linearScalar));
+        System.out.println(otos.setAngularScalar(PARAMS.angularScalar));
 
-        // Add any OpMode specific initializations here
-        if (Globals.opModeType == OpModeType.AUTO) {
-            // deposit.initAuto();
+        if (opModeType.equals(OpModeType.AUTO)) {
+            initHasMovement();
         }
-        else {
-            otos.setOffset(PARAMS.offset);
-            System.out.println("OTOS calibration beginning!");
-            System.out.println(otos.setLinearScalar(PARAMS.linearScalar));
-            System.out.println(otos.setAngularScalar(PARAMS.angularScalar));
 
-            // The IMU on the OTOS includes a gyroscope and accelerometer, which could
-            // have an offset. Note that as of firmware version 1.0, the calibration
-            // will be lost after a power cycle; the OTOS performs a quick calibration
-            // when it powers up, but it is recommended to perform a more thorough
-            // calibration at the start of all your programs. Note that the sensor must
-            // be completely stationary and flat during calibration! When calling
-            // calibrateImu(), you can specify the number of samples to take and whether
-            // to wait until the calibration is complete. If no parameters are provided,
-            // it will take 255 samples and wait until done; each sample takes about
-            // 2.4ms, so about 612ms total
+        // The IMU on the OTOS includes a gyroscope and accelerometer, which could
+        // have an offset. Note that as of firmware version 1.0, the calibration
+        // will be lost after a power cycle; the OTOS performs a quick calibration
+        // when it powers up, but it is recommended to perform a more thorough
+        // calibration at the start of all your programs. Note that the sensor must
+        // be completely stationary and flat during calibration! When calling
+        // calibrateImu(), you can specify the number of samples to take and whether
+        // to wait until the calibration is complete. If no parameters are provided,
+        // it will take 255 samples and wait until done; each sample takes about
+        // 2.4ms, so about 612ms total
 
-            // RR localizer note: It is technically possible to change the number of samples to slightly reduce init times,
-            // however, I found that it caused pretty severe heading drift.
-            // Also, if you're careful to always wait more than 612ms in init, you could technically disable waitUntilDone;
-            // this would allow your OpMode code to run while the calibration occurs.
-            // However, that may cause other issues.
-            // In the future I hope to do that by default and just add a check in updatePoseEstimate for it
-            System.out.println(otos.calibrateImu(255, true));
-            System.out.println("OTOS calibration complete!");
-        }
+        // RR localizer note: It is technically possible to change the number of samples to slightly reduce init times,
+        // however, I found that it caused pretty severe heading drift.
+        // Also, if you're careful to always wait more than 612ms in init, you could technically disable waitUntilDone;
+        // this would allow your OpMode code to run while the calibration occurs.
+        // However, that may cause other issues.
+        // In the future I hope to do that by default and just add a check in updatePoseEstimate for it
+        System.out.println(otos.calibrateImu(255, true));
+        System.out.println("OTOS calibration complete!");
+    }
+
+    public void initHasMovement() {
+        deposit.init();
+        intake.init();
     }
 
     public void getOTOSPosition() {

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.tuning.servo;
 
-import static org.firstinspires.ftc.teamcode.hardware.Globals.DriveMode;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.OpModeType;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 import static org.firstinspires.ftc.teamcode.hardware.System.round;
@@ -26,7 +25,6 @@ public class intakeServosTester extends OpMode {
     @Override
     public void init() {
         opModeType = OpModeType.TELEOP;
-        driveMode = DriveMode.FIELD_CENTRIC;
 
         robot.init(hardwareMap);
 

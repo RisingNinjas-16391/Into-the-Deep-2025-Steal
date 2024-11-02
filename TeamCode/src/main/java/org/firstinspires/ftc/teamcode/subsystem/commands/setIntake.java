@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystem.commands;
 
-import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 import static org.firstinspires.ftc.teamcode.subsystem.Intake.*;
 
 import com.arcrobotics.ftclib.command.CommandBase;
@@ -10,9 +9,12 @@ import org.firstinspires.ftc.teamcode.subsystem.Intake;
 
 public class setIntake extends CommandBase {
     Intake intake;
-    ExtendoState.IntakePivotState state;
+    Intake.IntakePivotState state;
+    // Timer to give claw time to close/open
+    ElapsedTime timer = new ElapsedTime();
+    private boolean finished = false;
 
-    public setIntake(Intake intake, ExtendoState.IntakePivotState state) {
+    public setIntake(Intake intake, IntakePivotState state) {
         this.intake = intake;
         this.state = state;
 
@@ -21,40 +23,38 @@ public class setIntake extends CommandBase {
 
     @Override
     public void initialize() {
-
         switch (state) {
             case READY_INTAKE:
-                intake.setWristIntake();
-                intake.setPivotServo(INTAKE_PIVOT_READY_PICKUP_POS);
-                intake.openClaw();
-                break;
-
             case INTAKE:
-                intake.setWristIntake();
-                intake.setPivotServo(INTAKE_PIVOT_PICKUP_POS);
-                intake.openClaw();
+                intake.setWrist(Intake.WristState.INTAKE);
+                intake.setClawOpen(true);
+                intake.setTrayOpen(true);
                 break;
-
             case TRANSFER:
-                intake.setPivotServo(INTAKE_PIVOT_HOLD_POS);
-                intake.setWristTransfer();
-                intake.openClaw();
+                intake.setClawOpen(false);
+                intake.setWrist(WristState.TRANSFER);
+                intake.setTrayOpen(true);
                 break;
-
             case MIDDLE_HOLD:
-                intake.openClaw();
-                intake.setPivotServo(INTAKE_PIVOT_HOLD_POS);
-                intake.setWristTransfer();
+                intake.setClawOpen(true);
+                intake.setWrist(WristState.TRANSFER);
+                intake.setTrayOpen(false);
                 break;
         }
+        timer.reset();
+    }
 
-//        intake.setExtendoTarget(0);
-        // intake.extendoRetracted will change the intake state automatically
+    @Override
+    public void execute() {
+        if ((timer.milliseconds() > 200) && !finished) {
+            finished = true;
+            intake.setPivot(state);
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return (intake.extendoRetracted);
+        return (timer.milliseconds() > 500) && finished;
     }
 
     @Override

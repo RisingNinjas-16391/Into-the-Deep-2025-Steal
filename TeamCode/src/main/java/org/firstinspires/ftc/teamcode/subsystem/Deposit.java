@@ -11,40 +11,46 @@ public class Deposit extends SubsystemBase {
     private final Robot robot = Robot.getInstance();
     private static final PIDFController slidePIDF = new PIDFController(0.009,0,0.0002, 0.00016);
 
-    private double target;
+    // Between open and closed
+    public boolean clawOpen;
+
+    public double target;
+
+    public boolean slidesReached;
 
     // Between retracted and extended
     public boolean slidesRetracted;
 
-    // Between open and closed
-    public boolean clawOpen;
-
     public enum SlideState {
         SCORING,
         TRANSFER,
-        PIVOT_READY;
-        public enum DepositPivotState {
-            SCORING,
-            TRANSFER,
-            MIDDLE_HOLD
-        }
+        PIVOT_READY,
+        SPECIMEN_INTAKE
     }
 
-    public static Intake.ExtendoState intakeState;
-    public static Intake.ExtendoState.IntakePivotState extendoPivotState;
+    public SlideState slideState;
 
-    // Default will reset deposit to transfer position (unpowered claw servos depending on auto vs tele-op)
+    public enum DepositPivotState {
+        SCORING,
+        TRANSFER,
+        MIDDLE_HOLD
+    }
+
+    public DepositPivotState depositPivotState;
+
     public void init() {
         slidePIDF.setTolerance(10, 10);
         setSlideTarget(0);
-    }
 
-    public void initAuto() {
-        closeClaw();
-    }
+        setPivot(DepositPivotState.MIDDLE_HOLD);
+        setClawOpen(false);
 
-    public void initTeleOp() {
+        // OpMode specific initializations
+        if (opModeType.equals(OpModeType.AUTO)) {
 
+        } else if (opModeType.equals(OpModeType.TELEOP)) {
+
+        }
     }
 
     public void setSlideTarget(double target) {
@@ -57,43 +63,43 @@ public class Deposit extends SubsystemBase {
         robot.liftBottom.setPower(0);
     }
 
-    public void autoSetSlidePower() {
+    public void autoUpdateSlides() {
         double power = slidePIDF.calculate(robot.liftEncoder.getPosition(), target);
         robot.liftTop.setPower(power);
         robot.liftBottom.setPower(power);
 
-        // Slides are only retracted once stopped and at a target of 0
-        slidesRetracted = ((target <= 0)) && (this.reached());
+        slidesReached = slidePIDF.atSetPoint();
+        slidesRetracted = (target <= 0) && slidesReached;
     }
 
-    // Returns if slides have reached the target
-    public boolean reached() {
-        return (slidePIDF.atSetPoint());
+    public void setClawOpen(boolean open) {
+        if (open) {
+            robot.depositClaw.setPosition(DEPOSIT_CLAW_OUTSIDE_OPEN_POS);
+        } else {
+            robot.depositClaw.setPosition(DEPOSIT_CLAW_OUTSIDE_CLOSE_POS);
+        }
+
+        this.clawOpen = open;
     }
 
-    public void openClaw() {
-        robot.depositClaw.setPosition(DEPOSIT_CLAW_OUTSIDE_OPEN_POS);
-        this.clawOpen = true;
-    }
+    public void setPivot(DepositPivotState depositPivotState) {
+        switch (depositPivotState) {
+            case SCORING:
+                robot.leftDepositPivot.setPosition(DEPOSIT_PIVOT_SCORING_POS);
+                robot.rightDepositPivot.setPosition(DEPOSIT_PIVOT_SCORING_POS);
+            case TRANSFER:
+                robot.leftDepositPivot.setPosition(DEPOSIT_PIVOT_TRANSFER_POS);
+                robot.rightDepositPivot.setPosition(DEPOSIT_PIVOT_TRANSFER_POS);
+            case MIDDLE_HOLD:
+                robot.leftDepositPivot.setPosition(DEPOSIT_PIVOT_MIDDLE_POS);
+                robot.rightDepositPivot.setPosition(DEPOSIT_PIVOT_MIDDLE_POS);
+        }
 
-    public void closeClaw() {
-        robot.depositClaw.setPosition(DEPOSIT_CLAW_OUTSIDE_CLOSE_POS);
-        this.clawOpen = false;
-    }
-
-    public void pivotTransferPos() {
-        robot.leftDepositPivot.setPosition(DEPOSIT_PIVOT_TRANSFER_POS);
-        robot.rightDepositPivot.setPosition(DEPOSIT_PIVOT_TRANSFER_POS);
-    }
-
-    public void setDeposit(double target) {
-        setSlideTarget(target);
-        pivotTransferPos();
-        openClaw();
+        this.depositPivotState = depositPivotState;
     }
 
     @Override
     public void periodic() {
-        autoSetSlidePower();
+        autoUpdateSlides();
     }
 }

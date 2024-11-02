@@ -29,7 +29,6 @@ public class TeleOpOTOS extends CommandOpMode {
     @Override
     public void initialize() {
         opModeType = OpModeType.TELEOP;
-        driveMode = DriveMode.FIELD_CENTRIC;
 
         // Resets command scheduler
         super.reset();

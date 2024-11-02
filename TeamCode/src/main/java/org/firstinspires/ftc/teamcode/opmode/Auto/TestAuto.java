@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.opmode.Auto;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.arcrobotics.ftclib.command.CommandOpMode;
@@ -8,13 +10,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.commands.FTCLibAction;
-import org.firstinspires.ftc.teamcode.subsystem.commands.depositTransferReady;
+import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
 
 @Config
 @Autonomous
 public class TestAuto extends CommandOpMode {
     private final Robot robot = Robot.getInstance();
-    private Action trajectoryAction;
+    Action trajectoryAction;
 
     @Override
     public void initialize() {
@@ -31,15 +33,17 @@ public class TestAuto extends CommandOpMode {
                 .waitSeconds(3)
                 .build();
 
-//        drive.pose = new Pose2d(AprilTagX, AprilTagY, drive.pose.heading);
-
         robot.init(hardwareMap);
     }
 
     @Override
     public void run() {
         Actions.runBlocking(
-                new FTCLibAction(new depositTransferReady(robot.deposit))
+                new SequentialAction(
+                    new FTCLibAction(new depositSafeRetracted(robot.deposit)),
+                    trajectoryAction)
         );
+
+        super.run();
     }
 }

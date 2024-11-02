@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
-import static org.firstinspires.ftc.teamcode.subsystem.Intake.*;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -12,46 +11,56 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 public class Intake extends SubsystemBase {
     private final Robot robot = Robot.getInstance();
     private double target;
+    public boolean extendoReached;
     // Between retracted and extended
     public boolean extendoRetracted;
     // Between transfer and intake position
     public int wristIndex = 3;
-    public enum ExtendoState {
-        FULL_EXTENSION,
-        HALF_EXTENSION,
-        NO_EXTENSION;
-        public enum IntakePivotState {
-            READY_INTAKE,
-            INTAKE,
-            TRANSFER,
-            MIDDLE_HOLD
-        }
-        public enum WristState {
-            INTAKE,
-            TRANSFER,
-            OTHER
-        }
+    // Whether the claw is open or not in the current state of the claw
+    public boolean clawOpen;
+
+    public enum ClawState {
+        INNER,
+        OUTER
     }
 
-    public static ExtendoState extendoState;
-    public static ExtendoState.IntakePivotState intakePivotState = ExtendoState.IntakePivotState.TRANSFER;
-    public static ExtendoState.WristState WristState = ExtendoState.WristState.TRANSFER;
+    public ClawState clawState;
+
+    public enum IntakePivotState {
+        READY_INTAKE,
+        INTAKE,
+        TRANSFER,
+        MIDDLE_HOLD
+    }
+    public enum WristState {
+        INTAKE,
+        TRANSFER,
+        ROTATED
+    }
+
+
+    public static IntakePivotState intakePivotState;
+    public static WristState wristState = WristState.TRANSFER;
+
+
     private static final PIDFController extendoPIDF = new PIDFController(0.023,0,0, 0);
 
     public void init() {
         setExtendoTarget(0);
     }
 
-    public void autoExtendoSetPower() {
-        double extendoPower = extendoPIDF.calculate(robot.liftEncoder.getPosition(), this.target);
+    public void autoUpdateExtendo() {
+        double extendoPower = extendoPIDF.calculate(robot.extensionEncoder.getPosition(), this.target);
+
+        // Just make sure it gets to fully retracted if target is 0
+        if (target == 0) {
+            extendoPower -= 0.1;
+        }
+
         robot.extension.setPower(extendoPower);
 
-        // Extendo is only retracted it has reached a target of 0
-        extendoRetracted = ((this.target <= 0)) && (this.reached());
-
-        if (extendoRetracted) {
-            extendoState = ExtendoState.FULL_EXTENSION;
-        }
+        extendoReached = extendoPIDF.atSetPoint();
+        extendoRetracted = (target <= 0) && extendoReached;
     }
 
     public void setExtendoTarget(double target) {
@@ -59,50 +68,74 @@ public class Intake extends SubsystemBase {
         extendoPIDF.setSetPoint(this.target);
     }
 
-    // Returns if extendo has reached the target
-    public boolean reached() {
-        return (extendoPIDF.atSetPoint());
-    }
-
     public void stopSlide() {
-        robot.liftTop.setPower(0);
-        robot.liftBottom.setPower(0);
+        robot.extension.setPower(0);
     }
 
-    public void setPivotServo(double target) {
-        robot.leftIntakePivot.setPosition(target);
-        robot.rightIntakePivot.setPosition(target);
+    public void setPivot(IntakePivotState intakePivotState) {
+        switch (intakePivotState) {
+            case READY_INTAKE:
+                robot.leftIntakePivot.setPosition(INTAKE_PIVOT_READY_PICKUP_POS);
+                robot.rightIntakePivot.setPosition(INTAKE_PIVOT_READY_PICKUP_POS);
+            case TRANSFER:
+                robot.leftIntakePivot.setPosition(INTAKE_PIVOT_TRANSFER_POS);
+                robot.rightIntakePivot.setPosition(INTAKE_PIVOT_TRANSFER_POS);
+            case MIDDLE_HOLD:
+                robot.leftIntakePivot.setPosition(INTAKE_PIVOT_HOLD_POS);
+                robot.rightIntakePivot.setPosition(INTAKE_PIVOT_HOLD_POS);
+            case INTAKE:
+                robot.leftIntakePivot.setPosition(INTAKE_PIVOT_PICKUP_POS);
+                robot.rightIntakePivot.setPosition(INTAKE_PIVOT_PICKUP_POS);
+        }
+
+        Intake.intakePivotState = intakePivotState;
     }
 
-    public void openClaw() {
-        robot.intakeClaw.setPosition(INTAKE_CLAW_OPEN_POS);
+    public void setClawState(ClawState clawState) {
+        this.clawState = ClawState.INNER;
+        setClawOpen(clawOpen);
     }
 
-    public void closeClaw() {
-        robot.intakeClaw.setPosition(INTAKE_CLAW_CLOSE_POS);
+    public void setClawOpen(boolean open) {
+        switch (clawState) {
+            case INNER:
+                if (open) {
+                    robot.intakeClaw.setPosition(INTAKE_CLAW_INNER_OPEN_POS);
+                } else {
+                    robot.depositClaw.setPosition(INTAKE_CLAW_INNER_CLOSE_POS);
+                }
+            case OUTER:
+                if (open) {
+                    robot.intakeClaw.setPosition(INTAKE_CLAW_OUTER_OPEN_POS);
+                } else {
+                    robot.depositClaw.setPosition(INTAKE_CLAW_OUTER_CLOSE_POS);
+                }
+        }
+
+        this.clawOpen = open;
     }
 
-    public void setWrist(double target) {
-        robot.wrist.setPosition(target);
+    public void setWrist(WristState wristState) {
+        switch (wristState) {
+            case TRANSFER:
+                switch (clawState) {
+                    case OUTER: robot.wrist.setPosition(WRIST_OUTER_TRANSFER_POS);
+                    case INNER: robot.wrist.setPosition(WRIST_INNER_TRANSFER_POS);
+                }
+            case ROTATED:
+                robot.wrist.setPosition(WRIST_POSITIONS[Math.max(Math.min(wristIndex, 1), 0)]);
+            case INTAKE:
+                robot.wrist.setPosition(WRIST_INTAKE_POS);
+        }
+        Intake.wristState = wristState;
     }
 
-    public void moveWrist() {
-        robot.wrist.setPosition(WRIST_POSITIONS[Math.max(Math.min(wristIndex, 5), 0)]);
-    }
-    public void setWristTransfer() {
-        robot.wrist.setPosition(WRIST_TRANSFER_POS);
-
-    }
-    public void setWristIntake() {
-        robot.wrist.setPosition(WRIST_INTAKE_POS);
-    }
-
-    public void openTray() {
-        robot.trayServo.setPosition(TRAY_OPEN_POS);
-    }
-
-    public void closeTray() {
-        robot.trayServo.setPosition(TRAY_CLOSE_POS);
+    public void setTrayOpen(boolean open) {
+        if (open) {
+            robot.trayServo.setPosition(TRAY_OPEN_POS);
+        } else {
+            robot.depositClaw.setPosition(TRAY_CLOSE_POS);
+        }
     }
 
     public SampleDetected sampleDetected() {
@@ -136,6 +169,6 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        autoExtendoSetPower();
+        autoUpdateExtendo();
     }
 }

@@ -2,10 +2,6 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
-import com.qualcomm.robotcore.hardware.Gamepad;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 @Config
 public class Globals {
@@ -18,11 +14,6 @@ public class Globals {
 
     public static Pose2d startingPose = new Pose2d(0, 0, 0);
 
-    public enum DriveMode {
-        ROBOT_CENTRIC,
-        FIELD_CENTRIC
-    }
-
     public enum SampleDetected {
         RED,
         BLUE,
@@ -31,8 +22,6 @@ public class Globals {
     }
 
     public static SampleDetected currentSample = SampleDetected.NONE;
-
-    public static DriveMode driveMode;
 
     // Robot Width and Length (in inches)
     public static double ROBOT_WIDTH = 11.5;
@@ -48,21 +37,25 @@ public class Globals {
 
     // wrist perpendicular to tray pos: 0.53
 
-    public static double WRIST_TRANSFER_POS = 0.80;
+    public static double WRIST_INNER_TRANSFER_POS = 0.80;
+    public static double WRIST_OUTER_TRANSFER_POS = 0.53;
     public static double WRIST_INTAKE_POS = 0.53;
     public static double[] WRIST_POSITIONS = {1, 9.99, 9.99, 0.53, 9.99, 0.0}; // TODO: TUNE. Note that 4th item or 3rd with 0-index is always the default (intake pos)
     public static double INTAKE_PIVOT_TRANSFER_POS = 0.32;
     public static double INTAKE_PIVOT_HOLD_POS = 0.4;
     public static double INTAKE_PIVOT_PICKUP_POS = 0.53;
     public static double INTAKE_PIVOT_READY_PICKUP_POS = 0.5;
-    public static double INTAKE_CLAW_OPEN_POS = 0.65;
-    public static double INTAKE_CLAW_CLOSE_POS = 0.85;
+    public static double INTAKE_CLAW_INNER_OPEN_POS = 0.65;
+    public static double INTAKE_CLAW_INNER_CLOSE_POS = 0.85;
+    public static double INTAKE_CLAW_OUTER_OPEN_POS = 0.85;
+    public static double INTAKE_CLAW_OUTER_CLOSE_POS = 0.65;
     public static double TRAY_OPEN_POS = 1.0;
     public static double TRAY_CLOSE_POS = 0.35;
 
     // Deposit
     public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.0;
     public static double DEPOSIT_PIVOT_SCORING_POS = 1.0;
+    public static double DEPOSIT_PIVOT_MIDDLE_POS = 0.5;
     public static double DEPOSIT_CLAW_OUTSIDE_OPEN_POS = 0.625;
     public static double DEPOSIT_CLAW_OUTSIDE_CLOSE_POS = 0.83;
 

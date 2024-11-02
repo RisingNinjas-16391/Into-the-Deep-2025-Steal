@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.tuning.motor.sample;
 
-import static org.firstinspires.ftc.teamcode.hardware.Globals.DriveMode;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.OpModeType;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.driveMode;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.opModeType;
 import static org.firstinspires.ftc.teamcode.hardware.System.checkButton;
 import static org.firstinspires.ftc.teamcode.tuning.example.ExampleConstants.CENTER_MOTOR_POWER;
@@ -27,7 +25,6 @@ public class motorTester extends OpMode {
     @Override
     public void init() {
         opModeType = OpModeType.TELEOP;
-        driveMode = DriveMode.FIELD_CENTRIC;
 
         robot.init(hardwareMap);
 
