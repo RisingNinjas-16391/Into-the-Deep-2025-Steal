@@ -10,14 +10,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 
 public class setDepositScoring extends SequentialCommandGroup {
-    Deposit deposit;
-
-    ElapsedTime timer = new ElapsedTime();
-
     public setDepositScoring(Deposit deposit, double target) {
-        this.deposit = deposit;
         addCommands(new setDepositSlidesScoring(deposit, target),
-                    new InstantCommand(() -> deposit.setPivot(Deposit.DepositPivotState.SCORING)),
+                    new setDeposit(deposit, Deposit.DepositPivotState.SCORING),
                     new setDepositSlidesScoring(deposit, target)); // Does this twice just in case the first one is used to move the slides up to pivot-able position
         addRequirements(deposit);
     }

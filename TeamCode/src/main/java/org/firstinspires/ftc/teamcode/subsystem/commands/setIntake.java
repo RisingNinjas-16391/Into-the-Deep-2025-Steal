@@ -56,9 +56,4 @@ public class setIntake extends CommandBase {
     public boolean isFinished() {
         return (timer.milliseconds() > 500) && finished;
     }
-
-    @Override
-    public void end(boolean interrupted) {
-        intake.stopSlide();
-    }
 }
