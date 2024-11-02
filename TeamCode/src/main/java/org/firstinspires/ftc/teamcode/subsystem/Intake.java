@@ -47,6 +47,7 @@ public class Intake extends SubsystemBase {
 
     public void init() {
         setClawState(ClawState.OUTER);
+        setWrist(WristState.INTAKE);
         setExtendoTarget(0);
     }
 
@@ -78,22 +79,26 @@ public class Intake extends SubsystemBase {
             case READY_INTAKE:
                 robot.leftIntakePivot.setPosition(INTAKE_PIVOT_READY_PICKUP_POS);
                 robot.rightIntakePivot.setPosition(INTAKE_PIVOT_READY_PICKUP_POS);
+                break;
             case TRANSFER:
                 robot.leftIntakePivot.setPosition(INTAKE_PIVOT_TRANSFER_POS);
                 robot.rightIntakePivot.setPosition(INTAKE_PIVOT_TRANSFER_POS);
+                break;
             case MIDDLE_HOLD:
                 robot.leftIntakePivot.setPosition(INTAKE_PIVOT_HOLD_POS);
                 robot.rightIntakePivot.setPosition(INTAKE_PIVOT_HOLD_POS);
+                break;
             case INTAKE:
                 robot.leftIntakePivot.setPosition(INTAKE_PIVOT_PICKUP_POS);
                 robot.rightIntakePivot.setPosition(INTAKE_PIVOT_PICKUP_POS);
+                break;
         }
 
         Intake.intakePivotState = intakePivotState;
     }
 
     public void setClawState(ClawState clawState) {
-        this.clawState = ClawState.INNER;
+        this.clawState = clawState;
         setClawOpen(clawOpen);
     }
 
@@ -103,14 +108,16 @@ public class Intake extends SubsystemBase {
                 if (open) {
                     robot.intakeClaw.setPosition(INTAKE_CLAW_INNER_OPEN_POS);
                 } else {
-                    robot.depositClaw.setPosition(INTAKE_CLAW_INNER_CLOSE_POS);
+                    robot.intakeClaw.setPosition(INTAKE_CLAW_INNER_CLOSE_POS);
                 }
+                break;
             case OUTER:
                 if (open) {
                     robot.intakeClaw.setPosition(INTAKE_CLAW_OUTER_OPEN_POS);
                 } else {
-                    robot.depositClaw.setPosition(INTAKE_CLAW_OUTER_CLOSE_POS);
+                    robot.intakeClaw.setPosition(INTAKE_CLAW_OUTER_CLOSE_POS);
                 }
+                break;
         }
 
         this.clawOpen = open;
@@ -120,13 +127,20 @@ public class Intake extends SubsystemBase {
         switch (wristState) {
             case TRANSFER:
                 switch (clawState) {
-                    case OUTER: robot.wrist.setPosition(WRIST_OUTER_TRANSFER_POS);
-                    case INNER: robot.wrist.setPosition(WRIST_INNER_TRANSFER_POS);
+                    case OUTER:
+                        robot.wrist.setPosition(WRIST_OUTER_TRANSFER_POS);
+                        break;
+                    case INNER:
+                        robot.wrist.setPosition(WRIST_INNER_TRANSFER_POS);
+                        break;
                 }
+                break;
             case ROTATED:
                 robot.wrist.setPosition(WRIST_POSITIONS[Math.max(Math.min(wristIndex, 1), 0)]);
+                break;
             case INTAKE:
                 robot.wrist.setPosition(WRIST_INTAKE_POS);
+                break;
         }
         Intake.wristState = wristState;
     }
@@ -139,7 +153,7 @@ public class Intake extends SubsystemBase {
         if (open) {
             robot.trayServo.setPosition(TRAY_OPEN_POS);
         } else {
-            robot.depositClaw.setPosition(TRAY_CLOSE_POS);
+            robot.trayServo.setPosition(TRAY_CLOSE_POS);
         }
     }
 

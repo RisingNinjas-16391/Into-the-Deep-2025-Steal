@@ -28,6 +28,7 @@ public class setDeposit extends CommandBase {
         switch (state) {
             case MIDDLE_HOLD:
                 deposit.setClawOpen(true);
+                break;
             case SCORING:
                 deposit.setClawOpen(false);
                 break;
@@ -40,7 +41,7 @@ public class setDeposit extends CommandBase {
 
     @Override
     public void execute() {
-        if ((timer.milliseconds() > 200) && !finished) {
+        if ((timer.milliseconds() > 450) && !finished) {
             finished = true;
             deposit.setPivot(state);
         }

@@ -55,7 +55,7 @@ public class Globals {
     // Deposit
     public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.05;
     public static double DEPOSIT_PIVOT_SCORING_POS = 1.0;
-    public static double DEPOSIT_PIVOT_MIDDLE_POS = 0.25;
+    public static double DEPOSIT_PIVOT_MIDDLE_POS = 0.32;
     public static double DEPOSIT_CLAW_OUTSIDE_OPEN_POS = 0.625;
     public static double DEPOSIT_CLAW_OUTSIDE_CLOSE_POS = 0.4;
 

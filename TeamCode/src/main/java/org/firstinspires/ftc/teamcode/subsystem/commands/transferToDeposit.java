@@ -10,7 +10,8 @@ public class transferToDeposit extends SequentialCommandGroup {
     public transferToDeposit(Deposit deposit, Intake intake) {
         addCommands(
                 new setIntake(intake, Intake.IntakePivotState.MIDDLE_HOLD),
-                new setDeposit(deposit, Deposit.DepositPivotState.TRANSFER)
+                new setDeposit(deposit, Deposit.DepositPivotState.TRANSFER),
+                new InstantCommand(() -> deposit.setClawOpen(false))
         );
         addRequirements(deposit, intake);
     }

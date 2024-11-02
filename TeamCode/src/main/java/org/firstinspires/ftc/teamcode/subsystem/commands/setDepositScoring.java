@@ -11,9 +11,9 @@ import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 
 public class setDepositScoring extends SequentialCommandGroup {
     public setDepositScoring(Deposit deposit, double target) {
-        addCommands(new setDepositSlidesScoring(deposit, target),
-                    new setDeposit(deposit, Deposit.DepositPivotState.SCORING),
-                    new setDepositSlidesScoring(deposit, target)); // Does this twice just in case the first one is used to move the slides up to pivot-able position
+        addCommands(
+                new setDepositSlidesScoring(deposit, target),
+                new setDeposit(deposit, Deposit.DepositPivotState.SCORING));
         addRequirements(deposit);
     }
 }

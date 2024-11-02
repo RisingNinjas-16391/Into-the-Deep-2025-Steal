@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.TeleOp;
 
+import static org.firstinspires.ftc.teamcode.hardware.Globals.HIGH_SPECIMEN_HEIGHT;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.OpModeType;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.SampleDetected;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.SampleDetected.BLUE;
@@ -26,8 +27,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
+import org.firstinspires.ftc.teamcode.subsystem.commands.realTransfer;
+import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositScoring;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setIntake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.testCommand;
+import org.firstinspires.ftc.teamcode.subsystem.commands.transferReady;
 import org.firstinspires.ftc.teamcode.subsystem.commands.transferToDeposit;
 
 @TeleOp
@@ -98,13 +102,13 @@ public class TestTeleOp extends CommandOpMode {
 
         // All command testing stuff
         driver.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new depositSafeRetracted(robot.deposit));
+                new transferReady(robot.deposit, robot.intake));
 
         driver.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new transferToDeposit(robot.deposit, robot.intake));
+                new realTransfer(robot.deposit, robot.intake));
 
         driver.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new setIntake(robot.intake, Intake.IntakePivotState.INTAKE));
+                new setDepositScoring(robot.deposit, HIGH_SPECIMEN_HEIGHT));
 
 
         // DO NOT REMOVE! Runs FTCLib Command Scheduler
