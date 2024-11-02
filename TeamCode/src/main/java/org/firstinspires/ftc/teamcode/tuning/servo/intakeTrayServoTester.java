@@ -27,7 +27,6 @@ public class intakeTrayServoTester extends OpMode {
     @Override
     public void init() {
         opModeType = OpModeType.TELEOP;
-        driveMode = DriveMode.FIELD_CENTRIC;
 
         robot.init(hardwareMap);
 

@@ -29,7 +29,6 @@ public class motorEncoders extends OpMode {
     @Override
     public void init() {
         opModeType = Globals.OpModeType.TELEOP;
-        driveMode = Globals.DriveMode.FIELD_CENTRIC;
 
         // Resets command scheduler
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
