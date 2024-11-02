@@ -108,14 +108,14 @@ public class Robot {
 
 //        liftEncoder.setDirection(Motor.Direction.REVERSE);
 
-        leftIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "leftIntakePivot"), 0.0);
-        rightIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "rightIntakePivot"), 0.0);
-        leftDepositPivot = new SolversServo(hardwareMap.get(Servo.class, "leftDepositPivot"), 0.0);
-        rightDepositPivot = new SolversServo(hardwareMap.get(Servo.class, "rightDepositPivot"), 0.0);
-        intakeClaw = new SolversServo(hardwareMap.get(Servo.class, "intakeClaw"), 0.0);
-        depositClaw = new SolversServo(hardwareMap.get(Servo.class, "depositClaw"), 0.0);
-        trayServo = new SolversServo(hardwareMap.get(Servo.class, "trayServo"), 0.0);
-        wrist = new SolversServo(hardwareMap.get(Servo.class, "wrist"), 0.0);
+        leftIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "leftIntakePivot"), 0.01);
+        rightIntakePivot = new SolversServo(hardwareMap.get(Servo.class, "rightIntakePivot"), 0.01);
+        leftDepositPivot = new SolversServo(hardwareMap.get(Servo.class, "leftDepositPivot"), 0.01);
+        rightDepositPivot = new SolversServo(hardwareMap.get(Servo.class, "rightDepositPivot"), 0.01);
+        intakeClaw = new SolversServo(hardwareMap.get(Servo.class, "intakeClaw"), 0.01);
+        depositClaw = new SolversServo(hardwareMap.get(Servo.class, "depositClaw"), 0.01);
+        trayServo = new SolversServo(hardwareMap.get(Servo.class, "trayServo"), 0.01);
+        wrist = new SolversServo(hardwareMap.get(Servo.class, "wrist"), 0.01);
 
         leftIntakePivot.setDirection(Servo.Direction.REVERSE);
         leftDepositPivot.setDirection(Servo.Direction.REVERSE);

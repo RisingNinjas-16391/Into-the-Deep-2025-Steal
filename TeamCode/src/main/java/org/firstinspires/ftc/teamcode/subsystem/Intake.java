@@ -130,6 +130,10 @@ public class Intake extends SubsystemBase {
         Intake.wristState = wristState;
     }
 
+    public void setWristIndex(int index) {
+        this.wristIndex = index;
+    }
+
     public void setTrayOpen(boolean open) {
         if (open) {
             robot.trayServo.setPosition(TRAY_OPEN_POS);
