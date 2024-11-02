@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase {
     public static ExtendoState extendoState;
     public static ExtendoState.IntakePivotState intakePivotState = ExtendoState.IntakePivotState.TRANSFER;
     public static ExtendoState.WristState WristState = ExtendoState.WristState.TRANSFER;
-    private static final PIDFController extendoPIDF = new PIDFController(0,0,0, 0);
+    private static final PIDFController extendoPIDF = new PIDFController(0.023,0,0, 0);
 
     public void init() {
         setExtendoTarget(0);

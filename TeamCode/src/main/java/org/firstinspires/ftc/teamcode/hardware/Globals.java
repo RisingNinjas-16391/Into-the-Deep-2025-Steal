@@ -64,19 +64,19 @@ public class Globals {
 
     // TODO: TUNE ALL OF THESE
     // Extendo
-    public static double MAX_EXTENDO_EXTENSION = 10000; // Encoder ticks
+    public static double MAX_EXTENDO_EXTENSION = 550; // Encoder ticks
     public static double AUTON_EXTENDO_EXTENSION; // Encoder ticks
 
     // Slides
-    public static double MAX_SLIDES_EXTENSION = 10000; // Encoder ticks
-    public static double SLIDES_PIVOT_READY_EXTENSION = 10000; // Encoder ticks
-    public static double LOW_BUCKET_HEIGHT = 775; // Encoder ticks
-    public static double HIGH_BUCKET_HEIGHT = 1500; // Encoder ticks
+    public static double MAX_SLIDES_EXTENSION = 1800; // Encoder ticks
+    public static double SLIDES_PIVOT_READY_EXTENSION = 200; // Encoder ticks
+    public static double LOW_BUCKET_HEIGHT = 900; // Encoder ticks
+    public static double HIGH_BUCKET_HEIGHT = 1800; // Encoder ticks
 
 //    public static double LOW_SPECIMEN_HEIGHT = 0; // Encoder ticks
 //    public static double LOW_SPECIMEN_ATTACH_HEIGHT = 0; // Encoder ticks
-    public static double HIGH_SPECIMEN_HEIGHT = 580; // Encoder ticks
+    public static double HIGH_SPECIMEN_HEIGHT = 600; // Encoder ticks
     public static double HIGH_SPECIMEN_ATTACH_HEIGHT = 400; // Encoder ticks
-    public static double AUTO_HANG_HEIGHT = 0; // Encoder ticks
-    public static double ENDGAME_HANG_HEIGHT = 0; // Encoder ticks
+    public static double AUTO_HANG_HEIGHT = 700; // Encoder ticks
+    public static double ENDGAME_HANG_HEIGHT = 800; // Encoder ticks
 }

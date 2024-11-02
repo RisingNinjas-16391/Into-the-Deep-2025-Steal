@@ -22,7 +22,6 @@ public class TeleOpOTOS extends CommandOpMode {
     public GamepadEx driver;
     public GamepadEx operator;
     public SparkFunOTOSDrive drive;
-
     public ElapsedTime timer = new ElapsedTime();
     public ElapsedTime buttonTimer = new ElapsedTime();
     private final RobotOTOS robot = RobotOTOS.getInstance();

@@ -5,7 +5,6 @@ import static org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive.PARAMS
 
 import com.acmerobotics.roadrunner.ftc.SparkFunOTOSCorrected;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -97,7 +96,7 @@ public class Robot {
         liftBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        liftBottom.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftTop.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -116,8 +115,7 @@ public class Robot {
         liftEncoder = new Motor(hardwareMap, "liftTop").encoder;
         extensionEncoder = new Motor(hardwareMap, "extension").encoder;
 
-        liftEncoder.setDirection(Motor.Direction.REVERSE);
-        // TODO: Check if extensionEncoder needs to be reversed
+//        liftEncoder.setDirection(Motor.Direction.REVERSE);
 
         colorSensor = (RevColorSensorV3) hardwareMap.colorSensor.get("colorSensor");
 

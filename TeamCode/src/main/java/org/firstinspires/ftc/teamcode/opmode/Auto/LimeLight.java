@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 
-@TeleOp
+//@TeleOp
 public class LimeLight extends LinearOpMode {
 
     private Limelight3A limelight;

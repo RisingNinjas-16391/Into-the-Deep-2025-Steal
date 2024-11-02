@@ -80,8 +80,6 @@ public class MeepMeepTesting {
                 .waitSeconds(1.0)
                 .strafeToConstantHeading(new Vector2d(26.2, 15))
 
-
-
                 .build());
 
         RoadRunnerBotEntity myBot2 = new DefaultBotBuilder(meepMeep)

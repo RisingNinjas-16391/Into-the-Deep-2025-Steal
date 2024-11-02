@@ -20,7 +20,7 @@
         </LynxModule>
     </LynxUsbDevice>
     
-    <LynxUsbDevice name="Expansion Hub Portal 1" serialNumber="DQ81DA4Y" parentModuleAddress="2">
+    <LynxUsbDevice name="Expansion Hub Portal 1" serialNumber="DQ81D9BF" parentModuleAddress="2">
         <LynxModule name="Expansion Hub 2" port="2">
 
             <goBILDA5202SeriesMotor name="FR" port="0"/>

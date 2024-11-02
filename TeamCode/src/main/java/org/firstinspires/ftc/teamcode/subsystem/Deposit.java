@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 
 public class Deposit extends SubsystemBase {
     private final Robot robot = Robot.getInstance();
-    private static final PIDFController slidePIDF = new PIDFController(0,0,0, 0);
+    private static final PIDFController slidePIDF = new PIDFController(0.009,0,0.0002, 0.00016);
 
     private double target;
 
@@ -84,6 +84,12 @@ public class Deposit extends SubsystemBase {
     public void pivotTransferPos() {
         robot.leftDepositPivot.setPosition(DEPOSIT_PIVOT_TRANSFER_POS);
         robot.rightDepositPivot.setPosition(DEPOSIT_PIVOT_TRANSFER_POS);
+    }
+
+    public void setDeposit(double target) {
+        setSlideTarget(target);
+        pivotTransferPos();
+        openClaw();
     }
 
     @Override
