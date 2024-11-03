@@ -24,11 +24,12 @@ public class manualMoveWrist extends CommandBase {
     @Override
     public void initialize() {
         if (increase) {
-            intake.wristIndex -= 1;
+            intake.setWristIndex(intake.wristIndex - 1);
         }
-        else{
-            intake.wristIndex += 1;
-            }
+        else {
+            intake.setWristIndex(intake.wristIndex + 1);
+        }
+
         intake.setWrist(Intake.WristState.ROTATED);
     }
 

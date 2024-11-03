@@ -37,8 +37,8 @@ public class FullTeleOp extends CommandOpMode {
     public GamepadEx operator;
     private FtcDashboard dash = FtcDashboard.getInstance();
 
-    public ElapsedTime timer = null;
-    public ElapsedTime buttonTimer = null;
+    public ElapsedTime timer;
+    public ElapsedTime buttonTimer;
 
     private final Robot robot = Robot.getInstance();
 
@@ -67,9 +67,11 @@ public class FullTeleOp extends CommandOpMode {
         // Keep all the has movement init for until when tele-op starts
         // This is like the init but when the program is actually started
         if (timer == null) {
+            robot.initHasMovement();
+
             timer = new ElapsedTime();
             buttonTimer = new ElapsedTime();
-            robot.initHasMovement();
+
             // Color Sensor to detect sample in intake
             robot.colorSensor.enableLed(true);
         }
@@ -82,48 +84,47 @@ public class FullTeleOp extends CommandOpMode {
 
         TelemetryPacket packet = new TelemetryPacket();
 
-        if (Objects.equals(Intake.IntakePivotState.READY_INTAKE, Intake.intakePivotState) || Objects.equals(Intake.IntakePivotState.INTAKE, Intake.intakePivotState))
-        {
-            int red = robot.colorSensor.red();
-            int green = robot.colorSensor.green();
-            int blue = robot.colorSensor.blue();
-
-            double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
-            if (green < 2500) {
-                if (distance < 1.5) {
-                    if (red >= green && red >= blue) {
-                        currentSample = SampleDetected.RED;
-                    } else if (green >= red && green >= blue) {
-                        currentSample = SampleDetected.YELLOW;
-                    } else {
-                        currentSample = SampleDetected.BLUE;
-                    }
-                } else {
-                    currentSample = SampleDetected.NONE;
-                }
-            } else {
-                currentSample = SampleDetected.NONE;
-            }
-
-            telemetry.addData("RGB", "(" + red + ", " + green + ", " + blue + ")");
-        }
-
-        telemetry.update();
-
-        // Gamepad Lights (untested)
-        if (currentSample.equals(RED)) {
-            gamepad1.setLedColor(1, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
-            gamepad2.setLedColor(1, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
-        } else if (currentSample.equals(BLUE)) {
-            gamepad1.setLedColor(0, 0, 1, Gamepad.LED_DURATION_CONTINUOUS);
-            gamepad2.setLedColor(0, 0, 1, Gamepad.LED_DURATION_CONTINUOUS);
-        } else if (currentSample.equals(YELLOW)) {
-            gamepad1.setLedColor(1, 1, 0, Gamepad.LED_DURATION_CONTINUOUS);
-            gamepad2.setLedColor(1, 1, 0, Gamepad.LED_DURATION_CONTINUOUS);
-        } else {
-            gamepad1.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
-            gamepad2.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
-        }
+//        if (Objects.equals(Intake.IntakePivotState.READY_INTAKE, Intake.intakePivotState) || Objects.equals(Intake.IntakePivotState.INTAKE, Intake.intakePivotState)) {
+//            int red = robot.colorSensor.red();
+//            int green = robot.colorSensor.green();
+//            int blue = robot.colorSensor.blue();
+//
+//            double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
+//            if (green < 2500) {
+//                if (distance < 1.5) {
+//                    if (red >= green && red >= blue) {
+//                        currentSample = SampleDetected.RED;
+//                    } else if (green >= red && green >= blue) {
+//                        currentSample = SampleDetected.YELLOW;
+//                    } else {
+//                        currentSample = SampleDetected.BLUE;
+//                    }
+//                } else {
+//                    currentSample = SampleDetected.NONE;
+//                }
+//            } else {
+//                currentSample = SampleDetected.NONE;
+//            }
+//
+//            telemetry.addData("RGB", "(" + red + ", " + green + ", " + blue + ")");
+//        }
+//
+//        telemetry.update();
+//
+//        // Gamepad Lights (untested)
+//        if (currentSample.equals(RED)) {
+//            gamepad1.setLedColor(1, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
+//            gamepad2.setLedColor(1, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
+//        } else if (currentSample.equals(BLUE)) {
+//            gamepad1.setLedColor(0, 0, 1, Gamepad.LED_DURATION_CONTINUOUS);
+//            gamepad2.setLedColor(0, 0, 1, Gamepad.LED_DURATION_CONTINUOUS);
+//        } else if (currentSample.equals(YELLOW)) {
+//            gamepad1.setLedColor(1, 1, 0, Gamepad.LED_DURATION_CONTINUOUS);
+//            gamepad2.setLedColor(1, 1, 0, Gamepad.LED_DURATION_CONTINUOUS);
+//        } else {
+//            gamepad1.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
+//            gamepad2.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
+//        }
 
         // OTOS Field Centric robot.Drive Code
         robot.drive.updatePoseEstimate();
@@ -151,12 +152,15 @@ public class FullTeleOp extends CommandOpMode {
         operator.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(
                 new depositSafeRetracted(robot.deposit));
 
-        operator.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new InstantCommand(() -> robot.intake.setClawOpen(!robot.intake.clawOpen)));
+        if (gamepad2.a && buttonTimer.milliseconds() >= 200) {
+            robot.intake.setClawOpen(!robot.intake.clawOpen);
+            buttonTimer.reset();
+        }
 
-        operator.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new InstantCommand(() -> robot.deposit.setClawOpen(!robot.deposit.clawOpen)));
-
+        if (gamepad2.b && buttonTimer.milliseconds() >= 200) {
+            robot.deposit.setClawOpen(!robot.deposit.clawOpen);
+            buttonTimer.reset();
+        }
         operator.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new setIntake(robot.intake, Intake.IntakePivotState.INTAKE));
         
@@ -175,17 +179,26 @@ public class FullTeleOp extends CommandOpMode {
         operator.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
                 new setDepositSlidesIntake(robot.deposit));
 
-        operator.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-                new manualMoveWrist(robot.intake, false));
+        if (gamepad2.left_bumper && buttonTimer.milliseconds() >= 200 &&
+                (Intake.intakePivotState == Intake.IntakePivotState.READY_INTAKE || Intake.intakePivotState == Intake.IntakePivotState.INTAKE)) {
+            robot.intake.setWristIndex(robot.intake.wristIndex + 1);
+            robot.intake.setWrist(Intake.WristState.ROTATED);
+            buttonTimer.reset();
+        }
 
-        operator.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                new manualMoveWrist(robot.intake, true));
+        if (gamepad2.right_bumper && buttonTimer.milliseconds() >= 200 &&
+                (Intake.intakePivotState == Intake.IntakePivotState.READY_INTAKE || Intake.intakePivotState == Intake.IntakePivotState.INTAKE)) {
+            robot.intake.setWristIndex(robot.intake.wristIndex - 1);
+            robot.intake.setWrist(Intake.WristState.ROTATED);
+            buttonTimer.reset();
+        }
 
         // DO NOT REMOVE! Runs FTCLib Command Scheduler
         super.run();
 
-        telemetry.addData("power", robot.extension.getPower());
-        telemetry.addData("encoder", robot.extensionEncoder.getPosition());
+        telemetry.addData("buttonTimer", buttonTimer.milliseconds());
+        telemetry.addData("wristIndex", robot.intake.wristIndex);
+
         // DO NOT REMOVE! Needed for telemetry
         telemetry.update();
         dash.sendTelemetryPacket(packet);

@@ -15,7 +15,7 @@ public class Intake extends SubsystemBase {
     // Between retracted and extended
     public boolean extendoRetracted;
     // Between transfer and intake position
-    public int wristIndex = 2;
+    public int wristIndex = 4;
     // Whether the claw is open or not in the current state of the claw
     public boolean clawOpen = true;
 
@@ -40,13 +40,14 @@ public class Intake extends SubsystemBase {
 
 
     public static IntakePivotState intakePivotState;
-    public static WristState wristState = WristState.TRANSFER;
+    public static WristState wristState;
 
     private static final PIDFController extendoPIDF = new PIDFController(0.023,0,0, 0.001);
 
     public void init() {
         setClawState(ClawState.OUTER);
         setWrist(WristState.INTAKE);
+        setPivot(IntakePivotState.MIDDLE_HOLD);
         setExtendoTarget(0);
         extendoPIDF.setTolerance(15);
     }

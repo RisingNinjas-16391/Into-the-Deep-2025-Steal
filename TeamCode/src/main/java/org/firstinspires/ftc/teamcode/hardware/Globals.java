@@ -40,7 +40,7 @@ public class Globals {
     public static double WRIST_INNER_TRANSFER_POS = 0.25;
     public static double WRIST_OUTER_TRANSFER_POS = 0.52;
     public static double WRIST_INTAKE_POS = 0.52;
-    public static double[] WRIST_POSITIONS = {0, 0.125, 0.25, 0.4, 0.52}; // TODO: TUNE. Note that 3rd item or 2nd with 0-index is always the default (intake pos)
+    public static double[] WRIST_POSITIONS = {0, 0.125, 0.25, 0.4, 0.52}; // TODO: TUNE. Note that 5th item or 4th with 0-index is always the default (intake pos)
     public static double INTAKE_PIVOT_TRANSFER_POS = 0.32;
     public static double INTAKE_PIVOT_HOLD_POS = 0.4;
     public static double INTAKE_PIVOT_PICKUP_POS = 0.525;

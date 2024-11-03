@@ -27,11 +27,11 @@ public class setIntake extends CommandBase {
             case READY_INTAKE:
                 intake.setClawOpen(true);
                 intake.setWrist(Intake.WristState.INTAKE);
+                intake.setWristIndex(4);
                 intake.setTrayOpen(true);
                 break;
             case INTAKE:
                 intake.setClawOpen(true);
-                intake.setWrist(Intake.WristState.INTAKE);
                 intake.setTrayOpen(true);
                 break;
             case TRANSFER:
