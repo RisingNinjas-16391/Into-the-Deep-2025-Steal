@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmode.Auto;
+
 import static org.firstinspires.ftc.teamcode.hardware.Globals.HIGH_SPECIMEN_HEIGHT;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -13,11 +14,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
-import org.firstinspires.ftc.teamcode.subsystem.commands.*;
+import org.firstinspires.ftc.teamcode.subsystem.commands.FTCLibAction;
+import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
+import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositScoring;
 
 @Config
 @Autonomous
-public class TestAuto extends CommandOpMode {
+public class BlueObservation extends CommandOpMode {
     private final Robot robot = Robot.getInstance();
     Action moveToSpecimen;
     Action moveBack;
