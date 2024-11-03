@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -17,6 +18,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.subsystem.Deposit;
+import org.firstinspires.ftc.teamcode.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
+import org.firstinspires.ftc.teamcode.subsystem.commands.intakeFullExtendo;
+import org.firstinspires.ftc.teamcode.subsystem.commands.realTransfer;
+import org.firstinspires.ftc.teamcode.subsystem.commands.setDeposit;
+import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositScoring;
+import org.firstinspires.ftc.teamcode.subsystem.commands.setIntake;
 
 @TeleOp
 public class FullTeleOp extends CommandOpMode {
@@ -69,24 +78,25 @@ public class FullTeleOp extends CommandOpMode {
 
         TelemetryPacket packet = new TelemetryPacket();
 
-        int red = robot.colorSensor.red();
-        int green = robot.colorSensor.green();
-        int blue = robot.colorSensor.blue();
 
-        double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
+            int red = robot.colorSensor.red();
+            int green = robot.colorSensor.green();
+            int blue = robot.colorSensor.blue();
 
-        if (distance < 1.5) {
-            if (red >= green && red >= blue) {
-                currentSample = SampleDetected.RED;
-            } else if (green >= red && green >= blue) {
-                currentSample = SampleDetected.YELLOW;
+            double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
+
+            if (distance < 1.5) {
+                if (red >= green && red >= blue) {
+                    currentSample = SampleDetected.RED;
+                } else if (green >= red && green >= blue) {
+                    currentSample = SampleDetected.YELLOW;
+                } else {
+                    currentSample = SampleDetected.BLUE;
+                }
             } else {
-                currentSample = SampleDetected.BLUE;
+                currentSample = SampleDetected.NONE;
             }
-        }
-        else {
-            currentSample = SampleDetected.NONE;
-        }
+
 
         // Gamepad Lights (untested)
         if (currentSample.equals(RED)) {
@@ -115,8 +125,37 @@ public class FullTeleOp extends CommandOpMode {
 
         // Reset IMU for field centric
         if (driver.wasJustPressed(GamepadKeys.Button.X)) {
-            robot.drive.pose = new Pose2d(0, 0,0);
+            robot.drive.pose = new Pose2d(robot.drive.pose.position.x, robot.drive.pose.position.y,0);
         }
+
+        // Driver Gamepad controls
+        driver.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new intakeFullExtendo(robot.intake));
+
+        // Operator Gamepad controls
+        operator.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON).whenPressed(
+                new realTransfer(robot.deposit, robot.intake));
+
+        operator.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON).whenPressed(
+                new depositSafeRetracted(robot.deposit));
+
+        operator.getGamepadButton(GamepadKeys.Button.A).whenPressed(
+                new InstantCommand(() -> robot.intake.setClawOpen(!robot.intake.clawOpen)));
+
+        operator.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new setIntake(robot.intake, Intake.IntakePivotState.INTAKE));
+        
+        operator.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new setIntake(robot.intake, Intake.IntakePivotState.READY_INTAKE));
+
+        operator.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
+                new setDepositScoring(robot.deposit, HIGH_BUCKET_HEIGHT));
+
+        operator.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
+                new setDepositScoring(robot.deposit, HIGH_SPECIMEN_HEIGHT));
+
+        operator.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
+                new setDepositScoring(robot.deposit, LOW_BUCKET_HEIGHT));
 
         // DO NOT REMOVE! Runs FTCLib Command Scheduler
         super.run();

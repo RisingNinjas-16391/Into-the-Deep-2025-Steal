@@ -31,7 +31,7 @@ public class Globals {
     // By default for values that control opposite running hardware, the right value of the hardware is used
     // e.g. for ARM_TRANSFER_POS, it should correspond with the real position of the servo at the transfer
 
-    // TODO: TUNE. 9.99 or other sus numbers generally means not tuned!
+    // TODO: TUNE. 9.99 or other sus numbers (like 10,000) generally means not tuned!
 
     // Intake
 

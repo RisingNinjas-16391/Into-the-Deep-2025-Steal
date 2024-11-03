@@ -27,6 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
+import org.firstinspires.ftc.teamcode.subsystem.commands.intakeFullExtendo;
 import org.firstinspires.ftc.teamcode.subsystem.commands.realTransfer;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositScoring;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setIntake;
@@ -102,7 +103,8 @@ public class TestTeleOp extends CommandOpMode {
 
         // All command testing stuff
         driver.getGamepadButton(GamepadKeys.Button.A).whenPressed(
-                new transferReady(robot.deposit, robot.intake));
+                new intakeFullExtendo(robot.intake));
+
 
         driver.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new realTransfer(robot.deposit, robot.intake));

@@ -25,13 +25,13 @@ public class setIntake extends CommandBase {
     public void initialize() {
         switch (state) {
             case READY_INTAKE:
-                intake.setWrist(Intake.WristState.INTAKE);
                 intake.setClawOpen(true);
+                intake.setWrist(Intake.WristState.INTAKE);
                 intake.setTrayOpen(true);
                 break;
             case INTAKE:
-                intake.setWrist(Intake.WristState.INTAKE);
                 intake.setClawOpen(true);
+                intake.setWrist(Intake.WristState.INTAKE);
                 intake.setTrayOpen(true);
                 break;
             case TRANSFER:
@@ -47,10 +47,9 @@ public class setIntake extends CommandBase {
         }
         timer.reset();
     }
-
     @Override
     public void execute() {
-        if ((timer.milliseconds() > 200) && !finished) {
+        if ((timer.milliseconds() > 350) && !finished) {
             finished = true;
             intake.setPivot(state);
         }
@@ -58,6 +57,6 @@ public class setIntake extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (timer.milliseconds() > 500) && finished;
+        return (timer.milliseconds() > 1000) && finished;
     }
 }
