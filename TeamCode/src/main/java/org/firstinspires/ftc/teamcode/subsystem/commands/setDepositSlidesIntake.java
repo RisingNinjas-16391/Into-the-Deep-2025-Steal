@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystem.commands;
 
+import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 
-public class depositSafeRetracted extends CommandBase {
+public class setDepositSlidesIntake extends CommandBase {
     Deposit deposit;
     private boolean finished = false;
-    private ElapsedTime timer = new ElapsedTime();
+    ElapsedTime timer = new ElapsedTime();
 
-    public depositSafeRetracted(Deposit deposit) {
+    public setDepositSlidesIntake(Deposit deposit) {
         this.deposit = deposit;
         addRequirements(deposit);
     }
@@ -20,22 +20,24 @@ public class depositSafeRetracted extends CommandBase {
     @Override
     public void initialize() {
         deposit.setClawOpen(false);
-        deposit.setSlideTarget(SLIDES_PIVOT_READY_EXTENSION);
-        deposit.setPivot(Deposit.DepositPivotState.MIDDLE_HOLD);
-        timer.reset();
+        deposit.setSlideTarget(SLIDES_PIVOT_READY_EXTENSION + 50);
+
+        deposit.setPivot(Deposit.DepositPivotState.INTAKE);
     }
 
     @Override
     public void execute() {
-        if ((timer.milliseconds() > 400) && !finished) {
-            finished = true;
+        if (deposit.slidesReached && !finished) {
             deposit.setSlideTarget(0);
-            deposit.setClawOpen(true);
+            finished = true;
         }
     }
 
     @Override
     public boolean isFinished() {
+        if (deposit.slidesReached && finished) {
+            new depositSafeRetracted(deposit);
+        }
         return deposit.slidesReached && finished;
     }
 }

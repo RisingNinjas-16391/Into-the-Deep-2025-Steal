@@ -22,10 +22,14 @@ import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
 import org.firstinspires.ftc.teamcode.subsystem.commands.intakeFullExtendo;
+import org.firstinspires.ftc.teamcode.subsystem.commands.manualMoveWrist;
 import org.firstinspires.ftc.teamcode.subsystem.commands.realTransfer;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setDeposit;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositScoring;
+import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositSlidesIntake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setIntake;
+
+import java.util.Objects;
 
 @TeleOp
 public class FullTeleOp extends CommandOpMode {
@@ -78,25 +82,33 @@ public class FullTeleOp extends CommandOpMode {
 
         TelemetryPacket packet = new TelemetryPacket();
 
-
+        if (Objects.equals(Intake.IntakePivotState.READY_INTAKE, Intake.intakePivotState) || Objects.equals(Intake.IntakePivotState.INTAKE, Intake.intakePivotState))
+        {
             int red = robot.colorSensor.red();
             int green = robot.colorSensor.green();
             int blue = robot.colorSensor.blue();
 
             double distance = robot.colorSensor.getDistance(DistanceUnit.CM);
-
-            if (distance < 1.5) {
-                if (red >= green && red >= blue) {
-                    currentSample = SampleDetected.RED;
-                } else if (green >= red && green >= blue) {
-                    currentSample = SampleDetected.YELLOW;
+            if (green < 2500) {
+                if (distance < 1.5) {
+                    if (red >= green && red >= blue) {
+                        currentSample = SampleDetected.RED;
+                    } else if (green >= red && green >= blue) {
+                        currentSample = SampleDetected.YELLOW;
+                    } else {
+                        currentSample = SampleDetected.BLUE;
+                    }
                 } else {
-                    currentSample = SampleDetected.BLUE;
+                    currentSample = SampleDetected.NONE;
                 }
             } else {
                 currentSample = SampleDetected.NONE;
             }
 
+            telemetry.addData("RGB", "(" + red + ", " + green + ", " + blue + ")");
+        }
+
+        telemetry.update();
 
         // Gamepad Lights (untested)
         if (currentSample.equals(RED)) {
@@ -117,7 +129,7 @@ public class FullTeleOp extends CommandOpMode {
         robot.drive.updatePoseEstimate();
         robot.drive.setFieldCentricDrivePowers(
             new PoseVelocity2d(
-                new Vector2d((driver.getLeftY()), (driver.getLeftX())),
+                new Vector2d((-driver.getLeftY()), (driver.getLeftX())),
                 driver.getRightX()),
                 driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER),
                 robot.drive.pose.heading.toDouble()
@@ -136,11 +148,14 @@ public class FullTeleOp extends CommandOpMode {
         operator.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON).whenPressed(
                 new realTransfer(robot.deposit, robot.intake));
 
-        operator.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON).whenPressed(
+        operator.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON).whenPressed(
                 new depositSafeRetracted(robot.deposit));
 
         operator.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 new InstantCommand(() -> robot.intake.setClawOpen(!robot.intake.clawOpen)));
+
+        operator.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new InstantCommand(() -> robot.deposit.setClawOpen(!robot.deposit.clawOpen)));
 
         operator.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new setIntake(robot.intake, Intake.IntakePivotState.INTAKE));
@@ -157,9 +172,20 @@ public class FullTeleOp extends CommandOpMode {
         operator.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new setDepositScoring(robot.deposit, LOW_BUCKET_HEIGHT));
 
+        operator.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
+                new setDepositSlidesIntake(robot.deposit));
+
+        operator.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
+                new manualMoveWrist(robot.intake, false));
+
+        operator.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+                new manualMoveWrist(robot.intake, true));
+
         // DO NOT REMOVE! Runs FTCLib Command Scheduler
         super.run();
 
+        telemetry.addData("power", robot.extension.getPower());
+        telemetry.addData("encoder", robot.extensionEncoder.getPosition());
         // DO NOT REMOVE! Needed for telemetry
         telemetry.update();
         dash.sendTelemetryPacket(packet);

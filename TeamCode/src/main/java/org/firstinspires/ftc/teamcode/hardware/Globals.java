@@ -40,10 +40,10 @@ public class Globals {
     public static double WRIST_INNER_TRANSFER_POS = 0.25;
     public static double WRIST_OUTER_TRANSFER_POS = 0.52;
     public static double WRIST_INTAKE_POS = 0.52;
-    public static double[] WRIST_POSITIONS = {0, 0.125, 0.25, 0.4, 0.52}; // TODO: TUNE. Note that 4th item or 3rd with 0-index is always the default (intake pos)
+    public static double[] WRIST_POSITIONS = {0, 0.125, 0.25, 0.4, 0.52}; // TODO: TUNE. Note that 3rd item or 2nd with 0-index is always the default (intake pos)
     public static double INTAKE_PIVOT_TRANSFER_POS = 0.32;
     public static double INTAKE_PIVOT_HOLD_POS = 0.4;
-    public static double INTAKE_PIVOT_PICKUP_POS = 0.5;
+    public static double INTAKE_PIVOT_PICKUP_POS = 0.525;
     public static double INTAKE_PIVOT_READY_PICKUP_POS = 0.48;
     public static double INTAKE_CLAW_INNER_OPEN_POS = 0.85;
     public static double INTAKE_CLAW_INNER_CLOSE_POS = 0.6;
@@ -53,7 +53,8 @@ public class Globals {
     public static double TRAY_CLOSE_POS = 0.35;
 
     // Deposit
-    public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.05;
+    public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.07;
+    public static double DEPOSIT_PIVOT_SPECIMEN_INTAKE_POS = 0.85;
     public static double DEPOSIT_PIVOT_SCORING_POS = 1.0;
     public static double DEPOSIT_PIVOT_MIDDLE_POS = 0.32;
     public static double DEPOSIT_CLAW_OUTSIDE_OPEN_POS = 0.625;
@@ -62,7 +63,7 @@ public class Globals {
 
     // TODO: TUNE ALL OF THESE
     // Extendo
-    public static double MAX_EXTENDO_EXTENSION = 550; // Encoder ticks
+    public static double MAX_EXTENDO_EXTENSION = 480; // Encoder ticks
     public static double AUTON_EXTENDO_EXTENSION; // Encoder ticks
 
     // Slides

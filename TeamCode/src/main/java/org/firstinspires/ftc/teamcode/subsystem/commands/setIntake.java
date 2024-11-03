@@ -57,6 +57,6 @@ public class setIntake extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (timer.milliseconds() > 1000) && finished;
+        return (timer.milliseconds() > 700) && finished;
     }
 }
