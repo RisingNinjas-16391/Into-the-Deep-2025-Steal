@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 
 public class setDepositScoring extends SequentialCommandGroup {
-    public setDepositScoring(Deposit deposit, double target) {
+    public setDepositScoring(Deposit deposit, double target, Deposit.DepositPivotState state) {
+        addRequirements(deposit);
         addCommands(
                 new setDepositSlidesScoring(deposit, target),
-                new setDeposit(deposit, Deposit.DepositPivotState.SCORING));
-        addRequirements(deposit);
+                new setDeposit(deposit, state));
     }
 }

@@ -131,14 +131,7 @@ public class Intake extends SubsystemBase {
     public void setWrist(WristState wristState) {
         switch (wristState) {
             case TRANSFER:
-                switch (clawState) {
-                    case OUTER:
-                        robot.wrist.setPosition(WRIST_OUTER_TRANSFER_POS);
-                        break;
-                    case INNER:
-                        robot.wrist.setPosition(WRIST_INNER_TRANSFER_POS);
-                        break;
-                }
+                robot.wrist.setPosition(WRIST_OUTER_TRANSFER_POS);
                 break;
             case ROTATED:
                 robot.wrist.setPosition(WRIST_POSITIONS[Math.max(Math.min(wristIndex, 4), 0)]);

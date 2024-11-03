@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
@@ -35,6 +36,7 @@ import java.util.Objects;
 public class FullTeleOp extends CommandOpMode {
     public GamepadEx driver;
     public GamepadEx operator;
+    public SparkFunOTOSDrive drive;
     private FtcDashboard dash = FtcDashboard.getInstance();
 
     public ElapsedTime timer;
@@ -82,8 +84,6 @@ public class FullTeleOp extends CommandOpMode {
             gamepad2.rumble(500);
         }
 
-        TelemetryPacket packet = new TelemetryPacket();
-
 //        if (Objects.equals(Intake.IntakePivotState.READY_INTAKE, Intake.intakePivotState) || Objects.equals(Intake.IntakePivotState.INTAKE, Intake.intakePivotState)) {
 //            int red = robot.colorSensor.red();
 //            int green = robot.colorSensor.green();
@@ -128,17 +128,20 @@ public class FullTeleOp extends CommandOpMode {
 
         // OTOS Field Centric robot.Drive Code
         robot.drive.updatePoseEstimate();
-        robot.drive.setFieldCentricDrivePowers(
-            new PoseVelocity2d(
-                new Vector2d((-driver.getLeftY()), (driver.getLeftX())),
-                driver.getRightX()),
-                driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER),
-                robot.drive.pose.heading.toDouble()
+        robot.drive.setFieldCentricDrivePowers(new PoseVelocity2d(
+                        new Vector2d(
+                                (gamepad1.left_stick_y),
+                                (gamepad1.left_stick_x)
+                        ),
+                        gamepad1.right_stick_x
+                ),
+                gamepad1.left_trigger,
+                (robot.drive.pose.heading.toDouble() - offset)
         );
 
         // Reset IMU for field centric
-        if (driver.wasJustPressed(GamepadKeys.Button.X)) {
-            robot.drive.pose = new Pose2d(0, 0,0);
+        if (gamepad1.x) {
+            offset = robot.drive.pose.heading.toDouble();
         }
 
         // Driver Gamepad controls
@@ -161,6 +164,12 @@ public class FullTeleOp extends CommandOpMode {
             robot.deposit.setClawOpen(!robot.deposit.clawOpen);
             buttonTimer.reset();
         }
+
+        if (gamepad2.options) {
+            robot.deposit.setSlideTarget(HIGH_SPECIMEN_ATTACH_HEIGHT);
+            buttonTimer.reset();
+        }
+
         operator.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new setIntake(robot.intake, Intake.IntakePivotState.INTAKE));
         
@@ -168,13 +177,13 @@ public class FullTeleOp extends CommandOpMode {
                 new setIntake(robot.intake, Intake.IntakePivotState.READY_INTAKE));
 
         operator.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                new setDepositScoring(robot.deposit, HIGH_BUCKET_HEIGHT));
+                new setDepositScoring(robot.deposit, HIGH_BUCKET_HEIGHT, Deposit.DepositPivotState.SCORING));
 
         operator.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT).whenPressed(
-                new setDepositScoring(robot.deposit, HIGH_SPECIMEN_HEIGHT));
+                new setDepositScoring(robot.deposit, HIGH_SPECIMEN_HEIGHT, Deposit.DepositPivotState.SPECIMEN_SCORING));
 
         operator.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                new setDepositScoring(robot.deposit, LOW_BUCKET_HEIGHT));
+                new setDepositScoring(robot.deposit, LOW_BUCKET_HEIGHT, Deposit.DepositPivotState.SPECIMEN_SCORING));
 
         operator.getGamepadButton(GamepadKeys.Button.DPAD_LEFT).whenPressed(
                 new setDepositSlidesIntake(robot.deposit));
@@ -196,11 +205,11 @@ public class FullTeleOp extends CommandOpMode {
         // DO NOT REMOVE! Runs FTCLib Command Scheduler
         super.run();
 
-        telemetry.addData("pose", robot.drive.pose);
+        telemetry.addData("wristPos", robot.wrist.getPosition());
+        telemetry.addData("wristPos", robot.wrist.getPosition());
 
         // DO NOT REMOVE! Needed for telemetry
         telemetry.update();
-        dash.sendTelemetryPacket(packet);
 
         // DO NOT REMOVE! Removing this will return stale data since bulk caching is on Manual mode
         // Also only clearing the control hub to decrease loop times

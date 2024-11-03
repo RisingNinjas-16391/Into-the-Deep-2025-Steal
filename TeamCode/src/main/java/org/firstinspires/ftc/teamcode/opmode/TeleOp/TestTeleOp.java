@@ -25,6 +25,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
 import org.firstinspires.ftc.teamcode.subsystem.commands.intakeFullExtendo;
@@ -110,7 +111,7 @@ public class TestTeleOp extends CommandOpMode {
                 new realTransfer(robot.deposit, robot.intake));
 
         driver.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new setDepositScoring(robot.deposit, HIGH_SPECIMEN_HEIGHT));
+                new setDepositScoring(robot.deposit, HIGH_SPECIMEN_HEIGHT, Deposit.DepositPivotState.SCORING));
 
 
         // DO NOT REMOVE! Runs FTCLib Command Scheduler

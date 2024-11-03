@@ -32,6 +32,9 @@ public class setDeposit extends CommandBase {
             case SCORING:
                 deposit.setClawOpen(false);
                 break;
+            case SPECIMEN_SCORING:
+                deposit.setClawOpen(false);
+                break;
             case TRANSFER:
                 deposit.setClawOpen(true);
                 break;

@@ -32,6 +32,7 @@ public class Deposit extends SubsystemBase {
 
     public enum DepositPivotState {
         SCORING,
+        SPECIMEN_SCORING,
         TRANSFER,
         MIDDLE_HOLD,
         INTAKE
@@ -88,6 +89,10 @@ public class Deposit extends SubsystemBase {
             case SCORING:
                 robot.leftDepositPivot.setPosition(DEPOSIT_PIVOT_SCORING_POS);
                 robot.rightDepositPivot.setPosition(DEPOSIT_PIVOT_SCORING_POS);
+                break;
+            case SPECIMEN_SCORING:
+                robot.leftDepositPivot.setPosition(DEPOSIT_PIVOT_SPECIMEN_SCORING_POS);
+                robot.rightDepositPivot.setPosition(DEPOSIT_PIVOT_SPECIMEN_SCORING_POS);
                 break;
             case TRANSFER:
                 robot.leftDepositPivot.setPosition(DEPOSIT_PIVOT_TRANSFER_POS);
