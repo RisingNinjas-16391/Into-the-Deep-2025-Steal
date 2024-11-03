@@ -29,6 +29,7 @@ public class setDepositSlidesIntake extends CommandBase {
     public void execute() {
         if (deposit.slidesReached && !earlyFinished && !deposit.slidesRetracted) {
             deposit.setPivot(Deposit.DepositPivotState.INTAKE);
+            earlyFinished = true;
             timer.reset();
         }
         if (timer.milliseconds() > 300 && earlyFinished) {

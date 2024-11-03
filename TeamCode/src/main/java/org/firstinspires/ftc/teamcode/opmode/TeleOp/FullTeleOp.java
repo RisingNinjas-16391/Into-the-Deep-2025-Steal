@@ -138,7 +138,7 @@ public class FullTeleOp extends CommandOpMode {
 
         // Reset IMU for field centric
         if (driver.wasJustPressed(GamepadKeys.Button.X)) {
-            robot.drive.pose = new Pose2d(robot.drive.pose.position.x, robot.drive.pose.position.y,0);
+            robot.drive.pose = new Pose2d(0, 0,0);
         }
 
         // Driver Gamepad controls
@@ -157,7 +157,7 @@ public class FullTeleOp extends CommandOpMode {
             buttonTimer.reset();
         }
 
-        if (gamepad2.b && buttonTimer.milliseconds() >= 200) {
+        if (gamepad2.x && buttonTimer.milliseconds() >= 200) {
             robot.deposit.setClawOpen(!robot.deposit.clawOpen);
             buttonTimer.reset();
         }
@@ -196,8 +196,7 @@ public class FullTeleOp extends CommandOpMode {
         // DO NOT REMOVE! Runs FTCLib Command Scheduler
         super.run();
 
-        telemetry.addData("buttonTimer", buttonTimer.milliseconds());
-        telemetry.addData("wristIndex", robot.intake.wristIndex);
+        telemetry.addData("pose", robot.drive.pose);
 
         // DO NOT REMOVE! Needed for telemetry
         telemetry.update();
