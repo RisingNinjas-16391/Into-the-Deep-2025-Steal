@@ -40,8 +40,8 @@ public class Globals {
     // wrist perpendicular to tray pos: 0.53
 
     public static double WRIST_INNER_TRANSFER_POS = 0.25;
-    public static double WRIST_OUTER_TRANSFER_POS = 0.52;
-    public static double WRIST_INTAKE_POS = 0.52;
+    public static double WRIST_OUTER_TRANSFER_POS = 0.48;
+    public static double WRIST_INTAKE_POS = 0.48;
     public static double[] WRIST_POSITIONS = {0, 0.125, 0.25, 0.4, 0.52}; // TODO: TUNE. Note that 5th item or 4th with 0-index is always the default (intake pos)
     public static double INTAKE_PIVOT_TRANSFER_POS = 0.32;
     public static double INTAKE_PIVOT_HOLD_POS = 0.4;
@@ -55,11 +55,11 @@ public class Globals {
     public static double TRAY_CLOSE_POS = 0.35;
 
     // Deposit
-    public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.03;
-    public static double DEPOSIT_PIVOT_SPECIMEN_INTAKE_POS = 0.7;
+    public static double DEPOSIT_PIVOT_TRANSFER_POS = 0.0;
+    public static double DEPOSIT_PIVOT_SPECIMEN_INTAKE_POS = 0.63;
     public static double DEPOSIT_PIVOT_SPECIMEN_SCORING_POS = 0.775;
     public static double DEPOSIT_PIVOT_SCORING_POS = 1.0;
-    public static double DEPOSIT_PIVOT_MIDDLE_POS = 0.26;
+    public static double DEPOSIT_PIVOT_MIDDLE_POS = 0.24;
     public static double DEPOSIT_CLAW_OUTSIDE_OPEN_POS = 0.625;
     public static double DEPOSIT_CLAW_OUTSIDE_CLOSE_POS = 0.4;
 

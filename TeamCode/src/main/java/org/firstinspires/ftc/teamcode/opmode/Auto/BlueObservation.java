@@ -19,8 +19,8 @@ import org.firstinspires.ftc.teamcode.subsystem.commands.FTCLibAction;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositScoring;
 
-@Config
-@Autonomous
+//@Config
+//@Autonomous
 public class BlueObservation extends CommandOpMode {
     private final Robot robot = Robot.getInstance();
     Action moveToSpecimen;

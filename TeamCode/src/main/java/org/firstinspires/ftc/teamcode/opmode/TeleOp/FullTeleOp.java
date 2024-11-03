@@ -179,20 +179,20 @@ public class FullTeleOp extends CommandOpMode {
 
         if (gamepad2.left_bumper && buttonTimer.milliseconds() >= 200 &&
                 (Intake.intakePivotState == Intake.IntakePivotState.READY_INTAKE || Intake.intakePivotState == Intake.IntakePivotState.INTAKE)) {
-            robot.intake.setWristIndex(robot.intake.wristIndex + 1);
-            robot.intake.setWrist(Intake.WristState.ROTATED);
+//            robot.intake.setWristIndex(robot.intake.wristIndex + 1);
+//            robot.intake.setWrist(Intake.WristState.ROTATED);
 
-//            robot.wrist.setPosition(Math.max(robot.wrist.getPosition() - 0.125, 0));
+            robot.wrist.setPosition(Math.max(robot.wrist.getPosition() - 0.125, 0));
 
             buttonTimer.reset();
         }
 
         if (gamepad2.right_bumper && buttonTimer.milliseconds() >= 200 &&
                 (Intake.intakePivotState == Intake.IntakePivotState.READY_INTAKE || Intake.intakePivotState == Intake.IntakePivotState.INTAKE)) {
-            robot.intake.setWristIndex(robot.intake.wristIndex - 1);
-            robot.intake.setWrist(Intake.WristState.ROTATED);
+//            robot.intake.setWristIndex(robot.intake.wristIndex - 1);
+//            robot.intake.setWrist(Intake.WristState.ROTATED);
 
-//            robot.wrist.setPosition(Math.min(robot.wrist.getPosition() + 0.125, 1));
+            robot.wrist.setPosition(Math.min(robot.wrist.getPosition() + 0.125, 1));
 
             buttonTimer.reset();
         }
@@ -204,7 +204,7 @@ public class FullTeleOp extends CommandOpMode {
 
         // DO NOT REMOVE! Needed for telemetry
         telemetry.update();
-
+        timer.reset();
         // DO NOT REMOVE! Removing this will return stale data since bulk caching is on Manual mode
         // Also only clearing the control hub to decrease loop times
         // This means if we start reading both hubs (which we aren't) we need to clear both

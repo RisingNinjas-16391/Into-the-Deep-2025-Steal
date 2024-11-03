@@ -44,14 +44,14 @@ public class Deposit extends SubsystemBase {
         slidePIDF.setTolerance(10, 10);
         setSlideTarget(0);
 
-        setPivot(DepositPivotState.MIDDLE_HOLD);
-        setClawOpen(true);
-
         // OpMode specific initializations
         if (opModeType.equals(OpModeType.AUTO)) {
+            setPivot(DepositPivotState.SPECIMEN_SCORING);
+            setClawOpen(false);
 
         } else if (opModeType.equals(OpModeType.TELEOP)) {
-
+            setPivot(DepositPivotState.SPECIMEN_SCORING);
+            setClawOpen(false);
         }
     }
 

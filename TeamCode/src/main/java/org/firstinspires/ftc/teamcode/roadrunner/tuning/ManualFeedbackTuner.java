@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.ThreeDeadWheelLocalizer;
 import org.firstinspires.ftc.teamcode.roadrunner.TwoDeadWheelLocalizer;
 
 public final class ManualFeedbackTuner extends LinearOpMode {
-    public static double DISTANCE = 92;
+    public static double DISTANCE = 118;
     public static boolean RUN = true;
 
 

@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.commands.*;
 
-@Config
-@Autonomous
+//@Config
+//@Autonomous
 public class BlueBucket extends CommandOpMode {
     private final Robot robot = Robot.getInstance();
     Action moveToSpecimen;
@@ -26,7 +26,16 @@ public class BlueBucket extends CommandOpMode {
 
     @Override
     public void initialize() {
-        robot.drive.pose = new Pose2d(8, 61.75, Math.toRadians(270));;
+        opModeType = OpModeType.AUTO;
+        startingPose = new Pose2d(8, 61.75, Math.toRadians(270));
+
+        // DO NOT REMOVE! Resetting FTCLib Command Scheduler
+        super.reset();
+
+        robot.init(hardwareMap);
+
+        // Initialize subsystems
+        register(robot.deposit, robot.intake);
 
         moveToSpecimen = robot.drive.actionBuilder(robot.drive.pose)
                 .strafeToConstantHeading(new Vector2d(8, 37.75))

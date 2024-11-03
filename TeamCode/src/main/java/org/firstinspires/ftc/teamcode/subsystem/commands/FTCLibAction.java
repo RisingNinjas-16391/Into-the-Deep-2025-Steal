@@ -19,7 +19,7 @@ public class FTCLibAction implements Action {
     public boolean run(@NonNull TelemetryPacket packet) {
         final boolean initialized = this.initialized;
         if (!initialized) {
-            command.schedule();
+            CommandScheduler.getInstance().schedule(command);
             this.initialized = true;
         }
 
