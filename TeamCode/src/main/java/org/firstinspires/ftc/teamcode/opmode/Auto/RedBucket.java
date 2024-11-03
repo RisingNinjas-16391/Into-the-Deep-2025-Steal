@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.Auto;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
+
+import static org.firstinspires.ftc.teamcode.hardware.Globals.HIGH_SPECIMEN_HEIGHT;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
@@ -13,11 +14,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
-import org.firstinspires.ftc.teamcode.subsystem.commands.*;
+import org.firstinspires.ftc.teamcode.subsystem.commands.FTCLibAction;
+import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
+import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositScoring;
 
 @Config
 @Autonomous
-public class BlueBucket extends CommandOpMode {
+public class RedBucket extends CommandOpMode {
     private final Robot robot = Robot.getInstance();
     Action moveToSpecimen;
     Action moveBack;
@@ -27,6 +30,7 @@ public class BlueBucket extends CommandOpMode {
     @Override
     public void initialize() {
         robot.drive.pose = new Pose2d(8, 61.75, Math.toRadians(270));;
+
 
         moveToSpecimen = robot.drive.actionBuilder(robot.drive.pose)
                 .strafeToConstantHeading(new Vector2d(8, 37.75))

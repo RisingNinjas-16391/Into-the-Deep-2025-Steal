@@ -145,10 +145,10 @@ public class MeepMeepTesting {
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-//                .addEntity(myBot1)
-//                .addEntity(myBot2)
-                .addEntity(myBot3)
-                .addEntity(myBot4)
+                .addEntity(myBot1)
+                .addEntity(myBot2)
+//                .addEntity(myBot3)
+//                .addEntity(myBot4)
                 .start();
     }
 }
