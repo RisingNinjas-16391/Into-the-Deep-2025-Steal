@@ -1,43 +1,32 @@
 package org.firstinspires.ftc.teamcode.opmode.TeleOp;
 
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
-import static org.firstinspires.ftc.teamcode.hardware.Globals.SampleDetected.*;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.roadrunner.SparkFunOTOSDrive;
 import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
 import org.firstinspires.ftc.teamcode.subsystem.commands.intakeFullExtendo;
-import org.firstinspires.ftc.teamcode.subsystem.commands.manualMoveWrist;
 import org.firstinspires.ftc.teamcode.subsystem.commands.realTransfer;
-import org.firstinspires.ftc.teamcode.subsystem.commands.setDeposit;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositScoring;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositSlidesIntake;
 import org.firstinspires.ftc.teamcode.subsystem.commands.setIntake;
-
-import java.util.Objects;
 
 @TeleOp
 public class FullTeleOp extends CommandOpMode {
     public GamepadEx driver;
     public GamepadEx operator;
     public SparkFunOTOSDrive drive;
-    private FtcDashboard dash = FtcDashboard.getInstance();
 
     public ElapsedTime timer;
     public ElapsedTime buttonTimer;
@@ -172,7 +161,7 @@ public class FullTeleOp extends CommandOpMode {
 
         operator.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new setIntake(robot.intake, Intake.IntakePivotState.INTAKE));
-        
+
         operator.getGamepadButton(GamepadKeys.Button.B).whenPressed(
                 new setIntake(robot.intake, Intake.IntakePivotState.READY_INTAKE));
 
@@ -192,6 +181,9 @@ public class FullTeleOp extends CommandOpMode {
                 (Intake.intakePivotState == Intake.IntakePivotState.READY_INTAKE || Intake.intakePivotState == Intake.IntakePivotState.INTAKE)) {
             robot.intake.setWristIndex(robot.intake.wristIndex + 1);
             robot.intake.setWrist(Intake.WristState.ROTATED);
+
+//            robot.wrist.setPosition(Math.max(robot.wrist.getPosition() - 0.125, 0));
+
             buttonTimer.reset();
         }
 
@@ -199,14 +191,16 @@ public class FullTeleOp extends CommandOpMode {
                 (Intake.intakePivotState == Intake.IntakePivotState.READY_INTAKE || Intake.intakePivotState == Intake.IntakePivotState.INTAKE)) {
             robot.intake.setWristIndex(robot.intake.wristIndex - 1);
             robot.intake.setWrist(Intake.WristState.ROTATED);
+
+//            robot.wrist.setPosition(Math.min(robot.wrist.getPosition() + 0.125, 1));
+
             buttonTimer.reset();
         }
 
         // DO NOT REMOVE! Runs FTCLib Command Scheduler
         super.run();
 
-        telemetry.addData("wristPos", robot.wrist.getPosition());
-        telemetry.addData("wristPos", robot.wrist.getPosition());
+        telemetry.addData("timer", timer.milliseconds());
 
         // DO NOT REMOVE! Needed for telemetry
         telemetry.update();

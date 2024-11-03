@@ -51,15 +51,11 @@ public class TestAuto extends CommandOpMode {
                 .strafeToConstantHeading(new Vector2d(53, 12.1))
                 .strafeToConstantHeading(new Vector2d(61, 12.1))
                 .strafeToConstantHeading(new Vector2d(61, 48.5))
-                .waitSeconds(1.0)
-                .strafeToConstantHeading(new Vector2d(57, 48.5))
-                .waitSeconds(0.5)
-                .splineToLinearHeading(new Pose2d(28.2, 15, Math.toRadians(180)), Math.toRadians(225))
-                .waitSeconds(1.0)
-                .strafeToConstantHeading(new Vector2d(26.2, 15))
+
                 .build();
 
         park = robot.drive.actionBuilder(robot.drive.pose)
+                .strafeToConstantHeading(new Vector2d(57, 48.5))
                 .splineToLinearHeading(new Pose2d(28.2, 15, Math.toRadians(180)), Math.toRadians(225))
                 .waitSeconds(1.0)
                 .strafeToConstantHeading(new Vector2d(26.2, 15))
@@ -79,6 +75,11 @@ public class TestAuto extends CommandOpMode {
                 new ParallelAction(
                     new FTCLibAction(new depositSafeRetracted(robot.deposit)),
                     moveBack
+                ),
+                pushSamples,
+                new ParallelAction(
+                        new FTCLibAction(new setDepositScoring(robot.deposit, HIGH_SPECIMEN_HEIGHT, Deposit.DepositPivotState.SPECIMEN_SCORING)),
+                        park
                 )
             )
         );
