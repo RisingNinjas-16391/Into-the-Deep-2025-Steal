@@ -50,8 +50,8 @@ public class Deposit extends SubsystemBase {
             setClawOpen(false);
 
         } else if (opModeType.equals(OpModeType.TELEOP)) {
-            setPivot(DepositPivotState.SPECIMEN_SCORING);
-            setClawOpen(false);
+            setPivot(DepositPivotState.MIDDLE_HOLD);
+            setClawOpen(true);
         }
     }
 

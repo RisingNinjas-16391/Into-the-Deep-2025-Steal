@@ -1,28 +1,25 @@
 package org.firstinspires.ftc.teamcode.opmode.Auto;
 
+import static android.os.SystemClock.sleep;
 import static org.firstinspires.ftc.teamcode.hardware.Globals.*;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.subsystem.commands.depositSafeRetracted;
-import org.firstinspires.ftc.teamcode.subsystem.commands.setDepositScoring;
 
 @Config
 @Autonomous
-public class TestAuto extends OpMode {
+public class LeftAuto extends OpMode {
     private final Robot robot = Robot.getInstance();
     public static int index = 0;
-
-    public static int stopTimer = 2500;
+    public static double motorSpeeds = 0.3;
+    public static int stopTimer = 2200;
 
     public ElapsedTime timer;
 
@@ -40,7 +37,6 @@ public class TestAuto extends OpMode {
 
         // Initialize subsystems
         CommandScheduler.getInstance().registerSubsystem(robot.deposit, robot.intake);
-//        robot.init(hardwareMap);
 
     }
 
@@ -49,12 +45,12 @@ public class TestAuto extends OpMode {
         if (timer == null) {
 
             timer = new ElapsedTime();
-            CommandScheduler.getInstance().schedule(new setDepositScoring(robot.deposit, HIGH_SPECIMEN_HEIGHT, Deposit.DepositPivotState.SPECIMEN_SCORING));
+            robot.deposit.setSlideTarget(HIGH_SPECIMEN_HEIGHT);
 
-            robot.drive.leftBack.setPower(0.35);
-            robot.drive.leftFront.setPower(0.35);
-            robot.drive.rightBack.setPower(0.35);
-            robot.drive.rightFront.setPower(0.35);
+            robot.drive.leftBack.setPower(motorSpeeds);
+            robot.drive.leftFront.setPower(motorSpeeds);
+            robot.drive.rightBack.setPower(motorSpeeds);
+            robot.drive.rightFront.setPower(motorSpeeds);
 
             robot.colorSensor.enableLed(true);
             if (index == 0) {
@@ -85,13 +81,40 @@ public class TestAuto extends OpMode {
         if (timer.milliseconds() >= (1500 + stopTimer) && index == 3) {
             robot.deposit.setClawOpen(true);
 
+            sleep(500);
+
+            robot.drive.leftBack.setPower(-motorSpeeds);
+            robot.drive.leftFront.setPower(-motorSpeeds);
+            robot.drive.rightBack.setPower(-motorSpeeds);
+            robot.drive.rightFront.setPower(-motorSpeeds);
+
+            timer.reset();
             index = 4;
         }
 
-        if (timer.milliseconds() >= (2000 + stopTimer) && index == 4) {
+        if (timer.milliseconds() >= (stopTimer - 300) && index == 4) {
+            robot.drive.leftBack.setPower(0);
+            robot.drive.leftFront.setPower(0);
+            robot.drive.rightBack.setPower(0);
+            robot.drive.rightFront.setPower(0);
+
             CommandScheduler.getInstance().schedule(new depositSafeRetracted(robot.deposit));
 
+            robot.drive.leftBack.setPower(+motorSpeeds);
+            robot.drive.leftFront.setPower(-motorSpeeds);
+            robot.drive.rightBack.setPower(-motorSpeeds);
+            robot.drive.rightFront.setPower(+motorSpeeds);
+
+            timer.reset();
             index = 5;
+        }
+
+        if (timer.milliseconds() >= stopTimer * 2 && index == 5) {
+            robot.drive.leftBack.setPower(0);
+            robot.drive.leftFront.setPower(0);
+            robot.drive.rightBack.setPower(0);
+            robot.drive.rightFront.setPower(0);
+            index = 6;
         }
 
         CommandScheduler.getInstance().run();
