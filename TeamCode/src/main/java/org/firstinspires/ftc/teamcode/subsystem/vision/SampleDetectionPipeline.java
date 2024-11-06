@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem.vision;
 
+import com.sun.source.doctree.StartElementTree;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -258,19 +260,20 @@ public class SampleDetectionPipeline extends OpenCvPipeline
                 1); // Font thickness
     }
 
-    static void drawRotatedRect(RotatedRect rect, Mat drawOn, String color)
-    {
+    static void drawRotatedRect(RotatedRect rect, Mat drawOn, String color) {
         /*
          * Draws a rotated rectangle by drawing each of the 4 lines individually
          */
         Point[] points = new Point[4];
+
         rect.points(points);
 
         Scalar colorScalar = getColorScalar(color);
 
-        for (int i = 0; i < 4; ++i)
-        {
-            Imgproc.line(drawOn, points[i], points[(i + 1) % 4], colorScalar, 2);
+        if (rect.size.width == 100 && rect.size.height == 2000) {
+            for (int i = 0; i < 4; ++i) {
+                Imgproc.line(drawOn, points[i], points[(i + 1) % 4], colorScalar, 2);
+            }
         }
     }
 

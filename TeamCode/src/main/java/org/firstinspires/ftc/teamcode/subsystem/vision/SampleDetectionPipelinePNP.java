@@ -450,7 +450,10 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
         Scalar colorScalar = getColorScalar(color);
 
         for (int i = 0; i < 4; ++i) {
+
+
             Imgproc.line(drawOn, points[i], points[(i + 1) % 4], colorScalar, 2);
+
             pointsList = Collections.singletonList(((points[i]).toString() + (points[(i + 1) % 4]).toString()));
         }
     }
@@ -469,29 +472,34 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline {
     }
 
     public static double calculateDistance(String pointsString) {
+        try {
+            pointsString = pointsString.replaceAll("[\\[\\]]", "");
 
-        pointsString = pointsString.replaceAll("[\\[\\]]", "");
+            Pattern pattern = Pattern.compile("\\{(\\d+\\.?\\d*),\\s*(\\d+\\.?\\d*)\\}");
+            Matcher matcher = pattern.matcher(pointsString);
 
-        Pattern pattern = Pattern.compile("\\{(\\d+\\.?\\d*),\\s*(\\d+\\.?\\d*)\\}");
-        Matcher matcher = pattern.matcher(pointsString);
+            double[] point1 = new double[2];
+            double[] point2 = new double[2];
 
-        double[] point1 = new double[2];
-        double[] point2 = new double[2];
+            if (matcher.find()) {
+                point1[0] = Double.parseDouble(Objects.requireNonNull(matcher.group(1)));
+                point1[1] = Double.parseDouble(Objects.requireNonNull(matcher.group(2)));
+            }
 
-        if (matcher.find()) {
-            point1[0] = Double.parseDouble(Objects.requireNonNull(matcher.group(1)));
-            point1[1] = Double.parseDouble(Objects.requireNonNull(matcher.group(2)));
+            if (matcher.find()) {
+                point2[0] = Double.parseDouble(Objects.requireNonNull(matcher.group(1)));
+                point2[1] = Double.parseDouble(Objects.requireNonNull(matcher.group(2)));
+            }
+
+            double dx = point1[0] - point2[0];
+            double dy = point1[1] - point2[1];
+
+            return Math.sqrt(dx * dx + dy * dy);
         }
 
-        if (matcher.find()) {
-            point2[0] = Double.parseDouble(Objects.requireNonNull(matcher.group(1)));
-            point2[1] = Double.parseDouble(Objects.requireNonNull(matcher.group(2)));
+        catch (Exception ignored) {
+            return -1;
         }
-
-        double dx = point1[0] - point2[0];
-        double dy = point1[1] - point2[1];
-
-        return Math.sqrt(dx * dx + dy * dy);
     }
 }
 

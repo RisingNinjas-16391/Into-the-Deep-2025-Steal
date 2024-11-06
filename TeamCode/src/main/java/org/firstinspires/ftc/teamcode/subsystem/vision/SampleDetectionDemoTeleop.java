@@ -13,6 +13,9 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @TeleOp
 public class SampleDetectionDemoTeleop extends LinearOpMode {
     OpenCvCamera webcam;
@@ -55,10 +58,11 @@ public class SampleDetectionDemoTeleop extends LinearOpMode {
         while (opModeIsActive()) {
 //            ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> objectCount = pipeline.getDetectedStones();
 
+            ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> internalStoneList = pipeline.getDetectedStones();
+
             samplesList.clear();
 
-            telemetry.addData("pointsList Distance", calculateDistance(pointsList.toString()));
-            telemetry.addData("samplesList", samplesList);
+            telemetry.addData("pointsList Distance", calculateDistance(pointsList.toString()));;
 //            telemetry.addData("Objects Detected", objectCount);
             telemetry.update();
         }
