@@ -10,23 +10,22 @@
             <Servo name="trayServo" port="5"/>
 
             <goBILDA5202SeriesMotor name="extension" port="0"/>-->
-            <goBILDA5202SeriesMotor name="liftBottom" port="2"/>-->
-            <goBILDA5202SeriesMotor name="liftTop" port="3"/>-->
+            <goBILDA5202SeriesMotor name="FL" port="2"/>-->
+            <goBILDA5202SeriesMotor name="BL" port="3"/>-->
 
             <ControlHubImuBHI260AP name="imu" port="0" bus="0"/>
-            <SparkFunOTOS2 name="sensor_otos" port="0" bus="1"/>
-            <RevColorSensorV3 name="colorSensor" port="0" bus="2"/>
 
         </LynxModule>
-    </LynxUsbDevice>
-    
-    <LynxUsbDevice name="Expansion Hub Portal 1" serialNumber="DQ81D9BF" parentModuleAddress="2">
-        <LynxModule name="Expansion Hub 2" port="2">
+        <LynxModule name="Expansion Hub 1" port="1">
 
-            <goBILDA5202SeriesMotor name="FR" port="0"/>
-            <goBILDA5202SeriesMotor name="BR" port="1"/>
-            <goBILDA5202SeriesMotor name="BL" port="2"/>
-            <goBILDA5202SeriesMotor name="FL" port="3"/>
+            <goBILDA5202SeriesMotor name="liftTop" port="0"/>
+            <goBILDA5202SeriesMotor name="liftBottom" port="1"/>
+            <goBILDA5202SeriesMotor name="FR" port="2"/>
+            <goBILDA5202SeriesMotor name="BR" port="3"/>
+
+
+            <SparkFunOTOS2 name="sensor_otos" port="2" bus="1"/>
+            <RevColorSensorV3 name="colorSensor" port="1" bus="2"/>
 
             <Servo name="rightDepositPivot" port="1"/>
             <Servo name="leftDepositPivot" port="3"/>
@@ -34,4 +33,5 @@
 
         </LynxModule>
     </LynxUsbDevice>
+
 </Robot>
