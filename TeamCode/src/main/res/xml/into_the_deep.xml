@@ -3,11 +3,11 @@
     <LynxUsbDevice name="Control Hub Portal" serialNumber="(embedded)" parentModuleAddress="173">
         <LynxModule name="Control Hub" port="173">
 
-            <Servo name="intakeClaw" port="0"/>
-            <Servo name="rightIntakePivot" port="1"/>
-            <Servo name="wrist" port="2"/>
-            <Servo name="leftIntakePivot" port="3"/>
-            <Servo name="trayServo" port="5"/>
+            <Servo name="intakeClaw" port="5"/>
+            <Servo name="wrist" port="4"/>
+            <Servo name="rightIntakePivot" port="3"/>
+            <Servo name="leftIntakePivot" port="2"/>
+            <Servo name="trayServo" port="1"/>
 
             <goBILDA5202SeriesMotor name="extension" port="0"/>-->
             <goBILDA5202SeriesMotor name="FL" port="2"/>-->
@@ -24,8 +24,8 @@
             <goBILDA5202SeriesMotor name="BR" port="3"/>
 
 
-            <SparkFunOTOS2 name="sensor_otos" port="2" bus="1"/>
-            <RevColorSensorV3 name="colorSensor" port="1" bus="2"/>
+            <SparkFunOTOS2 name="sensor_otos" port="2" bus="2"/>
+            <RevColorSensorV3 name="colorSensor" port="1" bus="1"/>
 
             <Servo name="rightDepositPivot" port="1"/>
             <Servo name="leftDepositPivot" port="3"/>
